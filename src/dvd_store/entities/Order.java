@@ -43,7 +43,7 @@ public class Order implements Serializable {
 	@JoinColumn(name="addresses_idaddress")
 	private Address address;
 
-	//bi-directional many-to-one association to CreditCard
+	//uni-directional many-to-one association to CreditCard
 	@ManyToOne
 	@JoinColumn(name="credit_cards_credit_card_number")
 	private CreditCard creditCard;

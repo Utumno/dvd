@@ -2,6 +2,7 @@ package dvd_store.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 
@@ -18,6 +19,11 @@ public class User implements Serializable {
 	@Id
 	private int iduser;
 
+	@Temporal(TemporalType.DATE)
+	private Date birthdate;
+
+	private String email;
+
 	private String name;
 
 	private String password;
@@ -29,8 +35,17 @@ public class User implements Serializable {
 
 	private String username;
 
-	//bi-directional many-to-many association to Address
-	@ManyToMany(mappedBy="users")
+	//uni-directional many-to-many association to Address
+	@ManyToMany
+	@JoinTable(
+		name="users_has_addresses"
+		, joinColumns={
+			@JoinColumn(name="users_iduser")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="addresses_idaddress")
+			}
+		)
 	private List<Address> addresses;
 
 	//uni-directional many-to-many association to CreditCard
@@ -59,6 +74,22 @@ public class User implements Serializable {
 
 	public void setIduser(int iduser) {
 		this.iduser = iduser;
+	}
+
+	public Date getBirthdate() {
+		return this.birthdate;
+	}
+
+	public void setBirthdate(Date birthdate) {
+		this.birthdate = birthdate;
+	}
+
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getName() {

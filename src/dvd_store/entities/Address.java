@@ -25,19 +25,6 @@ public class Address implements Serializable {
 
 	private String street;
 
-	//bi-directional many-to-many association to User
-	@ManyToMany
-	@JoinTable(
-		name="users_has_addresses"
-		, joinColumns={
-			@JoinColumn(name="addresses_idaddress")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="users_iduser")
-			}
-		)
-	private List<User> users;
-
 	//bi-directional many-to-one association to Order
 	@OneToMany(mappedBy="address")
 	private List<Order> orders;
@@ -75,14 +62,6 @@ public class Address implements Serializable {
 
 	public void setStreet(String street) {
 		this.street = street;
-	}
-
-	public List<User> getUsers() {
-		return this.users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
 	}
 
 	public List<Order> getOrders() {

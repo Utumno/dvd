@@ -2,7 +2,6 @@ package dvd_store.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
 
 /**
@@ -26,10 +25,6 @@ public class CreditCard implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="addresses_idaddress")
 	private Address address;
-
-	//bi-directional many-to-one association to Order
-	@OneToMany(mappedBy="creditCard")
-	private List<Order> orders;
 
 	public CreditCard() {
 	}
@@ -56,28 +51,6 @@ public class CreditCard implements Serializable {
 
 	public void setAddress(Address address) {
 		this.address = address;
-	}
-
-	public List<Order> getOrders() {
-		return this.orders;
-	}
-
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
-	}
-
-	public Order addOrder(Order order) {
-		getOrders().add(order);
-		order.setCreditCard(this);
-
-		return order;
-	}
-
-	public Order removeOrder(Order order) {
-		getOrders().remove(order);
-		order.setCreditCard(null);
-
-		return order;
 	}
 
 }

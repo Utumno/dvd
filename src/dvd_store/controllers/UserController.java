@@ -20,6 +20,10 @@ public class UserController {
 	@EJB
 	private UserService service;
 
+	public User getUser() {
+		return user;
+	}
+
 	@PostConstruct
 	void init() {
 		// http://stackoverflow.com/questions/3406555/why-use-postconstruct
@@ -38,6 +42,18 @@ public class UserController {
 				null));
 			return null;
 		}
+	}
+
+	public String register() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		user = service.register(user);
+		if (user.getIduser() == 0) {
+			context.addMessage(null, new FacesMessage(
+				FacesMessage.SEVERITY_ERROR, "Registration failed", null));
+			return null;
+		}
+		context.getExternalContext().getSessionMap().put("user", user);
+		return "/views/commons/home.html?faces-redirect=true";
 	}
 
 	public String logout() {
