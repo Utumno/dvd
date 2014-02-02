@@ -22,23 +22,10 @@ public class CreditCard implements Serializable {
 	@Column(name="credit_card_type")
 	private String creditCardType;
 
-	//bi-directional many-to-one association to Address
+	//uni-directional many-to-one association to Address
 	@ManyToOne
 	@JoinColumn(name="addresses_idaddress")
 	private Address address;
-
-	//bi-directional many-to-many association to User
-	@ManyToMany
-	@JoinTable(
-		name="users_has_credit_cards"
-		, joinColumns={
-			@JoinColumn(name="credit_cards_credit_card_number")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="users_iduser")
-			}
-		)
-	private List<User> users;
 
 	//bi-directional many-to-one association to Order
 	@OneToMany(mappedBy="creditCard")
@@ -69,14 +56,6 @@ public class CreditCard implements Serializable {
 
 	public void setAddress(Address address) {
 		this.address = address;
-	}
-
-	public List<User> getUsers() {
-		return this.users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
 	}
 
 	public List<Order> getOrders() {

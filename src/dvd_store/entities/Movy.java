@@ -17,8 +17,8 @@ import java.util.List;
 public class Movy implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private MovyPK id;
+	@Id
+	private int idmovie;
 
 	private int available;
 
@@ -29,16 +29,31 @@ public class Movy implements Serializable {
 
 	private String rating;
 
+	private String title;
+
 	@Temporal(TemporalType.DATE)
 	@Column(name="year_of_release")
 	private Date yearOfRelease;
 
-	//bi-directional many-to-many association to Crew
+	//uni-directional many-to-many association to Category
+	@ManyToMany
+	@JoinTable(
+		name="movies_has_categories"
+		, joinColumns={
+			@JoinColumn(name="movies_idmovie")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="categories_idcategory")
+			}
+		)
+	private List<Category> categories;
+
+	//uni-directional many-to-many association to Crew
 	@ManyToMany
 	@JoinTable(
 		name="movies_has_crew"
 		, joinColumns={
-			@JoinColumn(name="movies_idmovie", referencedColumnName="idmovie")
+			@JoinColumn(name="movies_idmovie")
 			}
 		, inverseJoinColumns={
 			@JoinColumn(name="crew_idcrew")
@@ -46,28 +61,15 @@ public class Movy implements Serializable {
 		)
 	private List<Crew> crews;
 
-	//bi-directional many-to-many association to Category
-	@ManyToMany
-	@JoinTable(
-		name="movies_has_categories"
-		, joinColumns={
-			@JoinColumn(name="movies_idmovie", referencedColumnName="idmovie")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="categories_name")
-			}
-		)
-	private List<Category> categories;
-
 	public Movy() {
 	}
 
-	public MovyPK getId() {
-		return this.id;
+	public int getIdmovie() {
+		return this.idmovie;
 	}
 
-	public void setId(MovyPK id) {
-		this.id = id;
+	public void setIdmovie(int idmovie) {
+		this.idmovie = idmovie;
 	}
 
 	public int getAvailable() {
@@ -102,6 +104,14 @@ public class Movy implements Serializable {
 		this.rating = rating;
 	}
 
+	public String getTitle() {
+		return this.title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	public Date getYearOfRelease() {
 		return this.yearOfRelease;
 	}
@@ -110,20 +120,20 @@ public class Movy implements Serializable {
 		this.yearOfRelease = yearOfRelease;
 	}
 
-	public List<Crew> getCrews() {
-		return this.crews;
-	}
-
-	public void setCrews(List<Crew> crews) {
-		this.crews = crews;
-	}
-
 	public List<Category> getCategories() {
 		return this.categories;
 	}
 
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
+	}
+
+	public List<Crew> getCrews() {
+		return this.crews;
+	}
+
+	public void setCrews(List<Crew> crews) {
+		this.crews = crews;
 	}
 
 }

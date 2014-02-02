@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="dvd_store">
+		<class>dvd_store.entities.Address</class>
+		<class>dvd_store.entities.Category</class>
+		<class>dvd_store.entities.CreditCard</class>
+		<class>dvd_store.entities.Crew</class>
+		<class>dvd_store.entities.Movy</class>
+		<class>dvd_store.entities.Order</class>
+		<class>dvd_store.entities.Role</class>
+		<class>dvd_store.entities.User</class>
 	</persistence-unit>
 </persistence>

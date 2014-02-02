@@ -33,8 +33,17 @@ public class User implements Serializable {
 	@ManyToMany(mappedBy="users")
 	private List<Address> addresses;
 
-	//bi-directional many-to-many association to CreditCard
-	@ManyToMany(mappedBy="users")
+	//uni-directional many-to-many association to CreditCard
+	@ManyToMany
+	@JoinTable(
+		name="users_has_credit_cards"
+		, joinColumns={
+			@JoinColumn(name="users_iduser")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="credit_cards_credit_card_number")
+			}
+		)
 	private List<CreditCard> creditCards;
 
 	//bi-directional many-to-one association to Order

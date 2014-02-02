@@ -38,10 +38,6 @@ public class Address implements Serializable {
 		)
 	private List<User> users;
 
-	//bi-directional many-to-one association to CreditCard
-	@OneToMany(mappedBy="address")
-	private List<CreditCard> creditCards;
-
 	//bi-directional many-to-one association to Order
 	@OneToMany(mappedBy="address")
 	private List<Order> orders;
@@ -87,28 +83,6 @@ public class Address implements Serializable {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
-	}
-
-	public List<CreditCard> getCreditCards() {
-		return this.creditCards;
-	}
-
-	public void setCreditCards(List<CreditCard> creditCards) {
-		this.creditCards = creditCards;
-	}
-
-	public CreditCard addCreditCard(CreditCard creditCard) {
-		getCreditCards().add(creditCard);
-		creditCard.setAddress(this);
-
-		return creditCard;
-	}
-
-	public CreditCard removeCreditCard(CreditCard creditCard) {
-		getCreditCards().remove(creditCard);
-		creditCard.setAddress(null);
-
-		return creditCard;
 	}
 
 	public List<Order> getOrders() {

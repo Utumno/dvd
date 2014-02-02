@@ -2,7 +2,6 @@ package dvd_store.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
 
 /**
@@ -18,10 +17,6 @@ public class Crew implements Serializable {
 	private int idcrew;
 
 	private String name;
-
-	//bi-directional many-to-many association to Movy
-	@ManyToMany(mappedBy="crews")
-	private List<Movy> movies;
 
 	public Crew() {
 	}
@@ -40,14 +35,6 @@ public class Crew implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public List<Movy> getMovies() {
-		return this.movies;
-	}
-
-	public void setMovies(List<Movy> movies) {
-		this.movies = movies;
 	}
 
 }

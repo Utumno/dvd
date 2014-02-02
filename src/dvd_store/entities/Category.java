@@ -2,7 +2,6 @@ package dvd_store.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
 
 /**
@@ -16,13 +15,19 @@ public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	private int idcategory;
+
 	private String name;
 
-	//bi-directional many-to-many association to Movy
-	@ManyToMany(mappedBy="categories")
-	private List<Movy> movies;
-
 	public Category() {
+	}
+
+	public int getIdcategory() {
+		return this.idcategory;
+	}
+
+	public void setIdcategory(int idcategory) {
+		this.idcategory = idcategory;
 	}
 
 	public String getName() {
@@ -31,14 +36,6 @@ public class Category implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public List<Movy> getMovies() {
-		return this.movies;
-	}
-
-	public void setMovies(List<Movy> movies) {
-		this.movies = movies;
 	}
 
 }
