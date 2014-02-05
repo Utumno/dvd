@@ -42,9 +42,10 @@ public class User implements Serializable {
 	@Pattern(regexp = ".*(?=.{8,})(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).*",
 			message = "Password is not strong enough")
 	private String password;
-
-	@Column(name="phone_number")
-	private int phoneNumber;
+	@Column(name = "phone_number")
+	@Pattern(regexp = "[1-9][0-9]{9}",
+			message = "Phone numbers are 10 digit numbers, first one not zero")
+	private String phoneNumber;
 	@NotNull(message = "Please enter your surname")
 	private String surname;
 	@NotNull(message = "Please enter a username")
@@ -107,11 +108,11 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public int getPhoneNumber() {
+	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}
 
-	public void setPhoneNumber(int phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
