@@ -20,19 +20,25 @@ public class User implements Serializable {
 	private int iduser;
 
 	@Temporal(TemporalType.DATE)
+	@Past(message = "Back from the future ?")
+	@NotNull(message = "Please enter your date of birth")
 	private Date birthdate;
-
+	@NotNull(message = "Please enter your email address")
+	@Pattern(regexp = "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)",
+			message = "Email is not in valid format")
 	private String email;
-
+	@NotNull(message = "Please enter your name")
 	private String name;
-
+	@NotNull(message = "Please enter a password")
+	@Pattern(regexp = ".*(?=.{8,})(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).*",
+			message = "Password is not strong enough")
 	private String password;
 
 	@Column(name="phone_number")
 	private int phoneNumber;
-
+	@NotNull(message = "Please enter your surname")
 	private String surname;
-
+	@NotNull(message = "Please enter a username")
 	private String username;
 
 	//uni-directional many-to-many association to Address

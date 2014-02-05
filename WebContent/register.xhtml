@@ -7,50 +7,52 @@
 	<title>Register user</title>
 </h:head>
 <h:body>
-	<h:form>
+	<h:form id="registration_form">
 		<h:panelGrid columns="3">
 			<h:outputLabel for="username">Username</h:outputLabel>
-			<h:inputText id="username" value="#{userController.user.username}"
-				required="true">
+			<h:inputText id="username" value="#{userController.user.username}">
 				<f:ajax event="blur" render="usernameMessage" />
 			</h:inputText>
 			<h:message id="usernameMessage" for="username" />
+
 			<h:outputLabel for="password">Password</h:outputLabel>
-			<h:inputSecret id="password" value="#{userController.user.password}"
-				required="true" redisplay="true">
+			<h:inputSecret id="password" value="#{userController.user.password}" redisplay="true">
 				<f:ajax event="blur" render="passwordMessage" />
 			</h:inputSecret>
 			<h:message id="passwordMessage" for="password" />
+
 			<h:outputLabel for="name">Name</h:outputLabel>
-			<h:inputText id="name" value="#{userController.user.name}"
-				required="true" redisplay="true">
+			<h:inputText id="name" value="#{userController.user.name}" redisplay="true">
 				<f:ajax event="blur" render="nameMessage" />
 			</h:inputText>
 			<h:message id="nameMessage" for="name" />
+
 			<h:outputLabel for="surname">Surname</h:outputLabel>
-			<h:inputText id="surname" value="#{userController.user.surname}"
-				required="true" redisplay="true">
+			<h:inputText id="surname" value="#{userController.user.surname}" redisplay="true">
 				<f:ajax event="blur" render="surnameMessage" />
 			</h:inputText>
 			<h:message id="surnameMessage" for="surname" />
+
 			<h:outputLabel for="email">Email</h:outputLabel>
-			<h:inputText id="email" value="#{userController.user.email}"
-				required="true">
+			<h:inputText id="email" value="#{userController.user.email}">
 				<f:ajax event="blur" render="emailMessage" />
 			</h:inputText>
 			<h:message id="emailMessage" for="email" />
+
 			<h:outputLabel for="birthdate">Birthdate (yyyy-MM-dd)</h:outputLabel>
 			<h:inputText id="birthdate" value="#{userController.user.birthdate}">
 				<f:convertDateTime pattern="yyyy-MM-dd" />
 				<f:ajax event="blur" render="birthdateMessage" />
 			</h:inputText>
 			<h:message id="birthdateMessage" for="birthdate" />
+
 			<h:outputLabel for="phone">Phone</h:outputLabel>
 			<h:inputText id="phone" value="#{userController.user.phoneNumber}">
 				<f:ajax event="blur" render="phoneMessage" />
 			</h:inputText>
 			<h:message id="phoneMessage" for="phone" />
-			<h:panelGroup />
+			<h:panelGroup /> <!-- ? -->
+
 			<h:commandButton value="Register" action="#{userController.register}">
 				<f:ajax execute="@form" render="@form" />
 			</h:commandButton>
