@@ -41,7 +41,8 @@
 			<h:message id="emailMessage" for="email" />
 
 			<h:outputLabel for="birthdate">Birthdate (yyyy-MM-dd)</h:outputLabel>
-			<h:inputText id="birthdate" value="#{userController.user.birthdate}">
+			<h:inputText id="birthdate" value="#{userController.user.birthdate}"
+				converterMessage="Please enter date in yyyy-MM-dd format">
 				<f:convertDateTime pattern="yyyy-MM-dd" />
 				<f:ajax event="blur" render="birthdateMessage" />
 			</h:inputText>
