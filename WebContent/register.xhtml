@@ -11,6 +11,7 @@
 		<h:panelGrid columns="3">
 			<h:outputLabel for="username">Username</h:outputLabel>
 			<h:inputText id="username" value="#{userController.user.username}">
+			<f:validator binding="#{userController$UniqueUsernameValidator}" />
 				<f:ajax event="blur" render="usernameMessage" />
 			</h:inputText>
 			<h:message id="usernameMessage" for="username" />

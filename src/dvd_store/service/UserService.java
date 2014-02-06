@@ -32,10 +32,18 @@ public class UserService {
 		query.setParameter(++i, u.getEmail());
 		query.setParameter(++i, u.getBirthdate());
 		query.setParameter(++i, u.getPhoneNumber());
-		System.out.println(query);
+		// System.out.println(query);
 		int id = (int) query.getSingleResult();
-		System.err.println("IDDDDD : " + id);
+		// System.err.println("IDDDDD : " + id);
 		if (id != 0) u.setIduser(id);
 		return u;
+	}
+
+	public boolean isUsernameUnique(String username) {
+		Query query = em
+			.createNativeQuery("SELECT r1_check_unique_username(?)");
+		short i = 0;
+		query.setParameter(++i, username);
+		return (boolean) query.getSingleResult();
 	}
 }

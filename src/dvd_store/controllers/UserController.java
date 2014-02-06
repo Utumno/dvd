@@ -4,8 +4,12 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.Validator;
+import javax.faces.validator.ValidatorException;
 import javax.persistence.NoResultException;
 
 import dvd_store.entities.User;
@@ -17,7 +21,7 @@ public class UserController {
 
 	// http://stackoverflow.com/a/10691832/281545
 	private User user;
-	@EJB
+	@EJB // do not inject stateful beans !
 	private UserService service;
 
 	public User getUser() {
@@ -61,5 +65,25 @@ public class UserController {
 			.invalidateSession();
 		return "/views/commons/login.html?faces-redirect=true";
 	}
-	// ...
+
+	@ManagedBean
+	@RequestScoped
+	public static class UniqueUsernameValidator implements Validator {
+
+		// Can't use a Vlidatoir (no injection) - see:
+		// http://stackoverflow.com/a/7572413/281545
+		@EJB
+		private UserService service;
+
+		@Override
+		public void validate(FacesContext context, UIComponent component,
+				Object value) throws ValidatorException {
+			if (value == null) return; // Let required="true" handle, if any.
+			if (!service.isUsernameUnique((String) value)) {
+				throw new ValidatorException(new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, "Username is already in use.",
+					null));
+			}
+		}
+	}
 }
