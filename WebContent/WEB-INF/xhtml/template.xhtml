@@ -5,13 +5,35 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
 	<title><ui:insert name="title">Default title</ui:insert></title>
+	<h:outputStylesheet library="default" name="css/style.css" />
 </h:head>
 <h:body>
-	<div id="header">Header</div>
-	<div id="menu">Menu</div>
-	<div id="content">
-		<ui:insert name="content">Default content</ui:insert>
+	<div id="wrapper" style="width: 800px; align: center">
+		<div id="header">
+			<div style="float: left">
+				<h:graphicImage library="default"
+					name="img/032-ivan-the-terrible-theredlist.jpg" />
+			</div>
+			<h:form id="loginForm" rendered="#{sessionScope.user == null}">
+					Username: <h:inputText id="username"
+					value="#{userController.user.username}" />
+					Password: <h:inputSecret id="password"
+					value="#{userController.user.password}" />
+				<h:commandButton value="Login" action="#{userController.login}" />
+				<h:outputLink target="register.xhtml"
+					rendered="#{sessionScope.user == null}">Register</h:outputLink>
+			</h:form>
+			<h:form rendered="#{sessionScope.user != null}">
+				<h:commandButton value="Logout" action="#{userController.logout}" />
+				<h:outputText
+					value="You are logged in as #{sessionScope.user.username}" />
+			</h:form>
+		</div>
+		<div id="menu" style="clear: both">Menu</div>
+		<div id="content">
+			<ui:insert name="content">Default content</ui:insert>
+		</div>
+		<div id="footer">Footer</div>
 	</div>
-	<div id="footer">Footer</div>
 </h:body>
 </html>

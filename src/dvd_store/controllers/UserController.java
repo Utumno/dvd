@@ -37,9 +37,10 @@ public class UserController {
 	public String login() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
+			System.out.println("Pass :" + user.getPassword());
 			user = service.find(user.getUsername(), user.getPassword());
 			context.getExternalContext().getSessionMap().put("user", user);
-			return "/views/commons/home.html?faces-redirect=true";
+			return "/index.xhtml?faces-redirect=true";
 		} catch (NoResultException e) {
 			context.addMessage(null, new FacesMessage(
 				FacesMessage.SEVERITY_ERROR, "Unknown login, please try again",
@@ -57,20 +58,21 @@ public class UserController {
 			return null;
 		}
 		context.getExternalContext().getSessionMap().put("user", user);
-		return "/views/commons/home.html?faces-redirect=true";
+		return "/index.xhtml?faces-redirect=true";
 	}
 
 	public String logout() {
 		FacesContext.getCurrentInstance().getExternalContext()
 			.invalidateSession();
-		return "/views/commons/login.html?faces-redirect=true";
+		System.out.println("logging out...");
+		return "/index.xhtml?faces-redirect=true";
 	}
 
 	@ManagedBean
 	@RequestScoped
 	public static class UniqueUsernameValidator implements Validator {
 
-		// Can't use a Vlidatoir (no injection) - see:
+		// Can't use a Validator (no injection) - see:
 		// http://stackoverflow.com/a/7572413/281545
 		@EJB
 		private UserService service;

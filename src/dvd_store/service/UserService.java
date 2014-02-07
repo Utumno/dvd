@@ -15,11 +15,17 @@ public class UserService {
 	private EntityManager em;
 
 	public User find(String username, String password) throws NoResultException {
-		return em
-			.createQuery(
-				"SELECT u FROM User u WHERE username = :username AND password = MD5(:password)",
-				User.class).setParameter("username", username)
-			.setParameter("password", password).getSingleResult();
+		System.out.println("!!!!!PASS: " + password + " USER: " + username);
+		User u = (User) em
+			.createNativeQuery(
+				"SELECT * FROM users  WHERE username=? AND password=?",
+				User.class)
+			.setParameter(1, username).setParameter(2, password)
+			.getSingleResult();
+		System.out.println(u + ": " + u.getEmail() + " --- " + u.getUsername());
+		return u;
+		// javax.servlet.ServletException: viewId:/index.xhtml - View
+		// /index.xhtml could not be restored.
 	}
 
 	public User register(User u) {
