@@ -11,9 +11,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.persistence.NoResultException;
-import javax.persistence.PersistenceException;
-
-import org.eclipse.persistence.exceptions.DatabaseException;
 
 import dvd_store.entities.User;
 import dvd_store.service.UserService;
