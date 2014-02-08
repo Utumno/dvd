@@ -18,6 +18,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /** The persistent class for the users database table. */
 @Entity
@@ -35,23 +36,28 @@ public class User implements Serializable {
 	@NotNull(message = "Please enter your email address")
 	@Pattern(regexp = "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)",
 			message = "Email is not in valid format")
+	@Size(max = 45, message = "Max 45 chars")
 	private String email;
 	@NotNull(message = "Please enter your name")
+	@Size(max = 45, message = "Max 45 chars")
 	private String name;
 	@NotNull(message = "Please enter a password")
 	@Pattern(regexp = ".*(?=.{8,})(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).*",
 			message = "Password is not strong enough")
+	@Size(max = 45, message = "Max 45 chars")
 	private String password;
 	@Column(name = "phone_number")
 	@Pattern(regexp = "[1-9][0-9]{9}",
 			message = "Phone numbers are 10 digit numbers, first one not zero")
 	private String phoneNumber;
 	@NotNull(message = "Please enter your surname")
+	@Size(max = 45, message = "Max 45 chars")
 	private String surname;
 	@NotNull(message = "Please enter a username")
 	@Pattern(regexp = "[A-Za-z0-9_]{6}[A-Za-z0-9_]*",
 			message = "Usernames can have latin characters, the underscore and "
 				+ "digits and are at least 6 characters")
+	@Size(max = 45, message = "Max 45 chars")
 	private String username;
 	// uni-directional many-to-many association to Address
 	@ManyToMany
