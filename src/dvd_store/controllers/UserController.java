@@ -40,7 +40,7 @@ public class UserController {
 	public String login() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			System.out.println("Pass :" + user.getPassword());
+			// System.out.println("Pass :" + user.getPassword());
 			user = service.find(user.getUsername(), user.getPassword());
 			context.getExternalContext().getSessionMap().put("user", user);
 			return "/index.xhtml?faces-redirect=true";
@@ -67,7 +67,7 @@ public class UserController {
 	public String logout() {
 		FacesContext.getCurrentInstance().getExternalContext()
 			.invalidateSession();
-		System.out.println("logging out...");
+		// System.out.println("logging out...");
 		return "/index.xhtml?faces-redirect=true";
 	}
 
