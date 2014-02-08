@@ -9,6 +9,8 @@
 </h:head>
 <h:body >
 	<div id="wrapper" style="text-align: center;background-color: blue;">
+		<ui:insert name="header">
+		<!-- http://stackoverflow.com/q/114543/281545 -->
 		<div id="header" style="clear: both; display: inline-block">
 			<div style="float: left; background-color: red;">
 				<h:graphicImage library="default"
@@ -32,6 +34,7 @@
 					value="You are logged in as #{sessionScope.user.username}" />
 			</h:form>
 		</div>
+		</ui:insert>
 		<div id="menu" style="clear: both">Menu</div>
 		<div id="content">
 			<ui:insert name="content">Default content</ui:insert>

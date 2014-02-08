@@ -1,17 +1,17 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition template="/WEB-INF/xhtml/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-<h:head>
-	<title>Register user</title>
-</h:head>
-<h:body>
+	<ui:define name="title">All Times Classics - Register</ui:define>
+	<ui:define name="header"/>
+	<ui:define name="content">
+	<h1 style="text-align: center">Register to All Times Classics</h1>
 	<h:form id="registration_form">
 		<h:panelGrid columns="3">
 			<h:outputLabel for="username">Username</h:outputLabel>
-			<h:inputText id="username" value="#{userController.user.username}">
-			<f:validator binding="#{userController$UniqueUsernameValidator}" />
+			<h:inputText id="username" value="#{userController.user.username}" redisplay="true">
+			<f:validator binding="#{userController$UniqueUsernameValidator}"/>
 				<f:ajax event="blur" render="usernameMessage" />
 			</h:inputText>
 			<h:message id="usernameMessage" for="username" />
@@ -61,5 +61,5 @@
 			<h:messages globalOnly="true" layout="table" />
 		</h:panelGrid>
 	</h:form>
-</h:body>
-</html>
+	</ui:define>
+</ui:composition>
