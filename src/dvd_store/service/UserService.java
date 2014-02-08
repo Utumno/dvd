@@ -39,6 +39,10 @@ public class UserService {
 		query.setParameter(++i, u.getBirthdate());
 		query.setParameter(++i, u.getPhoneNumber());
 		// System.out.println(query);
+		// em.persist(u);
+		// System.out.println("USER id: " + u.getIduser());
+		// em.flush();
+		// System.out.println("USER id: " + u.getIduser());
 		int id = (int) query.getSingleResult();
 		// System.err.println("IDDDDD : " + id);
 		if (id != 0) u.setIduser(id);

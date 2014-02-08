@@ -11,6 +11,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
+
+import org.eclipse.persistence.exceptions.DatabaseException;
 
 import dvd_store.entities.User;
 import dvd_store.service.UserService;
@@ -81,11 +84,42 @@ public class UserController {
 		public void validate(FacesContext context, UIComponent component,
 				Object value) throws ValidatorException {
 			if (value == null) return; // Let required="true" handle, if any.
-			if (!service.isUsernameUnique((String) value)) {
-				throw new ValidatorException(new FacesMessage(
-					FacesMessage.SEVERITY_ERROR, "Username is already in use.",
-					null));
+			try {
+				if (!service.isUsernameUnique((String) value)) {
+					throw new ValidatorException(new FacesMessage(
+						FacesMessage.SEVERITY_ERROR,
+						"Username is already in use.", null));
+				}
+			} catch (Exception e) {
+//				System.out.println(cause(e));
+//				Throwable cause = e.getCause();
+//				if (cause instanceof PersistenceException) {
+//					Throwable cause2 = cause.getCause();
+//					// ((PersistenceException)cause) - only superclass methods
+//					if (cause2 instanceof DatabaseException) {
+//						// now this I call ugly
+//						int errorCode = ((DatabaseException) cause2)
+//							.getDatabaseErrorCode(); // no java doc in eclipse
+//						if (errorCode == 1406)
+//							throw new ValidatorException(new FacesMessage(
+//								FacesMessage.SEVERITY_ERROR, "Max 45 chars",
+//								null));
+//					}
+//				}
+//				// TODO: DEGUG
+//				throw new ValidatorException(new FacesMessage(
+//					FacesMessage.SEVERITY_ERROR, cause.getMessage(), null));
 			}
+		}
+
+		private static String cause(Exception e) {
+			StringBuilder sb = new StringBuilder("--->\nEXCEPTION:::::MSG\n"
+				+ "=================\n");
+			for (Throwable t = e; t != null; t = t.getCause())
+				sb.append(t.getClass().getSimpleName()).append(":::::")
+					.append(t.getMessage()).append("\n");
+			sb.append("FIN\n\n");
+			return sb.toString();
 		}
 	}
 }
