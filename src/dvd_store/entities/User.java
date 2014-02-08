@@ -49,6 +49,9 @@ public class User implements Serializable {
 	@NotNull(message = "Please enter your surname")
 	private String surname;
 	@NotNull(message = "Please enter a username")
+	@Pattern(regexp = "[A-Za-z0-9_]{6}[A-Za-z0-9_]*",
+			message = "Usernames can have latin characters, the underscore and "
+				+ "digits and are at least 6 characters")
 	private String username;
 	// uni-directional many-to-many association to Address
 	@ManyToMany
