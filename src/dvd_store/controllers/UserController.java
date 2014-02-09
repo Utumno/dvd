@@ -22,6 +22,7 @@ public class UserController {
 	// http://stackoverflow.com/a/10691832/281545
 	private User user;
 	@EJB // do not inject stateful beans !
+	// @Inject // TODO !
 	private UserService service;
 
 	public User getUser() {
