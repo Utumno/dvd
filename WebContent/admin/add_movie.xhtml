@@ -21,9 +21,16 @@
 				<h:message id="titleMessage" for="title" />
 				<h:outputLabel for="yearOfRelease">Year of release</h:outputLabel>
 				<h:inputText id="yearOfRelease"
-					value="#{movieController.movie.yearOfRelease}" redisplay="true">
+					value="#{movieController.movie.yearOfRelease}" redisplay="true"
+					converterMessage="Please enter date in yyyy-MM-dd format">
+					<f:convertDateTime pattern="yyyy-MM-dd" />
 					<f:ajax event="blur" render="yearOfReleaseMessage" />
 				</h:inputText>
+				<!--
+				<h:selectOneListbox value="#{movieController.movie.yearOfRelease}" size="5">
+					<f:selectItem itemValue="1900" itemLabel="1900" />
+					<f:selectItem itemValue="1901" itemLabel="1901" /> ... </h:selectOneListbox>
+				-->
 				<h:message id="yearOfReleaseMessage" for="yearOfRelease" />
 				<h:outputLabel for="rating">Rating</h:outputLabel>
 				<h:selectOneMenu value="#{movieController.movie.rating}">
