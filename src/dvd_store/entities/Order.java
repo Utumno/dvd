@@ -1,14 +1,25 @@
 package dvd_store.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
  * The persistent class for the orders database table.
- * 
+ *
  */
 @Entity
 @Table(name="orders")
@@ -25,7 +36,7 @@ public class Order implements Serializable {
 	@Column(name="shipping_info")
 	private String shippingInfo;
 
-	//uni-directional many-to-many association to Movy
+	// uni-directional many-to-many association to Movie
 	@ManyToMany
 	@JoinTable(
 		name="orders_has_movies"
@@ -36,7 +47,7 @@ public class Order implements Serializable {
 			@JoinColumn(name="movies_idmovie")
 			}
 		)
-	private List<Movy> movies;
+	private List<Movie> movies;
 
 	//bi-directional many-to-one association to Address
 	@ManyToOne
@@ -80,11 +91,11 @@ public class Order implements Serializable {
 		this.shippingInfo = shippingInfo;
 	}
 
-	public List<Movy> getMovies() {
+	public List<Movie> getMovies() {
 		return this.movies;
 	}
 
-	public void setMovies(List<Movy> movies) {
+	public void setMovies(List<Movie> movies) {
 		this.movies = movies;
 	}
 

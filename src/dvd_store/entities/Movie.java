@@ -1,20 +1,30 @@
 package dvd_store.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 
 /**
  * The persistent class for the movies database table.
- * 
+ *
  */
 @Entity
 @Table(name="movies")
-@NamedQuery(name="Movy.findAll", query="SELECT m FROM Movy m")
-public class Movy implements Serializable {
+@NamedQuery(name = "Movie.findAll", query = "SELECT m FROM Movie m")
+public class Movie implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -61,7 +71,7 @@ public class Movy implements Serializable {
 		)
 	private List<Crew> crews;
 
-	public Movy() {
+	public Movie() {
 	}
 
 	public int getIdmovie() {

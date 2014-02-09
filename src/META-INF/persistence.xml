@@ -8,7 +8,7 @@
 		<class>dvd_store.entities.Category</class>
 		<class>dvd_store.entities.CreditCard</class>
 		<class>dvd_store.entities.Crew</class>
-		<class>dvd_store.entities.Movy</class>
+		<class>dvd_store.entities.Movie</class>
 		<class>dvd_store.entities.Order</class>
 		<class>dvd_store.entities.Role</class>
 		<class>dvd_store.entities.User</class>
