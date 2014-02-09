@@ -33,13 +33,25 @@
 				<h:outputText
 					value="You are logged in as #{sessionScope.user.username}" />
 			</h:form>
+			<f:view locale="#{localeBean.locale}" transient="true">
+			<h:form>
+				<h:selectOneMenu value="#{localeBean.language}"
+					onchange="submit()" >
+					<f:selectItem itemValue="en" itemLabel="English" />
+					<f:selectItem itemValue="el" itemLabel="Ελληνικά" />
+				</h:selectOneMenu>
+			</h:form>
+			<p>
+				<h:outputText value="#{text['dvd_store.name']}" />
+			</p>
+			</f:view>
 		</div>
 		</ui:insert>
 		<div id="menu" style="clear: both">Menu</div>
 		<div id="content" style="clear: both; display: inline-block">
 			<ui:insert name="content">Default content</ui:insert>
 		</div>
-		<div id="footer">Footer</div>
+		<div id="footer"><br/><br/><br/><h:outputText value="#{text['footer.text']}" /></div>
 	</div>
 </h:body>
 </html>

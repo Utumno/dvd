@@ -5,8 +5,8 @@
 	<application>
 		<locale-config>
 			<default-locale>en</default-locale>
-			<!-- <supported-locale>nl</supported-locale>
-			<supported-locale>es</supported-locale> -->
+			<supported-locale>el</supported-locale>
+			<!-- <supported-locale>es</supported-locale> -->
 		</locale-config>
 		<resource-bundle>
 			<base-name>dvd_store.faces.i18n.Text</base-name>
