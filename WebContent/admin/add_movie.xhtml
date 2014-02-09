@@ -1,0 +1,53 @@
+<ui:composition template="/WEB-INF/xhtml/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:define name="title">
+		<h:outputText value="#{text['dvd_store.name']}" /> - Movies</ui:define>
+	<ui:define name="content">
+		<h1 style="text-align: center">
+			<h:outputText value="#{text['dvd_store.name']}" />
+			- Movies
+		</h1>
+		<h:form id="registration_form">
+			<h:panelGrid columns="3">
+				<h:outputLabel for="title">Title</h:outputLabel>
+				<h:inputText id="title" value="#{movieController.movie.title}"
+					redisplay="true">
+					<f:validator binding="#{userController$UniqueUsernameValidator}" />
+					<f:ajax event="blur" render="titleMessage" />
+				</h:inputText>
+				<h:message id="titleMessage" for="title" />
+				<h:outputLabel for="yearOfRelease">Year of release</h:outputLabel>
+				<h:inputText id="yearOfRelease"
+					value="#{movieController.movie.yearOfRelease}" redisplay="true">
+					<f:ajax event="blur" render="yearOfReleaseMessage" />
+				</h:inputText>
+				<h:message id="yearOfReleaseMessage" for="yearOfRelease" />
+				<h:outputLabel for="rating">Rating</h:outputLabel>
+				<h:inputText id="rating" value="#{movieController.movie.rating}"
+					redisplay="true">
+					<f:ajax event="blur" render="ratingMessage" />
+				</h:inputText>
+				<h:message id="ratingMessage" for="rating" />
+				<h:outputLabel for="numberOfCopies">Number of copies</h:outputLabel>
+				<h:inputText id="numberOfCopies"
+					value="#{movieController.movie.numberOfCopies}" redisplay="true">
+					<f:ajax event="blur" render="numberOfCopiesMessage" />
+				</h:inputText>
+				<h:message id="numberOfCopiesMessage" for="numberOfCopies" />
+				<h:outputLabel for="price">Price</h:outputLabel>
+				<h:inputText id="price" value="#{movieController.movie.price}">
+					<f:ajax event="blur" render="priceMessage" />
+				</h:inputText>
+				<h:message id="priceMessage" for="price" />
+				<!--<h:panelGroup />  ? -->
+				<h:commandButton value="Register" action="#{movieController.add}">
+					<f:ajax execute="@form" render="@form" />
+				</h:commandButton>
+				<h:messages globalOnly="true" layout="table" />
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

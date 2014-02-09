@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -15,6 +17,10 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 /**
  * The persistent class for the movies database table.
@@ -27,15 +33,22 @@ public class Movie implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idmovie;
 	private int available;
 	@Column(name = "number_of_copies")
+	@NotNull(message = "Please enter number of copies")
 	private int numberOfCopies;
+	@Digits(fraction = 2, integer = 3)
 	private BigDecimal price;
 	private String rating;
+	@NotNull(message = "Please enter the title of the movie")
+	@Size(max = 200, message = "Max 200 chars")
 	private String title;
 	@Temporal(TemporalType.DATE)
 	@Column(name = "year_of_release")
+	@Past(message = "Back from the future ?")
+	@NotNull(message = "Please enter the year of the movie")
 	private Date yearOfRelease;
 	// uni-directional many-to-many association to Category
 	@ManyToMany
