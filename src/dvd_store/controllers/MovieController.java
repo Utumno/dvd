@@ -38,6 +38,8 @@ public class MovieController {
 	public String add() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		movie.setAvailable(movie.getNumberOfCopies());
+		System.out.println("PRICE: " + movie.getPrice());
+		System.out.println("ΥΕΑΡ: " + movie.getYearOfRelease());
 		movie = service.add(movie);
 		if (movie.getIdmovie() == 0) {
 			context.addMessage(null, new FacesMessage(
