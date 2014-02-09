@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,7 +43,8 @@ public class Movie implements Serializable {
 	private int numberOfCopies;
 	@Digits(fraction = 2, integer = 3)
 	private BigDecimal price;
-	private String rating;
+	@Enumerated(EnumType.STRING)
+	private Rating rating;
 	@NotNull(message = "Please enter the title of the movie")
 	@Size(max = 200, message = "Max 200 chars")
 	private String title;
@@ -97,11 +100,11 @@ public class Movie implements Serializable {
 		this.price = price;
 	}
 
-	public String getRating() {
+	public Rating getRating() {
 		return this.rating;
 	}
 
-	public void setRating(String rating) {
+	public void setRating(Rating rating) {
 		this.rating = rating;
 	}
 
@@ -135,5 +138,24 @@ public class Movie implements Serializable {
 
 	public void setCrews(List<Crew> crews) {
 		this.crews = crews;
+	}
+
+	public static enum Rating {
+		G("G"), NC_17("NC-17"), R("R"), PG("PG"), PG_13(
+				"PG-13");
+
+		private String label;
+
+		private Rating(String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return label;
+		}
+	}
+
+	public Rating[] getRatings() {
+		return Rating.values();
 	}
 }

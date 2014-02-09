@@ -26,10 +26,11 @@
 				</h:inputText>
 				<h:message id="yearOfReleaseMessage" for="yearOfRelease" />
 				<h:outputLabel for="rating">Rating</h:outputLabel>
-				<h:inputText id="rating" value="#{movieController.movie.rating}"
-					redisplay="true">
+				<h:selectOneMenu value="#{movieController.movie.rating}">
+					<f:selectItems value="#{movieController.movie.ratings}"
+						var="rating" itemValue="#{rating}" itemLabel="#{rating.label}" />
 					<f:ajax event="blur" render="ratingMessage" />
-				</h:inputText>
+				</h:selectOneMenu>
 				<h:message id="ratingMessage" for="rating" />
 				<h:outputLabel for="numberOfCopies">Number of copies</h:outputLabel>
 				<h:inputText id="numberOfCopies"
