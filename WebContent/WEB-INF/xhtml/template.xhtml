@@ -10,42 +10,7 @@
 <h:body >
 	<div id="wrapper" style="text-align: center;background-color: blue;">
 		<ui:insert name="header">
-		<!-- http://stackoverflow.com/q/114543/281545 -->
-		<div id="header" style="clear: both; display: inline-block">
-			<div style="float: left; background-color: red;">
-				<h:graphicImage library="default"
-					name="img/032-ivan-the-terrible-theredlist.jpg" />
-			</div>
-			<div style="float: left; background-color: red;">
-			<h:form id="loginForm" rendered="#{sessionScope.user == null}">
-				<h:panelGrid columns="2">
-					<h:outputLabel for="username">Username</h:outputLabel>
-					<h:inputText id="username" value="#{userController.user.username}" />
-					<h:outputLabel for="password">Password</h:outputLabel>
-					<h:inputSecret id="password"
-						value="#{userController.user.password}" />
-					<a href="register.xhtml">Register</a>
-					<h:commandButton value="Login" action="#{userController.login}" />
-				</h:panelGrid>
-			</h:form></div>
-			<h:form rendered="#{sessionScope.user != null}">
-				<h:commandButton value="Logout" action="#{userController.logout}" />
-				<h:outputText
-					value="You are logged in as #{sessionScope.user.username}" />
-			</h:form>
-			<f:view locale="#{localeBean.locale}" transient="true">
-			<h:form>
-				<h:selectOneMenu value="#{localeBean.language}"
-					onchange="submit()" >
-					<f:selectItem itemValue="en" itemLabel="English" />
-					<f:selectItem itemValue="el" itemLabel="Ελληνικά" />
-				</h:selectOneMenu>
-			</h:form>
-			<p>
-				<h:outputText value="#{text['dvd_store.name']}" />
-			</p>
-			</f:view>
-		</div>
+				<ui:include src="header.xhtml"></ui:include>
 		</ui:insert>
 		<div id="menu" style="clear: both">Menu</div>
 		<div id="content" style="clear: both; display: inline-block">
