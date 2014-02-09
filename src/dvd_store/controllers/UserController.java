@@ -82,14 +82,13 @@ public class UserController {
 		public void validate(FacesContext context, UIComponent component,
 				Object value) throws ValidatorException {
 			if (value == null) return; // Let required="true" handle, if any.
+			boolean usernameUnique = false;
 			try {
-				if (!service.isUsernameUnique((String) value)) {
-					throw new ValidatorException(new FacesMessage(
-						FacesMessage.SEVERITY_ERROR,
-						"Username is already in use.", null));
-				}
+				usernameUnique = service.isUsernameUnique((String) value);
+				// I FELL FOR CATCHING EXCEPTION OMG ! Was catching the
+				// ValidatorException
 			} catch (Exception e) {
-//				System.out.println(cause(e));
+				// System.out.println(cause(e));
 //				Throwable cause = e.getCause();
 //				if (cause instanceof PersistenceException) {
 //					Throwable cause2 = cause.getCause();
@@ -107,6 +106,12 @@ public class UserController {
 //				// TODO: DEGUG
 //				throw new ValidatorException(new FacesMessage(
 //					FacesMessage.SEVERITY_ERROR, cause.getMessage(), null));
+			} finally {
+				if (!usernameUnique) {
+					throw new ValidatorException(new FacesMessage(
+						FacesMessage.SEVERITY_ERROR,
+						"Username is already in use.", null));
+				}
 			}
 		}
 
