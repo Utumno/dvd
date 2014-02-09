@@ -13,7 +13,7 @@
 			<ui:include src="header.xhtml"></ui:include>
 		</ui:insert>
 		<div id="menu" style="clear: both">
-			<a href="index.xhtml">Home</a>
+		<h:link value="Home" outcome="index" />
 			<h:outputLink rendered="#{sessionScope.user.admin}" value="admin/add_movie.xhtml" >Add Movie</h:outputLink>
 		</div>
 		<div id="content" style="clear: both; display: inline-block">
