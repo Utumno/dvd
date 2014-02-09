@@ -3,10 +3,10 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-	<ui:define name="title">All Times Classics - Register</ui:define>
+	<ui:define name="title"><h:outputText value="#{text['dvd_store.name']}" /> - Register</ui:define>
 	<ui:define name="header"/>
 	<ui:define name="content">
-	<h1 style="text-align: center">Register to All Times Classics</h1>
+	<h1 style="text-align: center">Register to <h:outputText value="#{text['dvd_store.name']}" /></h1>
 	<h:form id="registration_form">
 		<h:panelGrid columns="3">
 			<h:outputLabel for="username">Username</h:outputLabel>
