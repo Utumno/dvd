@@ -37,6 +37,7 @@ public class MovieController {
 
 	public String add() {
 		FacesContext context = FacesContext.getCurrentInstance();
+		movie.setAvailable(movie.getNumberOfCopies());
 		movie = service.add(movie);
 		if (movie.getIdmovie() == 0) {
 			context.addMessage(null, new FacesMessage(
