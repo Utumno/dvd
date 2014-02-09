@@ -21,8 +21,9 @@ CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`users` (
   `surname` VARCHAR(45) NOT NULL ,
   `email` VARCHAR(45) NOT NULL ,
   `birthdate` DATE NOT NULL ,
-  `phone_number` INT(10) NULL ,
-  PRIMARY KEY (`iduser`) )
+  `phone_number` BIGINT NULL ,
+  PRIMARY KEY (`iduser`) ,
+  UNIQUE INDEX `IDX__USERNAME` (`username` ASC) )
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -511,7 +512,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `hw1_db_1`;
-INSERT INTO `hw1_db_1`.`users` (`iduser`, `username`, `password`, `name`, `surname`, `email`, `birthdate`, `phone_number`) VALUES (1, 'adminius', 'Chmod777', 'admin', 'admirablus', 'admin@admin.com', '2012-12-12', NULL);
+INSERT INTO `hw1_db_1`.`users` (`iduser`, `username`, `password`, `name`, `surname`, `email`, `birthdate`, `phone_number`) VALUES (1, 'adminius', 'Chmod777', 'admin', 'admirablus', 'admin@admin.com', '2012-12-12', 6969696969);
 
 COMMIT;
 
