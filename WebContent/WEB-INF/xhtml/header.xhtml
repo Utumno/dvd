@@ -25,6 +25,7 @@
 			<h:form rendered="#{sessionScope.user != null}">
 				<h:outputText
 					value="You are logged in as #{sessionScope.user.username}" />
+			<h:outputText rendered="#{sessionScope.user.admin}" value=". You are admin"/>
 			<h:commandButton value="Logout" action="#{userController.logout}" />
 			</h:form>
 			</div>

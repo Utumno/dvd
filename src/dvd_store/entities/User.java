@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
@@ -77,6 +78,9 @@ public class User implements Serializable {
 	// bi-directional many-to-one association to Order
 	@OneToMany(mappedBy = "user")
 	private List<Order> orders;
+	// ROLE
+	@Transient
+	boolean isAdmin;
 
 	public User() {}
 
@@ -178,5 +182,13 @@ public class User implements Serializable {
 		getOrders().remove(order);
 		order.setUser(null);
 		return order;
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 }

@@ -38,7 +38,7 @@ public class UserController {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			// System.out.println("Pass :" + user.getPassword());
-			user = service.find(user.getUsername(), user.getPassword());
+			user = service.login(user.getUsername(), user.getPassword());
 			context.getExternalContext().getSessionMap().put("user", user);
 			return "/index.xhtml?faces-redirect=true";
 		} catch (NoResultException e) {

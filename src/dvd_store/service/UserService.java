@@ -14,7 +14,7 @@ public class UserService {
 	@PersistenceContext
 	private EntityManager em;
 
-	public User find(String username, String password) throws NoResultException {
+	public User login(String username, String password) throws NoResultException {
 		System.out.println("!!!!!PASS: " + password + " USER: " + username);
 		User u = (User) em
 			.createNativeQuery(
@@ -22,7 +22,14 @@ public class UserService {
 				User.class)
 			.setParameter(1, username).setParameter(2, password)
 			.getSingleResult();
-		System.out.println(u + ": " + u.getEmail() + " --- " + u.getUsername());
+		try {
+			em.createNativeQuery("SELECT * FROM admins  WHERE idadmin=?")
+				.setParameter(1, u.getIduser()).getSingleResult();
+			// no exception, user is admin
+			u.setAdmin(true);
+		} catch (NoResultException e) {
+			// user not in the admin table
+		}
 		return u;
 		// javax.servlet.ServletException: viewId:/index.xhtml - View
 		// /index.xhtml could not be restored.
