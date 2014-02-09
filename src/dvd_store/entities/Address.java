@@ -4,33 +4,27 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the addresses database table.
  * 
  */
 @Entity
-@Table(name="addresses")
-@NamedQuery(name="Address.findAll", query="SELECT a FROM Address a")
+@Table(name = "addresses")
+@NamedQuery(name = "Address.findAll", query = "SELECT a FROM Address a")
 public class Address implements Serializable {
-	private static final long serialVersionUID = 1L;
 
+	private static final long serialVersionUID = 1L;
 	@Id
 	private int idaddress;
-
 	private String city;
-
-	@Column(name="postal_code")
+	@Column(name = "postal_code")
 	private String postalCode;
-
 	private String street;
-
-	//bi-directional many-to-one association to Order
-	@OneToMany(mappedBy="address")
+	// bi-directional many-to-one association to Order
+	@OneToMany(mappedBy = "address")
 	private List<Order> orders;
 
-	public Address() {
-	}
+	public Address() {}
 
 	public int getIdaddress() {
 		return this.idaddress;
@@ -75,15 +69,12 @@ public class Address implements Serializable {
 	public Order addOrder(Order order) {
 		getOrders().add(order);
 		order.setAddress(this);
-
 		return order;
 	}
 
 	public Order removeOrder(Order order) {
 		getOrders().remove(order);
 		order.setAddress(null);
-
 		return order;
 	}
-
 }

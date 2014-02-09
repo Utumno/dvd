@@ -3,24 +3,21 @@ package dvd_store.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the categories database table.
  * 
  */
 @Entity
-@Table(name="categories")
-@NamedQuery(name="Category.findAll", query="SELECT c FROM Category c")
+@Table(name = "categories")
+@NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c")
 public class Category implements Serializable {
-	private static final long serialVersionUID = 1L;
 
+	private static final long serialVersionUID = 1L;
 	@Id
 	private int idcategory;
-
 	private String name;
 
-	public Category() {
-	}
+	public Category() {}
 
 	public int getIdcategory() {
 		return this.idcategory;
@@ -37,5 +34,4 @@ public class Category implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 }

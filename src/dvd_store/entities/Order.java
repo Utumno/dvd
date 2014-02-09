@@ -16,56 +16,42 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 /**
  * The persistent class for the orders database table.
  *
  */
 @Entity
-@Table(name="orders")
-@NamedQuery(name="Order.findAll", query="SELECT o FROM Order o")
+@Table(name = "orders")
+@NamedQuery(name = "Order.findAll", query = "SELECT o FROM Order o")
 public class Order implements Serializable {
-	private static final long serialVersionUID = 1L;
 
+	private static final long serialVersionUID = 1L;
 	@Id
 	private int idorder;
-
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
-
-	@Column(name="shipping_info")
+	@Column(name = "shipping_info")
 	private String shippingInfo;
-
 	// uni-directional many-to-many association to Movie
 	@ManyToMany
-	@JoinTable(
-		name="orders_has_movies"
-		, joinColumns={
-			@JoinColumn(name="orders_idorder")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="movies_idmovie")
-			}
-		)
+	@JoinTable(name = "orders_has_movies", joinColumns = { @JoinColumn(
+			name = "orders_idorder") }, inverseJoinColumns = { @JoinColumn(
+			name = "movies_idmovie") })
 	private List<Movie> movies;
-
-	//bi-directional many-to-one association to Address
+	// bi-directional many-to-one association to Address
 	@ManyToOne
-	@JoinColumn(name="addresses_idaddress")
+	@JoinColumn(name = "addresses_idaddress")
 	private Address address;
-
-	//uni-directional many-to-one association to CreditCard
+	// uni-directional many-to-one association to CreditCard
 	@ManyToOne
-	@JoinColumn(name="credit_cards_credit_card_number")
+	@JoinColumn(name = "credit_cards_credit_card_number")
 	private CreditCard creditCard;
-
-	//bi-directional many-to-one association to User
+	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name="users_iduser")
+	@JoinColumn(name = "users_iduser")
 	private User user;
 
-	public Order() {
-	}
+	public Order() {}
 
 	public int getIdorder() {
 		return this.idorder;
@@ -122,5 +108,4 @@ public class Order implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
 }

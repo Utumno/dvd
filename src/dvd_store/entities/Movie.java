@@ -16,63 +16,41 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 /**
  * The persistent class for the movies database table.
  *
  */
 @Entity
-@Table(name="movies")
+@Table(name = "movies")
 @NamedQuery(name = "Movie.findAll", query = "SELECT m FROM Movie m")
 public class Movie implements Serializable {
-	private static final long serialVersionUID = 1L;
 
+	private static final long serialVersionUID = 1L;
 	@Id
 	private int idmovie;
-
 	private int available;
-
-	@Column(name="number_of_copies")
+	@Column(name = "number_of_copies")
 	private int numberOfCopies;
-
 	private BigDecimal price;
-
 	private String rating;
-
 	private String title;
-
 	@Temporal(TemporalType.DATE)
-	@Column(name="year_of_release")
+	@Column(name = "year_of_release")
 	private Date yearOfRelease;
-
-	//uni-directional many-to-many association to Category
+	// uni-directional many-to-many association to Category
 	@ManyToMany
-	@JoinTable(
-		name="movies_has_categories"
-		, joinColumns={
-			@JoinColumn(name="movies_idmovie")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="categories_idcategory")
-			}
-		)
+	@JoinTable(name = "movies_has_categories", joinColumns = { @JoinColumn(
+			name = "movies_idmovie") }, inverseJoinColumns = { @JoinColumn(
+			name = "categories_idcategory") })
 	private List<Category> categories;
-
-	//uni-directional many-to-many association to Crew
+	// uni-directional many-to-many association to Crew
 	@ManyToMany
-	@JoinTable(
-		name="movies_has_crew"
-		, joinColumns={
-			@JoinColumn(name="movies_idmovie")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="crew_idcrew")
-			}
-		)
+	@JoinTable(name = "movies_has_crew", joinColumns = { @JoinColumn(
+			name = "movies_idmovie") }, inverseJoinColumns = { @JoinColumn(
+			name = "crew_idcrew") })
 	private List<Crew> crews;
 
-	public Movie() {
-	}
+	public Movie() {}
 
 	public int getIdmovie() {
 		return this.idmovie;
@@ -145,5 +123,4 @@ public class Movie implements Serializable {
 	public void setCrews(List<Crew> crews) {
 		this.crews = crews;
 	}
-
 }
