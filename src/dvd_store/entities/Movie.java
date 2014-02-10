@@ -2,7 +2,6 @@ package dvd_store.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -17,11 +16,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 /**
@@ -48,11 +46,11 @@ public class Movie implements Serializable {
 	@NotNull(message = "Please enter the title of the movie")
 	@Size(max = 200, message = "Max 200 chars")
 	private String title;
-	@Temporal(TemporalType.DATE)
 	@Column(name = "year_of_release")
-	@Past(message = "Back from the future ?")
 	@NotNull(message = "Please enter the year of the movie")
-	private Date yearOfRelease;
+	@Min(1900)
+	@Max(2014)
+	private short yearOfRelease;
 	// uni-directional many-to-many association to Category
 	@ManyToMany
 	@JoinTable(name = "movies_has_categories", joinColumns = { @JoinColumn(
@@ -116,11 +114,11 @@ public class Movie implements Serializable {
 		this.title = title;
 	}
 
-	public Date getYearOfRelease() {
+	public short getYearOfRelease() {
 		return this.yearOfRelease;
 	}
 
-	public void setYearOfRelease(Date yearOfRelease) {
+	public void setYearOfRelease(short yearOfRelease) {
 		this.yearOfRelease = yearOfRelease;
 	}
 

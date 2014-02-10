@@ -63,13 +63,16 @@ public class MovieController {
 		public void validate(FacesContext context, UIComponent component,
 				Object value) throws ValidatorException {
 			if (value == null) return; // Let required="true" handle, if any.
+			boolean titleUnique = false;
 			try {
-				if (!service.isTitleUnique((String) value)) {
+				titleUnique = service.isTitleUnique((String) value);
+			} catch (Exception ignore) {} finally {
+				if (!titleUnique) {
 					throw new ValidatorException(new FacesMessage(
 						FacesMessage.SEVERITY_ERROR,
 						"There is a movie with this title", null));
 				}
-			} catch (Exception ignore) {}
+			}
 		}
 	}
 }

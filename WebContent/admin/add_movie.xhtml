@@ -15,7 +15,7 @@
 				<h:outputLabel for="title">Title</h:outputLabel>
 				<h:inputText id="title" value="#{movieController.movie.title}"
 					redisplay="true">
-					<f:validator binding="#{userController$UniqueUsernameValidator}" />
+					<f:validator binding="#{movieController$UniqueTitleValidator}" />
 					<f:ajax event="blur" render="titleMessage" />
 				</h:inputText>
 				<h:message id="titleMessage" for="title" />
@@ -33,9 +33,9 @@
 				-->
 				<h:message id="yearOfReleaseMessage" for="yearOfRelease" />
 				<h:outputLabel for="rating">Rating</h:outputLabel>
-				<h:selectOneMenu value="#{movieController.movie.rating}">
+				<h:selectOneMenu id="rating" value="#{movieController.movie.rating}">
 					<f:selectItems value="#{movieController.movie.ratings}"
-						var="rating" itemValue="#{rating}" itemLabel="#{rating.label}" />
+						var="rating" itemValue="#{rating.label}" itemLabel="#{rating.label}" />
 					<f:ajax event="blur" render="ratingMessage" />
 				</h:selectOneMenu>
 				<h:message id="ratingMessage" for="rating" />
@@ -51,7 +51,7 @@
 				</h:inputText>
 				<h:message id="priceMessage" for="price" />
 				<!--<h:panelGroup />  ? -->
-				<h:commandButton value="Register" action="#{movieController.add}">
+				<h:commandButton value="Add Movie" action="#{movieController.add}">
 					<f:ajax execute="@form" render="@form" />
 				</h:commandButton>
 				<h:messages globalOnly="true" layout="table" />

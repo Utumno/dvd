@@ -49,7 +49,7 @@ public class MovieService {
 		// TODO : transactions, sql injection
 		em.persist(m);
 		em.flush();
-		System.out.println("USER id: " + m.getIdmovie());
+		System.out.println("MOVIE id: " + m.getIdmovie());
 		// int id = (int) query.getSingleResult();
 		// // System.err.println("IDDDDD : " + id);
 		// if (id != 0) u.setIduser(id);
