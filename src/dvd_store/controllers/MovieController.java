@@ -39,7 +39,8 @@ public class MovieController {
 		FacesContext context = FacesContext.getCurrentInstance();
 		movie.setAvailable(movie.getNumberOfCopies());
 		System.out.println("PRICE: " + movie.getPrice());
-		System.out.println("ΥΕΑΡ: " + movie.getYearOfRelease());
+		System.out.println("YEAR: " + movie.getYearOfRelease());
+		System.out.println("RATING: " + movie.getRating());
 		movie = service.add(movie);
 		if (movie.getIdmovie() == 0) {
 			context.addMessage(null, new FacesMessage(
