@@ -32,7 +32,7 @@
 				<h:outputLabel for="rating">Rating</h:outputLabel>
 				<h:selectOneMenu id="rating" value="#{movieController.movie.rating}">
 					<f:selectItems value="#{movieController.movie.ratings}"
-						var="rating" itemValue="#{rating.label}" itemLabel="#{rating.label}" />
+						var="rating" itemValue="#{rating}" itemLabel="#{rating.label}" />
 					<f:ajax event="blur" render="ratingMessage" />
 				</h:selectOneMenu>
 				<h:message id="ratingMessage" for="rating" />

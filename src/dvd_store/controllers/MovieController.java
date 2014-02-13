@@ -47,6 +47,7 @@ public class MovieController {
 				FacesMessage.SEVERITY_ERROR, "Adding movie failed", null));
 			return null;
 		}
+		// what if no session?
 		context.getExternalContext().getSessionMap().put("movie", movie);
 		return "/index.xhtml?faces-redirect=true"; // TODO movie page
 	}

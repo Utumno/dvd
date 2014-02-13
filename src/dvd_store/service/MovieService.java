@@ -48,6 +48,7 @@ public class MovieService {
 		// // System.out.println(query);
 		// TODO : transactions, sql injection
 		em.persist(m);
+		// em.refresh(m); // exception
 		em.flush();
 		System.out.println("MOVIE id: " + m.getIdmovie());
 		// int id = (int) query.getSingleResult();

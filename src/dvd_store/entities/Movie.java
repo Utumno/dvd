@@ -2,6 +2,7 @@ package dvd_store.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -38,9 +39,11 @@ public class Movie implements Serializable {
 	private int available;
 	@Column(name = "number_of_copies")
 	@NotNull(message = "Please enter number of copies")
-	private int numberOfCopies;
+	private int numberOfCopies = 1; // or Integer to avoid seeing value in form
+	// PRICE
 	@Digits(fraction = 2, integer = 3)
 	private BigDecimal price;
+	// RATING
 	@Enumerated(EnumType.STRING)
 	private Rating rating;
 	@NotNull(message = "Please enter the title of the movie")
@@ -162,6 +165,11 @@ public class Movie implements Serializable {
 		}
 
 		public String getLabel() {
+			return label;
+		}
+
+		@Override
+		public String toString() {
 			return label;
 		}
 	}
