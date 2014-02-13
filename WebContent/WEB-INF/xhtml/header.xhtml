@@ -2,13 +2,13 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-		<!-- http://stackoverflow.com/q/114543/281545 -->
-		<div id="header" style="clear: both; display: inline-block">
-			<div style="float: left; background-color: red;">
-				<h:graphicImage library="default"
-					name="img/032-ivan-the-terrible-theredlist.jpg" />
-			</div>
-			<div style="float: left; background-color: red;">
+	<!-- http://stackoverflow.com/q/114543/281545 -->
+	<div id="header" style="clear: both; display: inline-block">
+		<div style="float: left; background-color: red;">
+			<h:graphicImage library="default"
+				name="img/032-ivan-the-terrible-theredlist.jpg" />
+		</div>
+		<div style="float: left; background-color: red;">
 			<h:form id="loginForm" rendered="#{sessionScope.user == null}">
 				<h:panelGrid columns="2">
 					<h:outputLabel for="username">Username</h:outputLabel>
@@ -19,19 +19,20 @@
 					<a href="register.xhtml">Register</a>
 					<h:commandButton value="Login" action="#{userController.login}" />
 				</h:panelGrid>
-			</h:form></div>
-			<div style="float: left; background-color: red;">
+			</h:form>
+		</div>
+		<div style="float: left; background-color: red;">
 			<h:form rendered="#{sessionScope.user != null}">
 				<h:outputText
 					value="You are logged in as #{sessionScope.user.username}" />
-			<h:outputText rendered="#{sessionScope.user.admin}" value=". You are admin"/>
-			<h:commandButton value="Logout" action="#{userController.logout}" />
+				<h:outputText rendered="#{sessionScope.user.admin}"
+					value=". You are admin" />
+				<h:commandButton value="Logout" action="#{userController.logout}" />
 			</h:form>
-			</div>
-			<f:view locale="#{localeBean.locale}" transient="true">
+		</div>
+		<f:view locale="#{localeBean.locale}" transient="true">
 			<h:form>
-				<h:selectOneMenu value="#{localeBean.language}"
-					onchange="submit()" >
+				<h:selectOneMenu value="#{localeBean.language}" onchange="submit()">
 					<f:selectItem itemValue="en" itemLabel="English" />
 					<f:selectItem itemValue="el" itemLabel="Ελληνικά" />
 				</h:selectOneMenu>
@@ -39,6 +40,6 @@
 			<p>
 				<h:outputText value="#{text['dvd_store.name']}" />
 			</p>
-			</f:view>
-		</div>
+		</f:view>
+	</div>
 </ui:composition>

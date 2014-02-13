@@ -12,6 +12,7 @@
 		</h1>
 		<h:form id="registration_form">
 			<h:panelGrid columns="3">
+
 				<h:outputLabel for="title">Title</h:outputLabel>
 				<h:inputText id="title" value="#{movieController.movie.title}"
 					redisplay="true">
@@ -19,6 +20,7 @@
 					<f:ajax event="blur" render="titleMessage" />
 				</h:inputText>
 				<h:message id="titleMessage" for="title" />
+
 				<h:outputLabel for="yearOfRelease">Year of release</h:outputLabel>
 				<h:inputText id="yearOfRelease"
 					value="#{movieController.movie.yearOfRelease}" redisplay="true"
@@ -39,12 +41,14 @@
 					<f:ajax event="blur" render="ratingMessage" />
 				</h:selectOneMenu>
 				<h:message id="ratingMessage" for="rating" />
+
 				<h:outputLabel for="numberOfCopies">Number of copies</h:outputLabel>
 				<h:inputText id="numberOfCopies"
 					value="#{movieController.movie.numberOfCopies}" redisplay="true">
 					<f:ajax event="blur" render="numberOfCopiesMessage" />
 				</h:inputText>
 				<h:message id="numberOfCopiesMessage" for="numberOfCopies" />
+
 				<h:outputLabel for="price">Price</h:outputLabel>
 				<h:inputText id="price" value="#{movieController.movie.price}">
 					<f:ajax event="blur" render="priceMessage" />
