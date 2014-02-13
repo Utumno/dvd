@@ -46,11 +46,24 @@ public class Movie implements Serializable {
 	@NotNull(message = "Please enter the title of the movie")
 	@Size(max = 200, message = "Max 200 chars")
 	private String title;
+	// YEAR
+	private static final short MIN_YEAR = 1901;
+	private static final short MAX_YEAR = 2014; // (short) new
+	// java.util.Date().getYear(); // must be interned to use in message
+	private static final List<Short> YEARS = new ArrayList<>(MAX_YEAR
+		- MIN_YEAR + 1);
+	static {
+		for (short i = MIN_YEAR; i <= MAX_YEAR; ++i) {
+			YEARS.add(i);
+		}
+	}
+	private static final String MIN_MSG = "Min release year: " + MIN_YEAR;
+	private static final String MAX_MSG = "Max release year: " + MAX_YEAR;
 	@Column(name = "year_of_release")
-	@NotNull(message = "Please enter the year of the movie")
-	@Min(1900)
-	@Max(2014)
-	private short yearOfRelease;
+	@NotNull(message = "Please enter the year of release of the movie")
+	@Min(value = 1901, message = MIN_MSG)
+	@Max(value = 2014, message = MAX_MSG)
+	private short yearOfRelease = 2014; // Short to avoid seeing value in form
 	// uni-directional many-to-many association to Category
 	@ManyToMany
 	@JoinTable(name = "movies_has_categories", joinColumns = { @JoinColumn(
@@ -155,5 +168,9 @@ public class Movie implements Serializable {
 
 	public Rating[] getRatings() {
 		return Rating.values();
+	}
+
+	public List<Short> getYears() {
+		return YEARS;
 	}
 }
