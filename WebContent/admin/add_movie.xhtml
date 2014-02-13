@@ -44,17 +44,19 @@
 
 				<h:outputLabel for="numberOfCopies">Number of copies</h:outputLabel>
 				<h:inputText id="numberOfCopies"
-					value="#{movieController.movie.numberOfCopies}" redisplay="true">
+					value="#{movieController.movie.numberOfCopies}"
+					converterMessage="Please input an integer">
 					<f:ajax event="blur" render="numberOfCopiesMessage" />
 				</h:inputText>
 				<h:message id="numberOfCopiesMessage" for="numberOfCopies" />
 
 				<h:outputLabel for="price">Price</h:outputLabel>
-				<h:inputText id="price" value="#{movieController.movie.price}">
+				<h:inputText id="price" value="#{movieController.movie.price}"
+					converterMessage="Please input a (3,2) decimal (as in 0.99, 3.5, 899.12 or 1)">
 					<f:ajax event="blur" render="priceMessage" />
 				</h:inputText>
 				<h:message id="priceMessage" for="price" />
-				<!--<h:panelGroup />  ? -->
+				<h:panelGroup />
 				<h:commandButton value="Add Movie" action="#{movieController.add}">
 					<f:ajax execute="@form" render="@form" />
 				</h:commandButton>
