@@ -14,8 +14,7 @@
 			<h:panelGrid columns="3">
 
 				<h:outputLabel for="title">Title</h:outputLabel>
-				<h:inputText id="title" value="#{movieController.movie.title}"
-					redisplay="true">
+				<h:inputText id="title" value="#{movieController.movie.title}">
 					<f:validator binding="#{movieController$UniqueTitleValidator}" />
 					<f:ajax event="blur" render="titleMessage" />
 				</h:inputText>
