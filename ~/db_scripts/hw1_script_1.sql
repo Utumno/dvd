@@ -110,7 +110,7 @@ SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`movies` (
   `idmovie` INT NOT NULL AUTO_INCREMENT ,
   `title` VARCHAR(200) NOT NULL ,
-  `year_of_release` YEAR NOT NULL ,
+  `year_of_release` SMALLINT(4) NOT NULL ,
   `rating` ENUM('G','PG','PG-13','R','NC-17') NOT NULL ,
   `number_of_copies` SMALLINT UNSIGNED NOT NULL ,
   `price` DECIMAL(5,2) NOT NULL ,
