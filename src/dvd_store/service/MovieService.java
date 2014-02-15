@@ -1,8 +1,5 @@
 package dvd_store.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -48,9 +45,9 @@ public class MovieService {
 	public void addCrew(Movie m, Crew w) {
 		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		System.out.println("movie :" + m);
-		List<Crew> crews = m.getCrew();
-		if (crews == null) crews = new ArrayList<>();
-		crews.add(w);
+		// List<Crew> crews = m.getCrew();
+		// if (crews == null) crews = new ArrayList<>();
+		// crews.add(w);
 		em.merge(m);
 	}
 
