@@ -30,7 +30,7 @@
 				<h:commandButton value="Logout" action="#{userController.logout}" />
 			</h:form>
 		</div>
-		<f:view locale="#{localeBean.locale}" transient="true">
+		<f:view locale="#{localeBean.locale}" >
 			<h:form>
 				<h:selectOneMenu value="#{localeBean.language}" onchange="submit()">
 					<f:selectItem itemValue="en" itemLabel="English" />
