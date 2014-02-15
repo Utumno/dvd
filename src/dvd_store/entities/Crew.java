@@ -1,10 +1,12 @@
 package dvd_store.entities;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -20,6 +22,9 @@ public class Crew implements Serializable {
 	private int idcrew;
 	@NotNull(message = "Please provide a name")
 	private String name;
+	// bi-directional many-to-one association to MoviesHasCrew
+	@OneToMany(mappedBy = "crew")
+	private List<MoviesHasCrew> moviesHasCrews;
 
 	public Crew() {}
 

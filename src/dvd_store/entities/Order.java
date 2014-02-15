@@ -8,17 +8,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the orders database table.
- *
  */
 @Entity
 @Table(name = "orders")
@@ -32,17 +30,11 @@ public class Order implements Serializable {
 	private Date date;
 	@Column(name = "shipping_info")
 	private String shippingInfo;
-	// uni-directional many-to-many association to Movie
-	@ManyToMany
-	@JoinTable(name = "orders_has_movies", joinColumns = { @JoinColumn(
-			name = "orders_idorder") }, inverseJoinColumns = { @JoinColumn(
-			name = "movies_idmovie") })
-	private List<Movie> movies;
 	// bi-directional many-to-one association to Address
 	@ManyToOne
 	@JoinColumn(name = "addresses_idaddress")
 	private Address address;
-	// uni-directional many-to-one association to CreditCard
+	// bi-directional many-to-one association to CreditCard
 	@ManyToOne
 	@JoinColumn(name = "credit_cards_credit_card_number")
 	private CreditCard creditCard;
@@ -50,6 +42,9 @@ public class Order implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "users_iduser")
 	private User user;
+	// bi-directional many-to-one association to OrdersHasMovy
+	@OneToMany(mappedBy = "order")
+	private List<OrdersHasMovy> ordersHasMovies;
 
 	public Order() {}
 
@@ -77,14 +72,6 @@ public class Order implements Serializable {
 		this.shippingInfo = shippingInfo;
 	}
 
-	public List<Movie> getMovies() {
-		return this.movies;
-	}
-
-	public void setMovies(List<Movie> movies) {
-		this.movies = movies;
-	}
-
 	public Address getAddress() {
 		return this.address;
 	}
@@ -107,5 +94,25 @@ public class Order implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public List<OrdersHasMovy> getOrdersHasMovies() {
+		return this.ordersHasMovies;
+	}
+
+	public void setOrdersHasMovies(List<OrdersHasMovy> ordersHasMovies) {
+		this.ordersHasMovies = ordersHasMovies;
+	}
+
+	public OrdersHasMovy addOrdersHasMovy(OrdersHasMovy ordersHasMovy) {
+		getOrdersHasMovies().add(ordersHasMovy);
+		ordersHasMovy.setOrder(this);
+		return ordersHasMovy;
+	}
+
+	public OrdersHasMovy removeOrdersHasMovy(OrdersHasMovy ordersHasMovy) {
+		getOrdersHasMovies().remove(ordersHasMovy);
+		ordersHasMovy.setOrder(null);
+		return ordersHasMovy;
 	}
 }

@@ -1,11 +1,16 @@
 package dvd_store.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the categories database table.
- * 
  */
 @Entity
 @Table(name = "categories")
@@ -16,6 +21,9 @@ public class Category implements Serializable {
 	@Id
 	private int idcategory;
 	private String name;
+	// bi-directional many-to-many association to Movy
+	@ManyToMany(mappedBy = "categories")
+	private List<Movie> movies;
 
 	public Category() {}
 
@@ -33,5 +41,13 @@ public class Category implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public List<Movie> getMovies() {
+		return this.movies;
+	}
+
+	public void setMovies(List<Movie> movies) {
+		this.movies = movies;
 	}
 }

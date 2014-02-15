@@ -12,6 +12,13 @@
 		<class>dvd_store.entities.Order</class>
 		<class>dvd_store.entities.Role</class>
 		<class>dvd_store.entities.User</class>
+		<class>dvd_store.entities.Admin</class>
+		<class>dvd_store.entities.DirectorsAndMoviesView</class>
+		<class>dvd_store.entities.MovieCrew</class>
+		<class>dvd_store.entities.MoviesHasCrew</class>
+		<class>dvd_store.entities.MoviesHasCrewPK</class>
+		<class>dvd_store.entities.OrdersHasMovy</class>
+		<class>dvd_store.entities.OrdersHasMovyPK</class>
 		<properties>
 			<property name="eclipselink.logging.level" value="FINE" />
 		</properties>

@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -63,21 +64,25 @@ public class User implements Serializable {
 				+ "digits and are at least 6 characters")
 	@Size(max = 45, message = "Max 45 chars")
 	private String username;
+	// bi-directional one-to-one association to Admin
+	@OneToOne(mappedBy = "user")
+	private Admin admin;
+	// bi-directional many-to-one association to Order
+	@OneToMany(mappedBy = "user")
+	private List<Order> orders;
+	// bi-directional many-to-many association to Address
 	// uni-directional many-to-many association to Address
 	@ManyToMany
 	@JoinTable(name = "users_has_addresses", joinColumns = { @JoinColumn(
 			name = "users_iduser") }, inverseJoinColumns = { @JoinColumn(
 			name = "addresses_idaddress") })
 	private List<Address> addresses;
-	// uni-directional many-to-many association to CreditCard
+	// bi-directional many-to-many association to CreditCard
 	@ManyToMany
 	@JoinTable(name = "users_has_credit_cards", joinColumns = { @JoinColumn(
 			name = "users_iduser") }, inverseJoinColumns = { @JoinColumn(
 			name = "credit_cards_credit_card_number") })
 	private List<CreditCard> creditCards;
-	// bi-directional many-to-one association to Order
-	@OneToMany(mappedBy = "user")
-	private List<Order> orders;
 	// ROLE
 	@Transient
 	boolean isAdmin;
@@ -148,20 +153,12 @@ public class User implements Serializable {
 		this.username = username;
 	}
 
-	public List<Address> getAddresses() {
-		return this.addresses;
+	public Admin getAdmin() {
+		return this.admin;
 	}
 
-	public void setAddresses(List<Address> addresses) {
-		this.addresses = addresses;
-	}
-
-	public List<CreditCard> getCreditCards() {
-		return this.creditCards;
-	}
-
-	public void setCreditCards(List<CreditCard> creditCards) {
-		this.creditCards = creditCards;
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
 	}
 
 	public List<Order> getOrders() {
@@ -188,7 +185,22 @@ public class User implements Serializable {
 		return isAdmin;
 	}
 
+	public List<Address> getAddresses() {
+		return this.addresses;
+	}
+
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
+	}
+
 	public void setAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
+	}
+	public List<CreditCard> getCreditCards() {
+		return this.creditCards;
+	}
+
+	public void setCreditCards(List<CreditCard> creditCards) {
+		this.creditCards = creditCards;
 	}
 }

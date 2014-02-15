@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
@@ -67,18 +68,18 @@ public class Movie implements Serializable {
 	@Min(value = 1901, message = MIN_MSG)
 	@Max(value = 2014, message = MAX_MSG)
 	private short yearOfRelease = 2014; // Short to avoid seeing value in form
-	// uni-directional many-to-many association to Category
+	// bi-directional many-to-many association to Category
 	@ManyToMany
 	@JoinTable(name = "movies_has_categories", joinColumns = { @JoinColumn(
 			name = "movies_idmovie") }, inverseJoinColumns = { @JoinColumn(
 			name = "categories_idcategory") })
 	private List<Category> categories;
-	// uni-directional many-to-many association to Crew
-	@ManyToMany
-	@JoinTable(name = "movies_has_crew", joinColumns = { @JoinColumn(
-			name = "movies_idmovie") }, inverseJoinColumns = { @JoinColumn(
-			name = "crew_idcrew") })
-	private List<Crew> crew;
+	// bi-directional many-to-one association to MoviesHasCrew
+	@OneToMany(mappedBy = "movy")
+	private List<MoviesHasCrew> moviesHasCrews;
+	// bi-directional many-to-one association to OrdersHasMovy
+	@OneToMany(mappedBy = "movy")
+	private List<OrdersHasMovy> ordersHasMovies;
 
 	public Movie() {}
 
@@ -146,12 +147,12 @@ public class Movie implements Serializable {
 		this.categories = categories;
 	}
 
-	public List<Crew> getCrew() {
-		return this.crew;
+	public List<MoviesHasCrew> getMoviesHasCrews() {
+		return this.moviesHasCrews;
 	}
 
-	public void setCrew(List<Crew> crews) {
-		this.crew = crews;
+	public void setMoviesHasCrews(List<MoviesHasCrew> moviesHasCrews) {
+		this.moviesHasCrews = moviesHasCrews;
 	}
 
 	public static enum Rating {

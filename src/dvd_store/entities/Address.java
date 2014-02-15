@@ -1,12 +1,18 @@
 package dvd_store.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the addresses database table.
- * 
  */
 @Entity
 @Table(name = "addresses")
@@ -20,9 +26,15 @@ public class Address implements Serializable {
 	@Column(name = "postal_code")
 	private String postalCode;
 	private String street;
+	// bi-directional many-to-one association to CreditCard
+	@OneToMany(mappedBy = "address")
+	private List<CreditCard> creditCards;
 	// bi-directional many-to-one association to Order
 	@OneToMany(mappedBy = "address")
 	private List<Order> orders;
+	// bi-directional many-to-many association to User
+	@ManyToMany(mappedBy = "addresses")
+	private List<User> users;
 
 	public Address() {}
 
@@ -58,6 +70,26 @@ public class Address implements Serializable {
 		this.street = street;
 	}
 
+	public List<CreditCard> getCreditCards() {
+		return this.creditCards;
+	}
+
+	public void setCreditCards(List<CreditCard> creditCards) {
+		this.creditCards = creditCards;
+	}
+
+	public CreditCard addCreditCard(CreditCard creditCard) {
+		getCreditCards().add(creditCard);
+		creditCard.setAddress(this);
+		return creditCard;
+	}
+
+	public CreditCard removeCreditCard(CreditCard creditCard) {
+		getCreditCards().remove(creditCard);
+		creditCard.setAddress(null);
+		return creditCard;
+	}
+
 	public List<Order> getOrders() {
 		return this.orders;
 	}
@@ -76,5 +108,13 @@ public class Address implements Serializable {
 		getOrders().remove(order);
 		order.setAddress(null);
 		return order;
+	}
+
+	public List<User> getUsers() {
+		return this.users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 }
