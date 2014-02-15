@@ -1,10 +1,14 @@
 package dvd_store.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import dvd_store.entities.Crew;
 import dvd_store.entities.Movie;
 
 @Stateless
@@ -33,13 +37,21 @@ public class MovieService {
 	// // javax.servlet.ServletException: viewId:/index.xhtml - View
 	// // /index.xhtml could not be restored.
 	// }
-
 	public Movie add(Movie m) {
 		em.persist(m);
 		// em.refresh(m); // exception
 		// em.flush(); // automatically on return
 		// System.out.println("MOVIE id: " + m.getIdmovie());
 		return m;
+	}
+
+	public void addCrew(Movie m, Crew w) {
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println("movie :" + m);
+		List<Crew> crews = m.getCrew();
+		if (crews == null) crews = new ArrayList<>();
+		crews.add(w);
+		em.merge(m);
 	}
 
 	public boolean isTitleUnique(String title) {
