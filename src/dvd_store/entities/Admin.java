@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -22,7 +22,7 @@ public class Admin implements Serializable {
 	private int idadmin;
 	// bi-directional one-to-one association to User
 	@OneToOne
-	@JoinColumn(name = "idadmin")
+	@PrimaryKeyJoinColumn(name = "idadmin")
 	private User user;
 
 	public Admin() {}

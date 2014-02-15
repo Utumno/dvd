@@ -1,0 +1,15 @@
+cannot Deploy dvd_store
+deploy is failing=Error occurred during deployment: Exception while deploying the app [dvd_store] : Exception [EclipseLink-28019] (Eclipse Persistence Services - 2.5.0.v20130507-3faac2b): org.eclipse.persistence.exceptions.EntityManagerSetupException
+Exception Description: Deployment of PersistenceUnit [dvd_store] failed. Close all factories for this PersistenceUnit.
+Internal Exception: Exception [EclipseLink-0] (Eclipse Persistence Services - 2.5.0.v20130507-3faac2b): org.eclipse.persistence.exceptions.IntegrityException
+Descriptor Exceptions: 
+---------------------------------------------------------
+
+Exception [EclipseLink-48] (Eclipse Persistence Services - 2.5.0.v20130507-3faac2b): org.eclipse.persistence.exceptions.DescriptorException
+Exception Description: Multiple writable mappings exist for the field [admins.IDADMIN].  Only one may be defined as writable, all others must be specified read-only.
+Mapping: org.eclipse.persistence.mappings.OneToOneMapping[user]
+Descriptor: RelationalDescriptor(dvd_store.entities.Admin --> [DatabaseTable(admins)])
+
+Runtime Exceptions: 
+---------------------------------------------------------
+. Please see server.log for more details.
