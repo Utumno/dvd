@@ -155,6 +155,38 @@ public class Movie implements Serializable {
 		this.moviesHasCrews = moviesHasCrews;
 	}
 
+	public MoviesHasCrew addMoviesHasCrew(MoviesHasCrew moviesHasCrew) {
+		getMoviesHasCrews().add(moviesHasCrew);
+		moviesHasCrew.setMovy(this);
+		return moviesHasCrew;
+	}
+
+	public MoviesHasCrew removeMoviesHasCrew(MoviesHasCrew moviesHasCrew) {
+		getMoviesHasCrews().remove(moviesHasCrew);
+		moviesHasCrew.setMovy(null);
+		return moviesHasCrew;
+	}
+
+	public List<OrdersHasMovy> getOrdersHasMovies() {
+		return this.ordersHasMovies;
+	}
+
+	public void setOrdersHasMovies(List<OrdersHasMovy> ordersHasMovies) {
+		this.ordersHasMovies = ordersHasMovies;
+	}
+
+	public OrdersHasMovy addOrdersHasMovy(OrdersHasMovy ordersHasMovy) {
+		getOrdersHasMovies().add(ordersHasMovy);
+		ordersHasMovy.setMovy(this);
+		return ordersHasMovy;
+	}
+
+	public OrdersHasMovy removeOrdersHasMovy(OrdersHasMovy ordersHasMovy) {
+		getOrdersHasMovies().remove(ordersHasMovy);
+		ordersHasMovy.setMovy(null);
+		return ordersHasMovy;
+	}
+
 	public static enum Rating {
 		G("G"), NC_17("NC-17"), R("R"), PG("PG"), PG_13(
 				"PG-13");

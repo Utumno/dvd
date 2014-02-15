@@ -54,4 +54,24 @@ public class Crew implements Serializable {
 		return (this == obj)
 			|| (obj instanceof Crew && getIdcrew() != ((Crew) obj).getIdcrew());
 	}
+
+	public List<MoviesHasCrew> getMoviesHasCrews() {
+		return this.moviesHasCrews;
+	}
+
+	public void setMoviesHasCrews(List<MoviesHasCrew> moviesHasCrews) {
+		this.moviesHasCrews = moviesHasCrews;
+	}
+
+	public MoviesHasCrew addMoviesHasCrew(MoviesHasCrew moviesHasCrew) {
+		getMoviesHasCrews().add(moviesHasCrew);
+		moviesHasCrew.setCrew(this);
+		return moviesHasCrew;
+	}
+
+	public MoviesHasCrew removeMoviesHasCrew(MoviesHasCrew moviesHasCrew) {
+		getMoviesHasCrews().remove(moviesHasCrew);
+		moviesHasCrew.setCrew(null);
+		return moviesHasCrew;
+	}
 }
