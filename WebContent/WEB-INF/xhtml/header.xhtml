@@ -8,7 +8,7 @@
 			<h:graphicImage library="default"
 				name="img/032-ivan-the-terrible-theredlist.jpg" />
 		</div>
-		<div style="float: left; background-color: red;">
+		<f:view><div style="float: left; background-color: red;">
 			<h:form id="loginForm" rendered="#{sessionScope.user == null}">
 				<h:panelGrid columns="2">
 					<h:outputLabel for="username">Username</h:outputLabel>
@@ -20,7 +20,7 @@
 					<h:commandButton value="Login" action="#{userController.login}" />
 				</h:panelGrid>
 			</h:form>
-		</div>
+		</div></f:view>
 		<div style="float: left; background-color: red;">
 			<h:form rendered="#{sessionScope.user != null}">
 				<h:outputText
