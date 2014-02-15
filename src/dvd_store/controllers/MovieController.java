@@ -1,5 +1,6 @@
 package dvd_store.controllers;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -22,8 +23,9 @@ import dvd_store.service.MovieService;
 
 @ManagedBean
 @ViewScoped
-public class MovieController {
+public class MovieController implements Serializable {
 
+	private static final long serialVersionUID = -988234378830629291L;
 	// http://stackoverflow.com/a/10691832/281545
 	private Movie movie;
 	@EJB
