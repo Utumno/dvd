@@ -10,7 +10,7 @@
 			<h:outputText value="#{text['dvd_store.name']}" />
 			- Movies
 		</h1>
-		<h:form id="registration_form">
+		<h:form id="movie_form">
 			<h:panelGrid columns="3">
 
 				<h:outputLabel for="title">Title</h:outputLabel>
@@ -28,6 +28,7 @@
 					<f:ajax event="blur" render="yearOfReleaseMessage" />
 				</h:selectOneListbox>
 				<h:message id="yearOfReleaseMessage" for="yearOfRelease" />
+
 				<h:outputLabel for="rating">Rating</h:outputLabel>
 				<h:selectOneMenu id="rating" value="#{movieController.movie.rating}">
 					<f:selectItems value="#{movieController.movie.ratings}"

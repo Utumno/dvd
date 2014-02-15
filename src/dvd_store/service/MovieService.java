@@ -35,25 +35,10 @@ public class MovieService {
 	// }
 
 	public Movie add(Movie m) {
-		// Query query =
-		// em.createNativeQuery("SELECT r1_register(?,?,?,?,?,?,?)");
-		// short i = 0;
-		// query.setParameter(++i, u.getUsername());
-		// query.setParameter(++i, u.getPassword());
-		// query.setParameter(++i, u.getName());
-		// query.setParameter(++i, u.getSurname());
-		// query.setParameter(++i, u.getEmail());
-		// query.setParameter(++i, u.getBirthdate());
-		// query.setParameter(++i, u.getPhoneNumber());
-		// // System.out.println(query);
-		// TODO : transactions, sql injection
 		em.persist(m);
 		// em.refresh(m); // exception
-		em.flush();
-		System.out.println("MOVIE id: " + m.getIdmovie());
-		// int id = (int) query.getSingleResult();
-		// // System.err.println("IDDDDD : " + id);
-		// if (id != 0) u.setIduser(id);
+		// em.flush(); // automatically on return
+		// System.out.println("MOVIE id: " + m.getIdmovie());
 		return m;
 	}
 

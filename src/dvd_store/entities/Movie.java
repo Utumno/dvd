@@ -78,7 +78,7 @@ public class Movie implements Serializable {
 	@JoinTable(name = "movies_has_crew", joinColumns = { @JoinColumn(
 			name = "movies_idmovie") }, inverseJoinColumns = { @JoinColumn(
 			name = "crew_idcrew") })
-	private List<Crew> crews;
+	private List<Crew> crew;
 
 	public Movie() {}
 
@@ -146,12 +146,12 @@ public class Movie implements Serializable {
 		this.categories = categories;
 	}
 
-	public List<Crew> getCrews() {
-		return this.crews;
+	public List<Crew> getCrew() {
+		return this.crew;
 	}
 
-	public void setCrews(List<Crew> crews) {
-		this.crews = crews;
+	public void setCrew(List<Crew> crews) {
+		this.crew = crews;
 	}
 
 	public static enum Rating {
