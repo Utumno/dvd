@@ -111,7 +111,7 @@ CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`movies` (
   `idmovie` INT NOT NULL AUTO_INCREMENT ,
   `title` VARCHAR(200) NOT NULL ,
   `year_of_release` SMALLINT(4) NOT NULL ,
-  `rating` ENUM('G','PG','PG-13','R','NC-17') NOT NULL ,
+  `rating` ENUM('G','PG','PG_13','R','NC_17') NOT NULL ,
   `number_of_copies` SMALLINT UNSIGNED NOT NULL ,
   `price` DECIMAL(5,2) NOT NULL ,
   `available` SMALLINT UNSIGNED NOT NULL ,
@@ -254,7 +254,7 @@ CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`movies_has_crew` (
   `movies_idmovie` INT NOT NULL ,
   `crew_idcrew` INT NOT NULL ,
   `roles_idrole` INT NOT NULL ,
-  PRIMARY KEY (`movies_idmovie`, `crew_idcrew`) ,
+  PRIMARY KEY (`movies_idmovie`, `crew_idcrew`, `roles_idrole`) ,
   INDEX `fk_movies_has_crew_crew1_idx` (`crew_idcrew` ASC) ,
   INDEX `fk_movies_has_crew_movies1_idx` (`movies_idmovie` ASC) ,
   INDEX `fk_movies_has_crew_roles1_idx` (`roles_idrole` ASC) ,
@@ -326,6 +326,12 @@ SHOW WARNINGS;
 -- Placeholder table for view `hw1_db_1`.`movie_crew`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `hw1_db_1`.`movie_crew` (`roles_idrole` INT, `crew_idcrew` INT);
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Placeholder table for view `hw1_db_1`.`directors_and_movies_view`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `hw1_db_1`.`directors_and_movies_view` (`movies_idmovie` INT, `idcrew` INT, `name` INT);
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
@@ -413,7 +419,7 @@ CREATE FUNCTION `hw1_db_1`.`r4_add_movie`
 				rating ENUM('G','PG','PG-13','R','NC-17'),
 				num_of_copies SMALLINT,
 				price DECIMAL(3,2),
-				available SMALLINT )
+				available SMALLINT)
 RETURNS INT
 BEGIN
 	-- add the movie
@@ -421,7 +427,6 @@ BEGIN
  `number_of_copies`, `price`, `available`)
 		VALUES(title, year_of_release, rating, num_of_copies, price, available);
 	SET @mov_id := LAST_INSERT_ID();
-	-- add crew given as a tuple, of sorts
 	RETURN @mov_id;
 END
 $$
@@ -490,6 +495,88 @@ DELIMITER ;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
+-- procedure r6_search
+-- -----------------------------------------------------
+
+USE `hw1_db_1`;
+DROP procedure IF EXISTS `hw1_db_1`.`r6_search`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `hw1_db_1`$$
+CREATE PROCEDURE `hw1_db_1`.`r6_search` (
+				IN str_actors VARCHAR(2000))
+BEGIN
+    DECLARE idx INTEGER DEFAULT 1;
+    Declare tok VARCHAR(100);
+	WHILE idx < splitter_count(str_actors, ',') do
+       set tok = substr_index(substr_index(str_actors, ',', i), ',', -1);
+	   select * from crew where name=tok;
+       set idx = idx+1;
+    END WHILE;
+END
+$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- function splitter_count
+-- -----------------------------------------------------
+
+USE `hw1_db_1`;
+DROP function IF EXISTS `hw1_db_1`.`splitter_count`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `hw1_db_1`$$
+CREATE FUNCTION `hw1_db_1`.`splitter_count` (str varchar(2000) , delim char(1))
+returns int
+BEGIN
+RETURN (length(replace(str, delim, concat(delim, ' '))) - length(str));
+END
+$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- procedure r1_update_password
+-- -----------------------------------------------------
+
+USE `hw1_db_1`;
+DROP procedure IF EXISTS `hw1_db_1`.`r1_update_password`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `hw1_db_1`$$
+CREATE PROCEDURE `hw1_db_1`.`r1_update_password` ()
+BEGIN
+
+END$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- procedure r2_search_movies
+-- -----------------------------------------------------
+
+USE `hw1_db_1`;
+DROP procedure IF EXISTS `hw1_db_1`.`r2_search_movies`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `hw1_db_1`$$
+CREATE PROCEDURE `hw1_db_1`.`r2_search_movies` (str_director VARCHAR(200))
+BEGIN
+SELECT movies_idmovie FROM `hw1_db_1`.`directors_and_movies_view` as dv WHERE dv.name LIKE CONCAT('%', str_director, '%');
+END$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
 -- View `hw1_db_1`.`movie_crew`
 -- -----------------------------------------------------
 DROP VIEW IF EXISTS `hw1_db_1`.`movie_crew` ;
@@ -499,6 +586,20 @@ SHOW WARNINGS;
 USE `hw1_db_1`;
 CREATE  OR REPLACE VIEW `hw1_db_1`.`movie_crew` AS
  SELECT roles_idrole, crew_idcrew FROM movies_has_crew WHERE movies_idmovie=id();
+;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- View `hw1_db_1`.`directors_and_movies_view`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `hw1_db_1`.`directors_and_movies_view` ;
+SHOW WARNINGS;
+DROP TABLE IF EXISTS `hw1_db_1`.`directors_and_movies_view`;
+SHOW WARNINGS;
+USE `hw1_db_1`;
+CREATE  OR REPLACE VIEW `hw1_db_1`.`directors_and_movies_view` AS
+ SELECT DISTINCT movies_idmovie, idcrew, name FROM movies_has_crew, crew WHERE roles_idrole=1 AND idcrew=crew_idcrew;
+
 ;
 SHOW WARNINGS;
 
