@@ -1,5 +1,7 @@
 package dvd_store.controllers;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -17,8 +19,9 @@ import dvd_store.service.UserService;
 
 @ManagedBean
 @ViewScoped
-public class UserController {
+public class UserController implements Serializable {
 
+	private static final long serialVersionUID = -8565364141850705694L;
 	// http://stackoverflow.com/a/10691832/281545
 	private User user;
 	@EJB // do not inject stateful beans !
