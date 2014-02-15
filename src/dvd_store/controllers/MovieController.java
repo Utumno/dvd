@@ -109,7 +109,7 @@ public class MovieController {
 
 	// @FacesConverter(forClass = Crew.class) // no injection
 	@ManagedBean
-	@RequestScoped
+	@ViewScoped
 	public static class CrewConverter implements Converter {
 
 		@EJB
