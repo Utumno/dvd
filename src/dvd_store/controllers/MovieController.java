@@ -35,7 +35,7 @@ public class MovieController implements Serializable {
 	@EJB
 	private CrewService cs;
 	private Crew crewMember;
-	private List<Crew> allCrew;
+	private List<Crew> allCrew; // FIXME ! LAZY LOAD
 
 	public void setCrewMember(Crew crewMember) {
 		this.crewMember = crewMember;
@@ -121,6 +121,9 @@ public class MovieController implements Serializable {
 		public String getAsString(FacesContext context, UIComponent component,
 				Object value) {
 			return (value instanceof Crew) ? ((Crew) value).getName() : null;
+			// return (value instanceof Crew) ? new String(((Crew) value)
+			// .getName().getBytes(Charset.defaultCharset()),
+			// StandardCharsets.UTF_8) : null; // no use
 		}
 
 		@Override
