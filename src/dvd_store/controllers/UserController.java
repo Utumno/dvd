@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -12,7 +13,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-import javax.persistence.NoResultException;
 
 import dvd_store.entities.User;
 import dvd_store.service.UserService;
@@ -44,8 +44,9 @@ public class UserController implements Serializable {
 			// System.out.println("Pass :" + user.getPassword());
 			user = service.login(user.getUsername(), user.getPassword());
 			context.getExternalContext().getSessionMap().put("user", user);
-			return "/index.xhtml?faces-redirect=true";
-		} catch (NoResultException e) {
+			return "/index.xhtml";
+		} catch (EJBException e) {
+			// System.out.println(Utils.cause(e));
 			context.addMessage(null, new FacesMessage(
 				FacesMessage.SEVERITY_ERROR, "Unknown login, please try again",
 				null));
@@ -90,42 +91,13 @@ public class UserController implements Serializable {
 				usernameUnique = service.isUsernameUnique((String) value);
 				// I FELL FOR CATCHING EXCEPTION OMG ! Was catching the
 				// ValidatorException
-			} catch (Exception e) {
-				// System.out.println(cause(e));
-//				Throwable cause = e.getCause();
-//				if (cause instanceof PersistenceException) {
-//					Throwable cause2 = cause.getCause();
-//					// ((PersistenceException)cause) - only superclass methods
-//					if (cause2 instanceof DatabaseException) {
-//						// now this I call ugly
-//						int errorCode = ((DatabaseException) cause2)
-//							.getDatabaseErrorCode(); // no java doc in eclipse
-//						if (errorCode == 1406)
-//							throw new ValidatorException(new FacesMessage(
-//								FacesMessage.SEVERITY_ERROR, "Max 45 chars",
-//								null));
-//					}
-//				}
-//				// TODO: DEGUG
-//				throw new ValidatorException(new FacesMessage(
-//					FacesMessage.SEVERITY_ERROR, cause.getMessage(), null));
-			} finally {
+			} catch (Exception ignore) {} finally {
 				if (!usernameUnique) {
 					throw new ValidatorException(new FacesMessage(
 						FacesMessage.SEVERITY_ERROR,
 						"Username is already in use.", null));
 				}
 			}
-		}
-
-		private static String cause(Exception e) {
-			StringBuilder sb = new StringBuilder("--->\nEXCEPTION:::::MSG\n"
-				+ "=================\n");
-			for (Throwable t = e; t != null; t = t.getCause())
-				sb.append(t.getClass().getSimpleName()).append(":::::")
-					.append(t.getMessage()).append("\n");
-			sb.append("FIN\n\n");
-			return sb.toString();
 		}
 	}
 }

@@ -14,7 +14,8 @@ public class UserService {
 	@PersistenceContext
 	private EntityManager em;
 
-	public User login(String username, String password) throws NoResultException {
+	public User login(String username, String password) /*throws NoResultException*/
+	{
 		System.out.println("!!!!!PASS: " + password + " USER: " + username);
 		User u = (User) em
 			.createNativeQuery(
