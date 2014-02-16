@@ -16,7 +16,7 @@
 					<h:outputLabel for="password">Password</h:outputLabel>
 					<h:inputSecret id="password"
 						value="#{userController.user.password}" />
-					<a href="register.xhtml">Register</a>
+					<h:link outcome="/register.xhtml">Register</h:link>
 					<h:commandButton value="Login" action="#{userController.login}" />
 				</h:panelGrid>
 			</h:form>
