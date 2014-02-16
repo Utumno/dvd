@@ -35,6 +35,14 @@ public class MoviesHasCrew implements Serializable {
 
 	public MoviesHasCrew() {}
 
+	@Override
+	public String toString() {
+		return "MoviesHasCrewPK: " + id;
+	}
+
+	// =========================================================================
+	// Getters Setters
+	// =========================================================================
 	public MoviesHasCrewPK getId() {
 		return this.id;
 	}

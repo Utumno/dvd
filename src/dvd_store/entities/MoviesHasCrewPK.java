@@ -46,6 +46,7 @@ public class MoviesHasCrewPK implements Serializable {
 		this.rolesIdrole = rolesIdrole;
 	}
 
+	@Override
 	public boolean equals(Object other) {
 		if (this == other) {
 			return true;
@@ -59,6 +60,7 @@ public class MoviesHasCrewPK implements Serializable {
 			&& (this.rolesIdrole == castOther.rolesIdrole);
 	}
 
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;

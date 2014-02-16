@@ -44,17 +44,6 @@ public class Crew implements Serializable {
 		this.name = name;
 	}
 
-	@Override
-	public int hashCode() {
-		return 31 + getIdcrew();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return (this == obj)
-			|| (obj instanceof Crew && getIdcrew() != ((Crew) obj).getIdcrew());
-	}
-
 	public List<MoviesHasCrew> getMoviesHasCrews() {
 		return this.moviesHasCrews;
 	}
@@ -73,5 +62,19 @@ public class Crew implements Serializable {
 		getMoviesHasCrews().remove(moviesHasCrew);
 		moviesHasCrew.setCrew(null);
 		return moviesHasCrew;
+	}
+
+	// =========================================================================
+	// Equals, hashCode
+	// =========================================================================
+	@Override
+	public int hashCode() {
+		return 31 + getIdcrew();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return (this == obj)
+			|| (obj instanceof Crew && getIdcrew() != ((Crew) obj).getIdcrew());
 	}
 }

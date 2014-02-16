@@ -49,6 +49,7 @@ public class Movie implements Serializable {
 	private Rating rating;
 	@NotNull(message = "Please enter the title of the movie")
 	@Size(max = 200, message = "Max 200 chars")
+	// TITLE
 	private String title;
 	// YEAR
 	private static final short MIN_YEAR = 1901;
@@ -68,6 +69,9 @@ public class Movie implements Serializable {
 	@Min(value = 1901, message = MIN_MSG)
 	@Max(value = 2014, message = MAX_MSG)
 	private short yearOfRelease = 2014; // Short to avoid seeing value in form
+	// =========================================================================
+	// Associations
+	// =========================================================================
 	// bi-directional many-to-many association to Category
 	@ManyToMany
 	@JoinTable(name = "movies_has_categories", joinColumns = { @JoinColumn(
@@ -83,6 +87,9 @@ public class Movie implements Serializable {
 
 	public Movie() {}
 
+	// =========================================================================
+	// Getters Setters - Movie
+	// =========================================================================
 	public int getIdmovie() {
 		return this.idmovie;
 	}
@@ -143,6 +150,9 @@ public class Movie implements Serializable {
 		return this.categories;
 	}
 
+	// =========================================================================
+	// Getters Setters Associations
+	// =========================================================================
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
 	}
@@ -187,6 +197,9 @@ public class Movie implements Serializable {
 		return ordersHasMovy;
 	}
 
+	// =========================================================================
+	// Helpers
+	// =========================================================================
 	public static enum Rating {
 		G("G"), NC_17("NC-17"), R("R"), PG("PG"), PG_13(
 				"PG-13");
