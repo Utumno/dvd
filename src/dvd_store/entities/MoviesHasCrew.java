@@ -4,8 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -20,17 +23,22 @@ public class MoviesHasCrew implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@EmbeddedId
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private MoviesHasCrewPK id;
 	// bi-directional many-to-one association to Crew
 	@ManyToOne
+	@JoinColumn(name = "crew_idcrew", columnDefinition = "idcrew")
+	@MapsId("crewIdcrew")
 	private Crew crew;
 	// bi-directional many-to-one association to Movy
 	@ManyToOne
 	@JoinColumn(name = "movies_idmovie")
+	@MapsId("moviesIdmovie")
 	private Movie movy;
 	// bi-directional many-to-one association to Role
 	@ManyToOne
 	@JoinColumn(name = "roles_idrole")
+	@MapsId("rolesIdrole")
 	private Role role;
 
 	public MoviesHasCrew() {}

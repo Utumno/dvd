@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -79,7 +80,7 @@ public class Movie implements Serializable {
 			name = "categories_idcategory") })
 	private List<Category> categories;
 	// bi-directional many-to-one association to MoviesHasCrew
-	@OneToMany(mappedBy = "movy")
+	@OneToMany(mappedBy = "movy", cascade = CascadeType.PERSIST)
 	private List<MoviesHasCrew> moviesHasCrews;
 	// bi-directional many-to-one association to OrdersHasMovy
 	@OneToMany(mappedBy = "movy")

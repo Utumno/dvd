@@ -26,6 +26,12 @@ public class Role implements Serializable {
 	// bi-directional many-to-one association to MoviesHasCrew
 	@OneToMany(mappedBy = "role")
 	private List<MoviesHasCrew> moviesHasCrews;
+	public static Role DEFAUT_ROLE;
+	static {
+		DEFAUT_ROLE = new Role();
+		DEFAUT_ROLE.idrole = 5;
+		DEFAUT_ROLE.roleName = "Actor";
+	}
 
 	public Role() {}
 

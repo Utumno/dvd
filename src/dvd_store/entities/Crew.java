@@ -3,7 +3,10 @@ package dvd_store.entities;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -19,11 +22,12 @@ public class Crew implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idcrew;
 	@NotNull(message = "Please provide a name")
 	private String name;
 	// bi-directional many-to-one association to MoviesHasCrew
-	@OneToMany(mappedBy = "crew")
+	@OneToMany(mappedBy = "crew", cascade = CascadeType.PERSIST)
 	private List<MoviesHasCrew> moviesHasCrews;
 
 	public Crew() {}

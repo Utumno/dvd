@@ -7,6 +7,8 @@ import javax.persistence.Query;
 
 import dvd_store.entities.Crew;
 import dvd_store.entities.Movie;
+import dvd_store.entities.MoviesHasCrew;
+import dvd_store.entities.Role;
 
 @Stateless
 public class MovieService {
@@ -44,11 +46,21 @@ public class MovieService {
 
 	public void addCrew(Movie m, Crew w) {
 		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		System.out.println("movie :" + m);
+//		System.out.println("movie :" + m.getIdmovie());
+//		em.persist(m);
+//		em.persist(Role.DEFAUT_ROLE);
+		// System.out.println("crew :" + w.getIdcrew()); // 1
+		// em.persist(w); // no diff
+		// em.flush(); // no diff
+		MoviesHasCrew moviesHasCrew = new MoviesHasCrew();
+		moviesHasCrew.setCrew(w);
+		moviesHasCrew.setMovy(m);
+		moviesHasCrew.setRole(Role.DEFAUT_ROLE);
+		em.persist(moviesHasCrew);
 		// List<Crew> crews = m.getCrew();
 		// if (crews == null) crews = new ArrayList<>();
 		// crews.add(w);
-		em.merge(m);
+		// em.merge(m);
 	}
 
 	public boolean isTitleUnique(String title) {
