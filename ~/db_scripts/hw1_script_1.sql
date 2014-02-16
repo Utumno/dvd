@@ -131,7 +131,8 @@ SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`crew` (
   `idcrew` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(100) NOT NULL ,
-  PRIMARY KEY (`idcrew`) )
+  PRIMARY KEY (`idcrew`) ,
+  UNIQUE INDEX `IDX_NAME` (`name` ASC) )
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -332,6 +333,12 @@ SHOW WARNINGS;
 -- Placeholder table for view `hw1_db_1`.`directors_and_movies_view`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `hw1_db_1`.`directors_and_movies_view` (`movies_idmovie` INT, `idcrew` INT, `name` INT);
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Placeholder table for view `hw1_db_1`.`sales_view`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `hw1_db_1`.`sales_view` (`movies_idmovie` INT, `COUNT(orders_idorder)` INT);
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
@@ -603,6 +610,21 @@ CREATE  OR REPLACE VIEW `hw1_db_1`.`directors_and_movies_view` AS
 ;
 SHOW WARNINGS;
 
+-- -----------------------------------------------------
+-- View `hw1_db_1`.`sales_view`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `hw1_db_1`.`sales_view` ;
+SHOW WARNINGS;
+DROP TABLE IF EXISTS `hw1_db_1`.`sales_view`;
+SHOW WARNINGS;
+USE `hw1_db_1`;
+CREATE  OR REPLACE VIEW `hw1_db_1`.`sales_view` AS
+	SELECT movies_idmovie, COUNT(orders_idorder)
+	FROM orders_has_movies
+	GROUP BY movies_idmovie;
+;
+SHOW WARNINGS;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
@@ -614,6 +636,16 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 START TRANSACTION;
 USE `hw1_db_1`;
 INSERT INTO `hw1_db_1`.`users` (`iduser`, `username`, `password`, `name`, `surname`, `email`, `birthdate`, `phone_number`) VALUES (1, 'adminius', 'Chmod777', 'admin', 'admirablus', 'admin@admin.com', '2012-12-12', 6969696969);
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `hw1_db_1`.`movies`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `hw1_db_1`;
+INSERT INTO `hw1_db_1`.`movies` (`idmovie`, `title`, `year_of_release`, `rating`, `number_of_copies`, `price`, `available`) VALUES (1, 'movie1', 1901, 'G', 1, 1, 1);
+INSERT INTO `hw1_db_1`.`movies` (`idmovie`, `title`, `year_of_release`, `rating`, `number_of_copies`, `price`, `available`) VALUES (2, 'movie2', 1901, 'G', 1234, 5, 1234);
 
 COMMIT;
 
