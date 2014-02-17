@@ -23,7 +23,10 @@
 			</h:selectOneListbox>
 			<h:message id="crewMemberMessage" for="crewMember" />
 		</h:panelGrid>
-		<h:commandButton value="Add" action="#{movieController.addCrewMember}" />
+			<h:commandButton value="Add"
+				action="#{movieController.addCrewMember}">
+				<f:ajax execute="@form" render="@form :movie_crew" />
+			</h:commandButton>
 		</h:form>
 		<h:link value="Back Home" outcome="/index" />
 	</ui:define>
