@@ -94,7 +94,7 @@ public class MovieController implements Serializable {
 			System.out.println("Hola: movie id: " + movie.getIdmovie());
 		}
 		service.addCrew(movie, crewMember);
-		return "admin/add_movie_crew.xhtml?id=" + movie.getIdmovie();
+		return null; // stay in the same view
 	}
 
 	@ManagedBean
