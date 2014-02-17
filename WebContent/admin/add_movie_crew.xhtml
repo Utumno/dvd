@@ -11,18 +11,17 @@
 			- Movie Crew
 		</h1>
 		<!-- <h:messages /> -->
-		<h:form id="movie_crew_form"
-			rendered="#{movieController.movie  != null}" >
-		<h:panelGrid columns="2">
-			<h:selectOneListbox id="crewMember" redisplay="true" size="8"
-				value="#{movieController.crewMember}"
-				converter="#{movieController$CrewConverter}">
-				<f:selectItems value="#{movieController.allCrew}" var="entry"
-					itemValue="#{entry}" itemLabel="#{entry.name}" />
-				<f:ajax event="blur" render="crewMemberMessage" />
-			</h:selectOneListbox>
-			<h:message id="crewMemberMessage" for="crewMember" />
-		</h:panelGrid>
+		<h:form id="movie_add_crew_form" rendered="#{sessionScope.movie != null}">
+			<h:panelGrid columns="2">
+				<h:selectOneListbox id="crewMember" redisplay="true" size="8"
+					value="#{movieController.crewMember}"
+					converter="#{movieController$CrewConverter}">
+					<f:selectItems value="#{movieController.allCrew}" var="entry"
+						itemValue="#{entry}" itemLabel="#{entry.name}" />
+					<f:ajax event="blur" render="crewMemberMessage" />
+				</h:selectOneListbox>
+				<h:message id="crewMemberMessage" for="crewMember" />
+			</h:panelGrid>
 			<h:commandButton value="Add"
 				action="#{movieController.addCrewMember}">
 				<f:ajax execute="@form" render="@form :movie_crew" />
