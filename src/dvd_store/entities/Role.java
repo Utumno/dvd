@@ -70,4 +70,9 @@ public class Role implements Serializable {
 		moviesHasCrew.setRole(null);
 		return moviesHasCrew;
 	}
+
+	@Override
+	public String toString() {
+		return /* "Role [roleName=" + */roleName /* + "]" */;
+	}
 }

@@ -57,6 +57,8 @@ public class MovieService {
 		moviesHasCrew.setMovy(m);
 		moviesHasCrew.setRole(Role.DEFAUT_ROLE);
 		em.persist(moviesHasCrew);
+		m.addMoviesHasCrew(moviesHasCrew);
+		// em.merge(m);
 		// List<Crew> crews = m.getCrew();
 		// if (crews == null) crews = new ArrayList<>();
 		// crews.add(w);

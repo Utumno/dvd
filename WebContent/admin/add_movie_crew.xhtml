@@ -10,6 +10,23 @@
 			<h:outputText value="#{text['dvd_store.name']}" />
 			- Movie Crew
 		</h1>
+		<!-- <h:outputText value="#{sessionScope.movie.moviesHasCrews}" /> -->
+		<h:panelGroup id="movie_crew">
+		<h:form id="movie_crew_form" rendered="#{sessionScope.movie != null and (not empty sessionScope.movie.moviesHasCrews)}">
+			<h:dataTable id="movie_crew_table" value="#{sessionScope.movie.moviesHasCrews}" var="item"
+				bgcolor="#F1F1F1" border="10" cellspacing="2" width="60%"
+				rules="all">
+				<f:facet name="header">
+					<h:outputText value="Movie Crew" />
+				</f:facet>
+				<h:column>
+					<f:facet name="header">Name</f:facet>#{item.crew.name}</h:column>
+				<h:column>
+					<f:facet name="header">Role</f:facet>#{item.role}</h:column>
+				<!--  <h:column><h:commandButton value="edit" action="#{bean.edit}" /></h:column>
+                <h:column><h:commandButton value="delete" action="#{bean.delete}" /></h:column> -->
+			</h:dataTable>
+		</h:form><br/><br/></h:panelGroup>
 		<!-- <h:messages /> -->
 		<h:form id="movie_add_crew_form" rendered="#{sessionScope.movie != null}">
 			<h:panelGrid columns="2">
