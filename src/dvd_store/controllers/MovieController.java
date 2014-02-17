@@ -16,8 +16,10 @@ import javax.faces.convert.ConverterException;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
+import dvd_store.entities.Category;
 import dvd_store.entities.Crew;
 import dvd_store.entities.Movie;
+import dvd_store.service.CategoriesService;
 import dvd_store.service.CrewService;
 import dvd_store.service.MovieService;
 
@@ -34,6 +36,8 @@ public class MovieController implements Serializable {
 	private MovieService service;
 	@EJB
 	private CrewService cs;
+	@EJB
+	private CategoriesService cats;
 	private Crew crewMember;
 	private List<Crew> allCrew; // FIXME ! LAZY LOAD
 
@@ -76,6 +80,10 @@ public class MovieController implements Serializable {
 
 	public List<Crew> getAllCrew() {
 		return allCrew;
+	}
+
+	public List<Category> getAllCategories() {
+		return cats.all();
 	}
 
 	public String addCrewMember() {
@@ -148,6 +156,39 @@ public class MovieController implements Serializable {
 			}
 			throw new ConverterException(new FacesMessage(String.format(
 				"Cannot convert %s to Crew", value)));
+		}
+	}
+
+	@ManagedBean
+	@ViewScoped
+	public static class CategoryConverter implements Converter {
+
+		@EJB
+		private CategoriesService cats;
+
+		@Override
+		public String getAsString(FacesContext context, UIComponent component,
+				Object value) {
+			return (value instanceof Category) ? ((Category) value).getName()
+					: null;
+		}
+
+		@Override
+		public Object getAsObject(FacesContext context, UIComponent component,
+				String value) {
+			if (value == null) {
+				return null;
+			}
+			System.out.println("value : " + value);
+			List<Category> categories = cats.all();
+			for (Category crew : categories) {
+				if (crew.getName().equals(value)) {
+					System.out.println("value found: " + value);
+					return crew;
+				}
+			}
+			throw new ConverterException(new FacesMessage(String.format(
+				"Cannot convert %s to Category", value)));
 		}
 	}
 }

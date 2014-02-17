@@ -51,6 +51,17 @@
 					<f:ajax event="blur" render="priceMessage" />
 				</h:inputText>
 				<h:message id="priceMessage" for="price" />
+
+				<h:outputLabel for="category">Category</h:outputLabel>
+				<h:selectManyCheckbox id="category" redisplay="true"
+					value="#{movieController.movie.categories}" size="8"
+					converter="#{movieController$CategoryConverter}">
+					<f:selectItems value="#{movieController.allCategories}" var="entry"
+						itemValue="#{entry}" itemLabel="#{entry.name}" />
+					<f:ajax event="blur" render="categoryMessage" />
+				</h:selectManyCheckbox >
+				<h:message id="categoryMessage" for="category" />
+
 				<h:panelGroup />
 				<h:commandButton value="Add Movie" action="#{movieController.add}">
 					<f:ajax execute="@form" render="@form" />
