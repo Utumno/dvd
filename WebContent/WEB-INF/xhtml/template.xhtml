@@ -14,7 +14,8 @@
 			<ui:include src="header.xhtml"></ui:include>
 		</ui:insert>
 		<div id="menu" style="clear: both">
-		<h:link value="Home"  outcome="/index.xhtml" />
+			<h:link value="Home "  outcome="/index.xhtml" />
+			<h:link value="Browse Movies "  outcome="/movies.xhtml" />
 			<h:link value="Add Movie" rendered="#{sessionScope.user.admin}" outcome="/admin/add_movie.xhtml" />
 		</div>
 		<div id="content" style="clear: both; display: inline-block">

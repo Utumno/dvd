@@ -48,11 +48,9 @@ public class UserService {
 		// query.setParameter(++i, u.getBirthdate());
 		// query.setParameter(++i, u.getPhoneNumber());
 		// // System.out.println(query);
-		// TODO : transactions, sql injection
 		em.persist(u);
 		System.out.println("USER id: " + u.getIduser());
-		// em.flush(); // not needed - called on exit - maybe I have a
-		// transaction after all
+		// em.flush(); // not needed - called on exit
 		// int id = (int) query.getSingleResult();
 		// // System.err.println("IDDDDD : " + id);
 		// if (id != 0) u.setIduser(id);

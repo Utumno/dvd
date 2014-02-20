@@ -1,0 +1,44 @@
+<ui:composition template="/WEB-INF/xhtml/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:define name="title">Search Movies - <h:outputText
+			value="#{text['dvd_store.name']}" />
+	</ui:define>
+	<ui:define name="content">
+		<h1 style="text-align: center">Search Movies</h1>
+		<h:form>
+			<h:panelGrid columns="4">
+				<h:outputLabel for="username">Browse by: </h:outputLabel>
+				<h:selectOneListbox id="browseBy" redisplay="true" size="3"
+					value="#{searchMovieController.type}">
+					<f:selectItems value="#{searchMovieController.browseBy}"
+						var="entry" itemValue="#{entry}" itemLabel="#{entry}" />
+					<f:ajax event="change" render="query" />
+				</h:selectOneListbox>
+				<!-- <h:message id="browseByMessage" for="browseBy" /> -->
+				<h:panelGroup id="query">
+					<h:inputText value="#{searchMovieController.query}" required="true"
+						rendered="#{searchMovieController.type ne 'Category'}" />
+					<h:selectOneListbox redisplay="true"
+					value="#{searchMovieController.query}" required="true"
+						rendered="#{searchMovieController.type eq 'Category'}" size="4"
+					converter="#{movieController$CategoryConverter}">
+					<f:selectItems value="#{movieController.allCategories}" var="entry"
+						itemValue="#{entry}" itemLabel="#{entry.name}" />
+				</h:selectOneListbox >
+				</h:panelGroup>
+			</h:panelGrid>
+			<h:commandButton value="Browse" action="#{searchMovieController.search}" />
+			<h:messages />
+		</h:form>
+		<!-- <h:dataTable value="#{bean.users}" var="user"
+			rendered="#{not empty bean.users}">
+			<h:column>#{user.username}</h:column>
+			<h:column>#{user.jobposition}</h:column>
+		</h:dataTable>
+		<h:outputText value="No matches found!"
+			rendered="#{not empty bean.query and empty bean.users}" /> -->
+	</ui:define>
+</ui:composition>
