@@ -13,4 +13,7 @@
 			<var>text</var>
 		</resource-bundle>
 	</application>
+	<factory>
+		<exception-handler-factory>dvd_store.faces.exceptions.ViewExpiredExceptionExceptionHandlerFactory</exception-handler-factory>
+	</factory>
 </faces-config>
