@@ -20,9 +20,11 @@
 				<!-- <h:message id="browseByMessage" for="browseBy" /> -->
 				<h:panelGroup id="query">
 					<h:inputText value="#{searchMovieController.query}" required="true"
+						requiredMessage="Please enter a search term"
 						rendered="#{searchMovieController.type ne 'Category'}" />
 					<h:selectOneListbox redisplay="true"
 						value="#{searchMovieController.query}" required="true"
+						requiredMessage="Please enter a Category"
 						rendered="#{searchMovieController.type eq 'Category'}" size="4"
 						converter="#{movieController$CategoryConverter}">
 						<f:selectItems value="#{movieController.allCategories}"
@@ -35,12 +37,21 @@
 				<!-- TODO ajax ?? -->
 			<h:messages />
 		</h:form>
-		<!-- <h:dataTable value="#{bean.users}" var="user"
-			rendered="#{not empty bean.users}">
-			<h:column>#{user.username}</h:column>
-			<h:column>#{user.jobposition}</h:column>
-		</h:dataTable>
+		<h:form>
+			<h:dataTable value="#{searchMovieController.searchResults}"
+				var="searchResult"
+				rendered="#{not empty searchMovieController.searchResults}">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Title" />
+					</f:facet>
+					<h:link value="View details of #{searchResult.title}" outcome="/movie">
+						<f:param name="id" value="#{searchResult.idmovie}" />
+					</h:link>
+				</h:column>
+			</h:dataTable>
+		</h:form>
 		<h:outputText value="No matches found!"
-			rendered="#{not empty bean.query and empty bean.users}" /> -->
+			rendered="#{not empty searchMovieController.query and empty searchMovieController.searchResults}" />
 	</ui:define>
 </ui:composition>

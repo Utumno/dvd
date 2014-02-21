@@ -1,21 +1,27 @@
 package dvd_store.controllers;
 
+import java.io.Serializable;
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.servlet.ServletException;
 
+import dvd_store.entities.Movie;
 import dvd_store.service.MovieService;
 
 @ManagedBean
 @ViewScoped
-public class SearchMovieController {
+public class SearchMovieController implements Serializable {
 
+	private static final long serialVersionUID = -5288482676770494491L;
 	private String query;
 	private String type = "Title";
 	private static final String[] TYPES = { "Title", "Director", "Category" };
 	@EJB
 	private MovieService ms;
+	private List<Movie> searchResults;
 
 	public String[] getBrowseBy() {
 		return TYPES;
@@ -24,11 +30,13 @@ public class SearchMovieController {
 	public String search() throws ServletException {
 		switch (type) {
 		case "Title":
-			ms.searchTitles(query);
+			setSearchResults(ms.searchTitles(query));
 			break;
 		case "Director":
+			setSearchResults(ms.searchDirector(query));
 			break;
 		case "Category":
+			setSearchResults(ms.searchCategory(query));
 			break;
 		default:
 			throw new ServletException("Invalid search type");
@@ -36,6 +44,9 @@ public class SearchMovieController {
 		return null;
 	}
 
+	// =========================================================================
+	// Getters Setters
+	// =========================================================================
 	public String getType() {
 		return type;
 	}
@@ -50,5 +61,13 @@ public class SearchMovieController {
 
 	public void setQuery(String query) {
 		this.query = query;
+	}
+
+	public List<Movie> getSearchResults() {
+		return searchResults;
+	}
+
+	public void setSearchResults(List<Movie> searchTitles) {
+		this.searchResults = searchTitles;
 	}
 }
