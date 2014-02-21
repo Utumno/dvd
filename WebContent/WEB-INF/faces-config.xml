@@ -12,6 +12,9 @@
 			<base-name>dvd_store.faces.i18n.Text</base-name>
 			<var>text</var>
 		</resource-bundle>
+		<message-bundle>
+			dvd_store.faces.i18n.ValidationMessages
+		</message-bundle>
 	</application>
 	<factory>
 		<exception-handler-factory>dvd_store.faces.exceptions.ViewExpiredExceptionExceptionHandlerFactory</exception-handler-factory>
