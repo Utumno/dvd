@@ -1,0 +1,58 @@
+<ui:composition template="/WEB-INF/xhtml/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<f:metadata>
+		<f:viewParam name="id" value="#{movieDisplayController.id}" />
+		<f:viewAction action="#{movieDisplayController.init}" />
+	</f:metadata>
+	<ui:define name="title">Search Movies - <h:outputText
+			value="#{text['dvd_store.name']}" />
+	</ui:define>
+	<ui:define name="content">
+		<h1 style="text-align: center">
+			<h:outputText
+				value="#{(movieDisplayController.movie != null) ? movieDisplayController.movie.title : text['dvd_store.name']}" />
+		</h1>
+		<h:form id="movie_form">
+			<h:panelGrid columns="2"
+				rendered="#{movieDisplayController.movie != null}">
+				<h:outputLabel for="title">Title</h:outputLabel>
+				<h:outputLabel id="title"
+					value="#{movieDisplayController.movie.title}" />
+				<h:outputLabel for="yearOfRelease">Year of release</h:outputLabel>
+				<h:outputLabel id="yearOfRelease" redisplay="true"
+					value="#{movieDisplayController.movie.yearOfRelease}" />
+				<h:outputLabel for="rating">Rating</h:outputLabel>
+				<h:outputLabel id="rating"
+					value="#{movieDisplayController.movie.rating}" />
+				<h:outputLabel for="numberOfCopies">Available copies</h:outputLabel>
+				<h:outputLabel id="numberOfCopies"
+					value="#{movieDisplayController.movie.available != 0 ? movieDisplayController.movie.available : 'Not available' }" />
+				<h:outputLabel for="price">Price</h:outputLabel>
+				<h:outputLabel id="price"
+					value="#{movieDisplayController.movie.price}" />
+				<h:outputLabel for="category">Category</h:outputLabel>
+				<h:outputLabel id="category"
+					value="#{movieDisplayController.printCategories()}" />
+				<h:panelGroup />
+				<h:panelGrid columns="3"
+					rendered="#{movieDisplayController.movie.available != 0}">
+					<h:inputText id="quantity"
+						value="#{movieDisplayController.quantity}" redisplay="true"
+						converterMessage="Please provide an integer">
+						<f:validateLongRange minimum="0"
+							maximum="#{movieDisplayController.movie.available}" />
+						<f:ajax event="blur" render="quantityMessage" />
+					</h:inputText>
+					<h:commandButton value="Add to Cart"
+						action="#{cartController.addMovie(movieDisplayController.movie, movieDisplayController.quantity)}">
+					</h:commandButton>
+					<h:message id="quantityMessage" for="quantity" />
+				</h:panelGrid>
+				<h:messages globalOnly="true" layout="table" />
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

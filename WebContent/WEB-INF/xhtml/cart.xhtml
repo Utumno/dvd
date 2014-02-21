@@ -1,0 +1,22 @@
+<ui:composition lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<!-- http://stackoverflow.com/q/114543/281545 -->
+	<div id="cart" style="clear: both; display: inline-block">
+		<f:view>
+			<div style="float: left; background-color: red;">
+				<h:form id="cart_form" rendered="#{sessionScope.user != null}">
+					<h:panelGrid columns="2">
+						<div style="float: left;">
+							<h:graphicImage library="default" name="img/cart.gif" />
+						</div>
+						<h:outputText value="#{cartController.cartMessage()}" />
+						<h:commandButton value="Checkout"
+							rendered="#{not empty cartController.cart}" />
+					</h:panelGrid>
+				</h:form>
+			</div>
+		</f:view>
+	</div>
+</ui:composition>

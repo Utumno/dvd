@@ -27,6 +27,11 @@ public class Category implements Serializable {
 
 	public Category() {}
 
+	@Override
+	public String toString() {
+		return name;
+	}
+
 	// =========================================================================
 	// Getters Setters
 	// =========================================================================
