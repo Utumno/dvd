@@ -633,8 +633,9 @@ DELIMITER $$
 USE `hw1_db_1`$$
 CREATE PROCEDURE `hw1_db_1`.`r2_browse_movies_by_category` (IN str_category VARCHAR(200))
 BEGIN
-	SELECT * FROM `hw1_db_1`.`movies`, `hw1_db_1`.`categories` AS c, `hw1_db_1`.`movies_has_categories`
-	WHERE categories_idcategory=c.idcategory AND c.name=str_category;
+	SELECT * FROM `hw1_db_1`.`movies` WHERE idmovie IN (SELECT DISTINCT movies_idmovie
+	FROM `hw1_db_1`.`categories` AS c, `hw1_db_1`.`movies_has_categories`
+	WHERE categories_idcategory=c.idcategory AND c.name=str_category);
 END
 $$
 
