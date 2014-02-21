@@ -22,15 +22,17 @@
 					<h:inputText value="#{searchMovieController.query}" required="true"
 						rendered="#{searchMovieController.type ne 'Category'}" />
 					<h:selectOneListbox redisplay="true"
-					value="#{searchMovieController.query}" required="true"
+						value="#{searchMovieController.query}" required="true"
 						rendered="#{searchMovieController.type eq 'Category'}" size="4"
-					converter="#{movieController$CategoryConverter}">
-					<f:selectItems value="#{movieController.allCategories}" var="entry"
-						itemValue="#{entry}" itemLabel="#{entry.name}" />
-				</h:selectOneListbox >
+						converter="#{movieController$CategoryConverter}">
+						<f:selectItems value="#{movieController.allCategories}"
+							var="entry" itemValue="#{entry}" itemLabel="#{entry.name}" />
+					</h:selectOneListbox>
 				</h:panelGroup>
 			</h:panelGrid>
-			<h:commandButton value="Browse" action="#{searchMovieController.search}" />
+			<h:commandButton value="Browse"
+				action="#{searchMovieController.search}" />
+				<!-- TODO ajax ?? -->
 			<h:messages />
 		</h:form>
 		<!-- <h:dataTable value="#{bean.users}" var="user"

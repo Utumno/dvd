@@ -27,6 +27,9 @@ public class Category implements Serializable {
 
 	public Category() {}
 
+	// =========================================================================
+	// Getters Setters
+	// =========================================================================
 	public int getIdcategory() {
 		return this.idcategory;
 	}

@@ -147,13 +147,13 @@ public class Movie implements Serializable {
 		this.yearOfRelease = yearOfRelease;
 	}
 
+	// =========================================================================
+	// Getters Setters Associations
+	// =========================================================================
 	public List<Category> getCategories() {
 		return this.categories;
 	}
 
-	// =========================================================================
-	// Getters Setters Associations
-	// =========================================================================
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
 	}
