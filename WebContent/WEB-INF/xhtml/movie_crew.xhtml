@@ -1,0 +1,26 @@
+<ui:composition lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:panelGroup id="movie_crew">
+		<h:form id="movie_crew_form"
+			rendered="#{sessionScope.movie != null and (not empty sessionScope.movie.moviesHasCrews)}">
+			<h:dataTable id="movie_crew_table"
+				value="#{sessionScope.movie.moviesHasCrews}" var="item"
+				bgcolor="#F1F1F1" border="10" cellspacing="2" width="60%"
+				rules="all">
+				<f:facet name="header">
+					<h:outputText value="Movie Crew" />
+				</f:facet>
+				<h:column>
+					<f:facet name="header">Name</f:facet>#{item.crew.name}</h:column>
+				<h:column>
+					<f:facet name="header">Role</f:facet>#{item.role}</h:column>
+				<!--  <h:column><h:commandButton value="edit" action="#{bean.edit}" /></h:column>
+                <h:column><h:commandButton value="delete" action="#{bean.delete}" /></h:column> -->
+			</h:dataTable>
+		</h:form>
+		<br />
+		<br />
+	</h:panelGroup>
+</ui:composition>

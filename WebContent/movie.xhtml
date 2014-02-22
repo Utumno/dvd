@@ -41,8 +41,9 @@
 					rendered="#{movieDisplayController.movie.available != 0}">
 					<h:inputText id="quantity"
 						value="#{movieDisplayController.quantity}" redisplay="true"
-						converterMessage="Please provide an integer">
-						<f:validateLongRange minimum="0"
+						converterMessage="Please provide an integer" required="true"
+						requiredMessage="Please enter a quantity">
+						<f:validateLongRange minimum="1"
 							maximum="#{movieDisplayController.movie.available}" />
 						<f:ajax event="blur" render="quantityMessage" />
 					</h:inputText>
@@ -53,6 +54,7 @@
 				</h:panelGrid>
 				<h:messages globalOnly="true" layout="table" />
 			</h:panelGrid>
+		<ui:include src="/WEB-INF/xhtml/movie_crew.xhtml"/>
 		</h:form>
 	</ui:define>
 </ui:composition>

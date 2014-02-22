@@ -21,7 +21,7 @@ public class MovieDisplayController implements Serializable {
 	private MovieService ms;
 	private Movie movie;
 	private int id;
-	private int quantity;
+	private int quantity = 1;
 
 	public void init() {
 		// TODO: do not query the DB if coming from search results
@@ -41,6 +41,8 @@ public class MovieDisplayController implements Serializable {
 		// hack to load the categories TODO
 		// see: https://community.oracle.com/thread/173733
 		movie.getCategories().size();
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+			.put("movie", movie);
 	}
 
 	public String printCategories() {
