@@ -7,10 +7,9 @@
 		<f:view>
 			<div style="float: left; background-color: red;">
 				<h:form id="cart_form" rendered="#{sessionScope.user != null}">
-					<h:panelGrid columns="2">
-						<div style="float: left;">
-							<h:graphicImage library="default" name="img/cart.gif" />
-						</div>
+					<h:panelGrid columns="3">
+						<h:graphicImage style="float: left;" library="default"
+							name="img/cart.gif" />
 						<h:outputText value="#{cartController.cartMessage()}" />
 						<h:commandButton value="Checkout"
 							rendered="#{not empty cartController.cart}" />

@@ -89,8 +89,7 @@ public class MovieController implements Serializable {
 	public String addCrewMember() {
 		if (movie.getIdmovie() == 0) {
 			movie = (Movie) FacesContext.getCurrentInstance()
-				.getExternalContext()
-				.getSessionMap().get("movie");
+				.getExternalContext().getSessionMap().get("movie");
 			System.out.println("Hola: movie id: " + movie.getIdmovie());
 		}
 		service.addCrew(movie, crewMember);

@@ -29,7 +29,7 @@ public class CartController implements Serializable {
 	private int items;
 	private BigDecimal amount = new BigDecimal(0);
 
-	public String addMovie(Movie movie, Integer quantity) {
+	public String addMovieToCart(Movie movie, Integer quantity) {
 		Integer ordered = cart.get(movie); // TODO: availability - events ?
 		if (ordered != null) {
 			ordered += quantity;
@@ -45,7 +45,7 @@ public class CartController implements Serializable {
 		if (cart.isEmpty()) {
 			return "Your cart is empty";
 		}
-		return "You have " + items + " in your cart worth $" + amount;
+		return "You have " + items + " items in your cart worth $" + amount;
 	}
 
 	// =========================================================================

@@ -55,25 +55,6 @@ public class MovieDisplayController implements Serializable {
 		return sb.toString();
 	}
 
-	// @ManagedBean
-	// @RequestScoped
-	// public static class QuantityValidator implements Validator {
-	//
-	// // TODO use a Validator not a bean
-	//
-	// @Override
-	// public void validate(FacesContext context, UIComponent component,
-	// Object value) throws ValidatorException {
-	// if (value == null) return; // Let required="true" handle, if any.
-	// boolean usernameUnique = false;
-	//
-	// if (Integer.valueOf((String) value) > ) {
-	// throw new ValidatorException(new FacesMessage(
-	// FacesMessage.SEVERITY_ERROR,
-	// "Username is already in use.", null));
-	// }
-	// }
-	// }
 	// =========================================================================
 	// Getters Setters
 	// =========================================================================
