@@ -25,10 +25,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- * The persistent class for the movies database table.
- *
- */
+import org.hibernate.validator.constraints.NotEmpty;
+
+/** The persistent class for the movies database table. */
 @Entity
 @Table(name = "movies")
 @NamedQuery(name = "Movie.findAll", query = "SELECT m FROM Movie m")
@@ -78,6 +77,7 @@ public class Movie implements Serializable {
 	@JoinTable(name = "movies_has_categories", joinColumns = { @JoinColumn(
 			name = "movies_idmovie") }, inverseJoinColumns = { @JoinColumn(
 			name = "categories_idcategory") })
+	@NotEmpty(message = "Please enter categories for the movie")
 	private List<Category> categories;
 	// bi-directional many-to-one association to MoviesHasCrew
 	@OneToMany(mappedBy = "movy", cascade = CascadeType.PERSIST)
