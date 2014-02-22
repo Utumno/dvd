@@ -28,7 +28,7 @@ public class MovieService {
 		return m;
 	}
 
-	public void addCrew(Movie m, Crew w) {
+	public void addCrew(Movie m, Crew w, Role role) {
 		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		// System.out.println("movie :" + m.getIdmovie());
 		// em.persist(m);
@@ -39,7 +39,7 @@ public class MovieService {
 		MoviesHasCrew moviesHasCrew = new MoviesHasCrew();
 		moviesHasCrew.setCrew(w);
 		moviesHasCrew.setMovy(m);
-		moviesHasCrew.setRole(Role.DEFAUT_ROLE);
+		moviesHasCrew.setRole(role);
 		em.persist(moviesHasCrew);
 		m.addMoviesHasCrew(moviesHasCrew);
 		// em.merge(m);

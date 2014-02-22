@@ -1,7 +1,11 @@
 package dvd_store.controllers;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -19,9 +23,11 @@ import javax.faces.validator.ValidatorException;
 import dvd_store.entities.Category;
 import dvd_store.entities.Crew;
 import dvd_store.entities.Movie;
+import dvd_store.entities.Role;
 import dvd_store.service.CategoriesService;
 import dvd_store.service.CrewService;
 import dvd_store.service.MovieService;
+import dvd_store.service.RolesService;
 
 @ManagedBean
 @ViewScoped
@@ -38,8 +44,13 @@ public class MovieController implements Serializable {
 	private CrewService cs;
 	@EJB
 	private CategoriesService cats;
+	@EJB
+	private RolesService rs;
 	private Crew crewMember;
+	private Role role;
 	private List<Crew> allCrew; // FIXME ! LAZY LOAD
+	private List<Role> allRoles;
+	private Map<Crew, Set<Role>> movieCrew;
 
 	public void setCrewMember(Crew crewMember) {
 		this.crewMember = crewMember;
@@ -57,7 +68,9 @@ public class MovieController implements Serializable {
 	void init() {
 		// http://stackoverflow.com/questions/3406555/why-use-postconstruct
 		movie = new Movie();
-		allCrew = cs.allCrew();
+		movieCrew = new HashMap<>();
+		allCrew = cs.allCrew(); // FIXME ! LAZY LOAD
+		allRoles = rs.all();
 	}
 
 	public String add() {
@@ -82,6 +95,10 @@ public class MovieController implements Serializable {
 		return allCrew;
 	}
 
+	public List<Role> getAllRoles() {
+		return allRoles;
+	}
+
 	public List<Category> getAllCategories() {
 		return cats.all();
 	}
@@ -92,10 +109,38 @@ public class MovieController implements Serializable {
 				.getExternalContext().getSessionMap().get("movie");
 			System.out.println("Hola: movie id: " + movie.getIdmovie());
 		}
-		service.addCrew(movie, crewMember);
+		Set<Role> set = movieCrew.get(crewMember);
+		if (set != null && set.contains(role)) {
+			throw new ValidatorException(new FacesMessage(
+				FacesMessage.SEVERITY_ERROR, crewMember.getName()
+					+ " has this role (" + role.getRoleName()
+					+ ") in this movie", null));
+		} else if (set == null) {
+			set = new HashSet<>();
+		}
+		set.add(role);
+		movieCrew.put(crewMember, set);
+		service.addCrew(movie, crewMember, role);
 		return null; // stay in the same view
 	}
 
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	// @ManagedBean
+	// @RequestScoped
+	// public static class RoleValidator implements Validator {
+	//
+	// // TODO use a Validator (no injection) MULTIPLE FIELD VALIDATOR
+	// @Override
+	// public void validate(FacesContext context, UIComponent component,
+	// Object value) throws ValidatorException {}
+	// }
 	@ManagedBean
 	@RequestScoped
 	public static class UniqueTitleValidator implements Validator {
@@ -188,6 +233,39 @@ public class MovieController implements Serializable {
 			}
 			throw new ConverterException(new FacesMessage(String.format(
 				"Cannot convert %s to Category", value)));
+		}
+	}
+
+	@ManagedBean
+	@ViewScoped
+	public static class RolesConverter implements Converter {
+
+		@EJB
+		private RolesService rs;
+
+		@Override
+		public String getAsString(FacesContext context, UIComponent component,
+				Object value) {
+			return (value instanceof Role) ? ((Role) value).getRoleName()
+					: null;
+		}
+
+		@Override
+		public Object getAsObject(FacesContext context, UIComponent component,
+				String value) {
+			if (value == null) {
+				return null;
+			}
+			System.out.println("value : " + value);
+			List<Role> roles = rs.all();
+			for (Role role : roles) {
+				if (role.getRoleName().equals(value)) {
+					System.out.println("value found: " + value);
+					return role;
+				}
+			}
+			throw new ConverterException(new FacesMessage(String.format(
+				"Cannot convert %s to Role", value)));
 		}
 	}
 }

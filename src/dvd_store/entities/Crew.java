@@ -79,6 +79,6 @@ public class Crew implements Serializable {
 	@Override
 	public boolean equals(Object obj) {
 		return (this == obj)
-			|| (obj instanceof Crew && getIdcrew() != ((Crew) obj).getIdcrew());
+			|| (obj instanceof Crew && getIdcrew() == ((Crew) obj).getIdcrew());
 	}
 }

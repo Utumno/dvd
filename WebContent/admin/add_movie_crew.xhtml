@@ -28,16 +28,27 @@
 			</h:dataTable>
 		</h:form><br/><br/></h:panelGroup>
 		<!-- <h:messages /> -->
-		<h:form id="movie_add_crew_form" rendered="#{sessionScope.movie != null}">
-			<h:panelGrid columns="2">
+		<h:form id="movie_add_crew_form"
+			rendered="#{sessionScope.movie != null}">
+			<h:panelGrid columns="4">
 				<h:selectOneListbox id="crewMember" redisplay="true" size="8"
 					value="#{movieController.crewMember}"
-					converter="#{movieController$CrewConverter}">
+					converter="#{movieController$CrewConverter}" required="true"
+					requiredMessage="Please choose member of crew">
 					<f:selectItems value="#{movieController.allCrew}" var="entry"
 						itemValue="#{entry}" itemLabel="#{entry.name}" />
 					<f:ajax event="blur" render="crewMemberMessage" />
 				</h:selectOneListbox>
+				<h:selectOneListbox id="role" redisplay="true" size="5"
+					value="#{movieController.role}"
+					converter="#{movieController$RolesConverter}" required="true"
+					requiredMessage="Please choose a role">
+					<f:selectItems value="#{movieController.allRoles}" var="entry"
+						itemValue="#{entry}" itemLabel="#{entry.roleName}" />
+					<f:ajax event="blur" render="roleMessage" />
+				</h:selectOneListbox>
 				<h:message id="crewMemberMessage" for="crewMember" />
+				<h:message id="roleMessage" for="role" />
 			</h:panelGrid>
 			<h:commandButton value="Add"
 				action="#{movieController.addCrewMember}">
