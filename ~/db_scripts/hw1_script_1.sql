@@ -343,6 +343,18 @@ CREATE TABLE IF NOT EXISTS `hw1_db_1`.`sales_view` (`movies_idmovie` INT, `COUNT
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
+-- Placeholder table for view `hw1_db_1`.`directors`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `hw1_db_1`.`directors` (`idmovie` INT, `name` INT);
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Placeholder table for view `hw1_db_1`.`actors`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `hw1_db_1`.`actors` (`idmovie` INT, `name` INT);
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
 -- function r1_check_unique_username
 -- -----------------------------------------------------
 
@@ -515,27 +527,77 @@ DELIMITER ;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- procedure r6_search
+-- procedure r6_advanced_search
 -- -----------------------------------------------------
 
 USE `hw1_db_1`;
-DROP procedure IF EXISTS `hw1_db_1`.`r6_search`;
+DROP procedure IF EXISTS `hw1_db_1`.`r6_advanced_search`;
 SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-CREATE PROCEDURE `hw1_db_1`.`r6_search` (
-				IN str_actors VARCHAR(2000))
+CREATE PROCEDURE `hw1_db_1`.`r6_advanced_search` (IN sort_type INT, IN actors VARCHAR(1000),
+	IN director VARCHAR(100),
+	IN title_words VARCHAR(100),
+	IN irating ENUM('G','PG','PG_13','R','NC_17'))
 BEGIN
-    DECLARE idx INTEGER DEFAULT 1;
-    Declare tok VARCHAR(100);
-	WHILE idx < splitter_count(str_actors, ',') do
-       set tok = substr_index(substr_index(str_actors, ',', i), ',', -1);
-	   select * from crew where name=tok;
-       set idx = idx+1;
-    END WHILE;
-END
-$$
+DECLARE dir VARCHAR(1000) DEFAULT "";
+DECLARE act VARCHAR(1000) DEFAULT "";
+DECLARE wrds VARCHAR(1000) DEFAULT "";
+
+IF(director != '') THEN
+  CALL r6_1(director, @id);
+  SELECT @id INTO dir;
+ELSE
+  SET dir = '';
+END IF;
+
+IF(actors != '') THEN
+  CALL r6_2(actors, @id);
+  SELECT @id INTO act;
+END IF;
+
+IF(title_words != '') THEN
+  CALL r6_3(title_words, @id);
+  SELECT @id INTO wrds;
+END IF;
+
+IF sort_type=0 THEN
+   SELECT idmovie, title, year_of_release,
+          number_of_copies, rating, price, available
+   FROM movies
+   WHERE
+        IF(irating ='',true, rating=irating) AND
+        IF(director = '', true, FIND_IN_SET(idmovie, dir))
+        AND IF(actors = '', true, FIND_IN_SET(idmovie, act))
+        AND IF(title_words = '', true, FIND_IN_SET(idmovie, wrds))
+   ORDER BY year_of_release;
+ELSEIF sort_type = 1 THEN
+  SELECT idmovie, title,year_of_release,
+         number_of_copies, rating, price, available
+  FROM movies
+  WHERE
+       IF(irating ='',true, rating=irating) AND
+       IF(director = '', true, FIND_IN_SET(idmovie, dir))
+       AND IF(actors = '', true, FIND_IN_SET(idmovie, act))
+       AND IF(title_words = '', true, FIND_IN_SET(idmovie, wrds))
+  ORDER BY title;
+ELSE
+  SELECT DISTINCT idmovie, title,year_of_release, number_of_copies,
+       rating, price, available, name
+  FROM movies,crew,roles,movies_has_crew
+  WHERE
+      crew_idcrew = idcrew
+      AND roles_idrole = idrole
+      AND movies_idmovie = idmovie
+      AND role_name='Director'
+      AND IF(irating ='',true, rating=irating)
+      AND IF(director = '', true, FIND_IN_SET(idmovie, dir))
+      AND IF(actors = '', true, FIND_IN_SET(idmovie, act))
+      AND IF(title_words = '', true, FIND_IN_SET(idmovie, wrds))
+  ORDER BY name;
+END IF;
+END$$
 
 DELIMITER ;
 SHOW WARNINGS;
@@ -612,9 +674,10 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
+#a b c   a|b|c
 CREATE PROCEDURE `hw1_db_1`.`r2_browse_movies_by_title` (IN str_title VARCHAR(200))
 BEGIN
-	SELECT * FROM `hw1_db_1`.`movies` WHERE title LIKE CONCAT('%', str_title, '%');
+	SELECT * FROM `hw1_db_1`.`movies` WHERE title RLIKE str_title;
 END
 $$
 
@@ -636,6 +699,372 @@ BEGIN
 	SELECT * FROM `hw1_db_1`.`movies` WHERE idmovie IN (SELECT DISTINCT movies_idmovie
 	FROM `hw1_db_1`.`categories` AS c, `hw1_db_1`.`movies_has_categories`
 	WHERE categories_idcategory=c.idcategory AND c.name=str_category);
+END
+$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- procedure r9_insert_credit_card
+-- -----------------------------------------------------
+
+USE `hw1_db_1`;
+DROP procedure IF EXISTS `hw1_db_1`.`r9_insert_credit_card`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `hw1_db_1`$$
+CREATE PROCEDURE `hw1_db_1`.`r9_insert_credit_card` (ccnum INT(16), cctype VARCHAR(45), istreet VARCHAR(45), icity VARCHAR(45), pc VARCHAR(10))
+BEGIN
+DECLARE id INT;
+-- START TRANSACTION; // done in Java
+
+SELECT idaddress INTO id
+  FROM addresses
+   WHERE
+         street=istreet
+         AND city=icity
+         AND postal_code=pc;
+IF id IS NULL THEN
+INSERT INTO addresses (street,city,postal_code) VALUES (istreet, icity, pc);
+END IF;
+
+SET id = LAST_INSERT_ID();
+
+INSERT IGNORE INTO credit_cards VALUES (ccnum, cctype, id);
+-- COMMIT;
+END$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- procedure r6_1
+-- -----------------------------------------------------
+
+USE `hw1_db_1`;
+DROP procedure IF EXISTS `hw1_db_1`.`r6_1`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `hw1_db_1`$$
+CREATE PROCEDURE `hw1_db_1`.`r6_1` (director VARCHAR(100), OUT idlist VARCHAR(1000))
+BEGIN
+DECLARE v_finished INTEGER DEFAULT 0;
+DECLARE v_id INT DEFAULT 0;
+DECLARE COUNT INT DEFAULT 0;
+DECLARE id_list VARCHAR(1000);
+-- declare cursor for employee email
+DEClARE idmovie_cursor CURSOR FOR
+    SELECT idmovie  FROM movies,crew,roles,movies_has_crew WHERE crew_idcrew=idcrew AND movies_idmovie=idmovie AND roles_idrole=idrole AND role_name='Director' AND name=director;
+
+DECLARE CONTINUE HANDLER
+        FOR NOT FOUND SET v_finished = 1;
+
+ OPEN idmovie_cursor;
+-- declare NOT FOUND handler
+FETCH idmovie_cursor INTO idlist;
+get_idmovie: LOOP
+   FETCH idmovie_cursor INTO v_id;
+   IF v_finished = 1 THEN
+        LEAVE get_idmovie;
+    END IF;
+    -- build email list
+    SET idlist = CONCAT(v_id,",",idlist);
+
+    SET count = count +1;
+END LOOP get_idmovie;
+#SET  idlist = id_list;
+#SELECT idmovie  FROM movies,crew,roles,movies_has_crew WHERE crew_idcrew=idcrew AND movies_idmovie=idmovie AND roles_idrole=idrole AND role_name='Director' AND name=director;
+END
+$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- procedure r6_2
+-- -----------------------------------------------------
+
+USE `hw1_db_1`;
+DROP procedure IF EXISTS `hw1_db_1`.`r6_2`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `hw1_db_1`$$
+CREATE PROCEDURE `hw1_db_1`.`r6_2` (actors VARCHAR(1000), OUT idlist VARCHAR(1000))
+BEGIN
+  DECLARE v_finished INTEGER DEFAULT 0;
+DECLARE v_id INT DEFAULT 0;
+DECLARE COUNT INT DEFAULT 0;
+DECLARE id_list VARCHAR(1000);
+-- declare cursor for employee email
+DEClARE idmovie_cursor CURSOR FOR
+SELECT idmovie
+FROM movies,crew,roles,movies_has_crew
+WHERE
+    crew_idcrew=idcrew
+    AND movies_idmovie=idmovie
+    AND roles_idrole=idrole
+    AND role_name='Actor'
+    AND FIND_IN_SET(name, actors);
+
+DECLARE CONTINUE HANDLER
+        FOR NOT FOUND SET v_finished = 1;
+
+ OPEN idmovie_cursor;
+-- declare NOT FOUND handler
+FETCH idmovie_cursor INTO idlist;
+get_idmovie: LOOP
+   FETCH idmovie_cursor INTO v_id;
+   IF v_finished = 1 THEN
+        LEAVE get_idmovie;
+    END IF;
+    SET idlist = CONCAT(v_id,",",idlist);
+
+    SET count = count +1;
+END LOOP get_idmovie;
+END
+$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- procedure r6_3
+-- -----------------------------------------------------
+
+USE `hw1_db_1`;
+DROP procedure IF EXISTS `hw1_db_1`.`r6_3`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `hw1_db_1`$$
+CREATE PROCEDURE `hw1_db_1`.`r6_3` (words VARCHAR(1000), OUT idlist VARCHAR(1000))
+BEGIN
+DECLARE v_finished INTEGER DEFAULT 0;
+DECLARE v_id INT DEFAULT 0;
+DECLARE COUNT INT DEFAULT 0;
+DECLARE id_list VARCHAR(1000);
+-- declare cursor for employee email
+DEClARE idmovie_cursor CURSOR FOR
+    SELECT idmovie
+    FROM movies
+    WHERE
+        title RLIKE words;
+
+DECLARE CONTINUE HANDLER
+        FOR NOT FOUND SET v_finished = 1;
+
+ OPEN idmovie_cursor;
+-- declare NOT FOUND handler
+FETCH idmovie_cursor INTO idlist;
+get_idmovie: LOOP
+   FETCH idmovie_cursor INTO v_id;
+   IF v_finished = 1 THEN
+        LEAVE get_idmovie;
+    END IF;
+    -- build email list
+    SET idlist = CONCAT(v_id,",",idlist);
+
+    SET count = count +1;
+END LOOP get_idmovie;
+END
+$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- procedure r7_suggestions
+-- -----------------------------------------------------
+
+USE `hw1_db_1`;
+DROP procedure IF EXISTS `hw1_db_1`.`r7_suggestions`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `hw1_db_1`$$
+CREATE PROCEDURE `hw1_db_1`.`r7_suggestions` (movieid INT, userid INT)
+BEGIN
+SELECT *
+FROM movies
+WHERE
+ idmovie IN
+(SELECT DISTINCT movies_idmovie
+FROM orders_has_movies, orders
+WHERE
+  orders_idorder = idorder
+  AND movies_idmovie != movieid
+  AND users_iduser IN
+(SELECT users_iduser
+FROM orders_has_movies, orders
+WHERE
+   orders_idorder = idorder
+   AND movies_idmovie = movieid
+   AND users_iduser != userid
+)
+GROUP BY (movies_idmovie)
+ORDER BY count(movies_idmovie) DESC #sum(quantity) DESC
+);
+END$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- procedure r10_ most_popular_movies
+-- -----------------------------------------------------
+
+USE `hw1_db_1`;
+DROP procedure IF EXISTS `hw1_db_1`.`r10_ most_popular_movies`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `hw1_db_1`$$
+CREATE PROCEDURE `hw1_db_1`.`r10_ most_popular_movies` (m INT)
+BEGIN
+SELECT DISTINCT movies_idmovie
+FROM orders_has_movies, orders
+WHERE
+  orders_idorder = idorder
+GROUP BY (movies_idmovie)
+ORDER BY sum(quantity) DESC
+LIMIT m;
+END
+$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- procedure r10_most_popular_directors
+-- -----------------------------------------------------
+
+USE `hw1_db_1`;
+DROP procedure IF EXISTS `hw1_db_1`.`r10_most_popular_directors`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `hw1_db_1`$$
+CREATE PROCEDURE `hw1_db_1`.`r10_most_popular_directors` (m INT)
+BEGIN
+SELECT name
+FROM directors
+GROUP BY name
+ORDER BY count(name) DESC
+LIMIT m
+;
+END
+$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- procedure r10_most_popular_actors
+-- -----------------------------------------------------
+
+USE `hw1_db_1`;
+DROP procedure IF EXISTS `hw1_db_1`.`r10_most_popular_actors`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `hw1_db_1`$$
+CREATE PROCEDURE `hw1_db_1`.`r10_most_popular_actors` (m INT)
+BEGIN
+SELECT name
+FROM actors
+GROUP BY name
+ORDER BY count(name) DESC
+LIMIT m
+;
+END
+$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- procedure r11_best_customers
+-- -----------------------------------------------------
+
+USE `hw1_db_1`;
+DROP procedure IF EXISTS `hw1_db_1`.`r11_best_customers`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `hw1_db_1`$$
+CREATE PROCEDURE `hw1_db_1`.`r11_best_customers` (m INT)
+BEGIN
+SELECT users_iduser
+FROM orders, orders_has_movies, movies
+WHERE
+    idorder=orders_idorder
+    AND idmovie=movies_idmovie
+GROUP BY users_iduser
+ORDER BY sum(quantity*price) DESC
+LIMIT m
+;
+END
+$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- procedure r8_7_degrees
+-- -----------------------------------------------------
+
+USE `hw1_db_1`;
+DROP procedure IF EXISTS `hw1_db_1`.`r8_7_degrees`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `hw1_db_1`$$
+CREATE PROCEDURE `hw1_db_1`.`r8_7_degrees` (actor1 VARCHAR(100), actor2 VARCHAR(100), OUT ds INT)
+BEGIN
+DECLARE res INT;
+SELECT a.idmovie INTO res
+FROM
+ (SELECT idmovie FROM actors WHERE name=actor1)
+ as a,
+ (SELECT idmovie FROM actors WHERE name=actor2)
+ as b
+WHERE
+  a.idmovie = b.idmovie
+LIMIT 1
+;
+IF(res IS NOT NULL) THEN
+  SET ds = 1;
+ELSE
+SELECT a1.idmovie INTO res
+FROM
+  (SELECT a.idmovie
+  FROM
+   (SELECT idmovie FROM actors WHERE name=actor1)
+    as a,
+   actors as c1
+  WHERE
+  a.idmovie = c1.idmovie) as a1,
+  (SELECT b.idmovie
+  FROM
+   (SELECT idmovie FROM actors WHERE name=actor1)
+    as b,
+   actors as c2
+  WHERE
+  b.idmovie = c2.idmovie) as a2
+WHERE
+  a1.idmovie=a2.idmovie
+LIMIT 1
+;
+IF res = NULL THEN
+  SET ds=0;
+ELSE
+  SET ds=2;
+END IF;
+END IF;
 END
 $$
 
@@ -682,6 +1111,45 @@ CREATE  OR REPLACE VIEW `hw1_db_1`.`sales_view` AS
 	FROM orders_has_movies
 	GROUP BY movies_idmovie;
 
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- View `hw1_db_1`.`directors`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `hw1_db_1`.`directors` ;
+SHOW WARNINGS;
+DROP TABLE IF EXISTS `hw1_db_1`.`directors`;
+SHOW WARNINGS;
+USE `hw1_db_1`;
+CREATE  OR REPLACE VIEW `hw1_db_1`.`directors` AS
+  SELECT DISTINCT idmovie, name
+  FROM movies,crew,roles,movies_has_crew
+  WHERE
+      crew_idcrew = idcrew
+      AND roles_idrole = idrole
+      AND movies_idmovie = idmovie
+      AND role_name='Director'
+  ORDER BY name;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- View `hw1_db_1`.`actors`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `hw1_db_1`.`actors` ;
+SHOW WARNINGS;
+DROP TABLE IF EXISTS `hw1_db_1`.`actors`;
+SHOW WARNINGS;
+USE `hw1_db_1`;
+CREATE  OR REPLACE VIEW `hw1_db_1`.`actors` AS
+  SELECT DISTINCT idmovie, name
+  FROM movies,crew,roles,movies_has_crew
+  WHERE
+      crew_idcrew = idcrew
+      AND roles_idrole = idrole
+      AND movies_idmovie = idmovie
+      AND role_name='Actor'
+  ORDER BY name;
+;
 SHOW WARNINGS;
 
 SET SQL_MODE=@OLD_SQL_MODE;
