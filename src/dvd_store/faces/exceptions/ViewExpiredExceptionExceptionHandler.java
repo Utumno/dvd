@@ -1,16 +1,17 @@
 package dvd_store.faces.exceptions;
 
 import java.util.Iterator;
-import java.util.Map;
 
 import javax.faces.FacesException;
+import javax.faces.application.FacesMessage;
 import javax.faces.application.NavigationHandler;
 import javax.faces.application.ViewExpiredException;
 import javax.faces.context.ExceptionHandler;
 import javax.faces.context.ExceptionHandlerWrapper;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
+
+import static dvd_store.faces.utils.Utils.faces;
 
 public class ViewExpiredExceptionExceptionHandler extends
 		ExceptionHandlerWrapper {
@@ -36,20 +37,18 @@ public class ViewExpiredExceptionExceptionHandler extends
 			Throwable t = context.getException();
 			if (t instanceof ViewExpiredException) {
 				ViewExpiredException vee = (ViewExpiredException) t;
-				FacesContext facesContext = FacesContext.getCurrentInstance();
-				Map<String, Object> requestMap = facesContext
-					.getExternalContext().getRequestMap();
-				NavigationHandler navigationHandler = facesContext
-					.getApplication().getNavigationHandler();
+				NavigationHandler navigationHandler = faces().getApplication()
+					.getNavigationHandler();
 				try {
 					// Push some useful stuff to the request scope for use in
 					// the page
-					requestMap.put("currentViewId", vee.getViewId());
-					System.out.println("HHHHHHHHHHHHHHHHH");
-					navigationHandler.handleNavigation(facesContext, null,
-						"/index");
-					// TODO message
-					facesContext.renderResponse();
+					System.out.println("ViewExpiredException caught");
+					faces().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, vee
+							.getMessage(), null));
+					navigationHandler.handleNavigation(faces(), null, "/index");
+					faces().renderResponse();
 				} finally {
 					i.remove();
 				}

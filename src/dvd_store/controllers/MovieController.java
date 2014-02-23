@@ -29,6 +29,9 @@ import dvd_store.service.CrewService;
 import dvd_store.service.MovieService;
 import dvd_store.service.RolesService;
 
+import static dvd_store.faces.utils.Utils.sessionGet;
+import static dvd_store.faces.utils.Utils.sessionPut;
+
 @ManagedBean
 @ViewScoped
 public class MovieController implements Serializable {
@@ -86,7 +89,7 @@ public class MovieController implements Serializable {
 			return null;
 		}
 		// what if no session?
-		context.getExternalContext().getSessionMap().put("movie", movie);
+		sessionPut("movie", movie);
 		return "/admin/add_movie_crew.xhtml?faces-redirect=true&id="
 			+ movie.getIdmovie();
 	}
@@ -105,8 +108,7 @@ public class MovieController implements Serializable {
 
 	public String addCrewMember() {
 		if (movie.getIdmovie() == 0) {
-			movie = (Movie) FacesContext.getCurrentInstance()
-				.getExternalContext().getSessionMap().get("movie");
+			movie = (Movie) sessionGet("movie");
 			System.out.println("Hola: movie id: " + movie.getIdmovie());
 		}
 		Set<Role> set = movieCrew.get(crewMember);

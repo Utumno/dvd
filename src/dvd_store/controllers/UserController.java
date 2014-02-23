@@ -17,6 +17,9 @@ import javax.faces.validator.ValidatorException;
 import dvd_store.entities.User;
 import dvd_store.service.UserService;
 
+import static dvd_store.faces.utils.Utils.faces;
+import static dvd_store.faces.utils.Utils.sessionPut;
+
 @ManagedBean
 @ViewScoped
 public class UserController implements Serializable {
@@ -24,7 +27,8 @@ public class UserController implements Serializable {
 	private static final long serialVersionUID = -8565364141850705694L;
 	// http://stackoverflow.com/a/10691832/281545
 	private User user;
-	@EJB // do not inject stateful beans !
+	@EJB
+	// do not inject stateful beans !
 	// @Inject // TODO !
 	private UserService service;
 
@@ -39,15 +43,16 @@ public class UserController implements Serializable {
 	}
 
 	public String login() {
-		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			// System.out.println("Pass :" + user.getPassword());
 			user = service.login(user.getUsername(), user.getPassword());
-			context.getExternalContext().getSessionMap().put("user", user);
+			sessionPut("user", user);
 			return "/index.xhtml";
 		} catch (EJBException e) {
 			// System.out.println(Utils.cause(e));
-			context.addMessage(null, new FacesMessage(
+			faces().addMessage(
+				null,
+				new FacesMessage(
 				FacesMessage.SEVERITY_ERROR, "Unknown login, please try again",
 				null));
 			return null;
@@ -55,14 +60,15 @@ public class UserController implements Serializable {
 	}
 
 	public String register() {
-		FacesContext context = FacesContext.getCurrentInstance();
 		user = service.register(user);
 		if (user.getIduser() == 0) {
-			context.addMessage(null, new FacesMessage(
-				FacesMessage.SEVERITY_ERROR, "Registration failed", null));
+			faces().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Registration failed", null));
 			return null;
 		}
-		context.getExternalContext().getSessionMap().put("user", user);
+		sessionPut("user", user);
 		return "/index.xhtml?faces-redirect=true";
 	}
 
