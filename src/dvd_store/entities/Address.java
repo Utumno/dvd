@@ -47,7 +47,8 @@ public class Address implements Serializable {
 	}
 
 	public String getCity() {
-		return this.city;
+		return this.city;// new String(city.getBytes(), // NPE
+		// java.nio.charset.StandardCharsets.ISO_8859_1);
 	}
 
 	public void setCity(String city) {
@@ -63,10 +64,12 @@ public class Address implements Serializable {
 	}
 
 	public String getStreet() {
+		System.out.println("Get " + street);
 		return this.street;
 	}
 
 	public void setStreet(String street) {
+		System.out.println("Set " + street);
 		this.street = street;
 	}
 
