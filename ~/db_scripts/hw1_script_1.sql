@@ -1074,6 +1074,37 @@ DELIMITER ;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
+-- procedure r9_insert_address
+-- -----------------------------------------------------
+
+USE `hw1_db_1`;
+DROP procedure IF EXISTS `hw1_db_1`.`r9_insert_address`;
+SHOW WARNINGS;
+
+DELIMITER $$
+USE `hw1_db_1`$$
+CREATE PROCEDURE `hw1_db_1`.`r9_insert_address` (istreet VARCHAR(45), icity VARCHAR(45),
+				pc VARCHAR(10), userid INT, OUT adressid INT)
+BEGIN
+	DECLARE adressid INT;
+	SELECT idaddress INTO adressid
+		FROM addresses
+		WHERE
+			street=istreet
+			AND city=icity
+			AND postal_code=pc;
+	IF adressid IS NULL THEN
+		INSERT INTO addresses (street,city,postal_code) VALUES (istreet, icity, pc);
+		SET adressid = LAST_INSERT_ID();
+	END IF;
+	INSERT IGNORE INTO users_has_addresses VALUES (userid, adressid);
+END
+$$
+
+DELIMITER ;
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
 -- View `hw1_db_1`.`movie_crew`
 -- -----------------------------------------------------
 DROP VIEW IF EXISTS `hw1_db_1`.`movie_crew` ;

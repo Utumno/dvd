@@ -49,10 +49,27 @@ public class OrderService {
 		nq.setParameter("icity", ccAddresss.getCity());
 		nq.setParameter("pc", ccAddresss.getPostalCode());
 		nq.setParameter("userid", u.getIduser());
-		// nq.registerStoredProcedureParameter("_idmovie", Integer.class,
-		// ParameterMode.OUT);
-		// boolean resultSet = nq.setParameter("str_title", query).execute();
 		nq.execute();
+		StoredProcedureQuery spqAddr = em
+			.createStoredProcedureQuery("r9_insert_address");
+		spqAddr.registerStoredProcedureParameter("istreet", String.class,
+			ParameterMode.IN);
+		spqAddr.registerStoredProcedureParameter("icity", String.class,
+			ParameterMode.IN);
+		spqAddr.registerStoredProcedureParameter("pc", String.class,
+			ParameterMode.IN);
+		spqAddr.registerStoredProcedureParameter("userid", Integer.class,
+			ParameterMode.IN);
+		spqAddr.registerStoredProcedureParameter("adressid", Integer.class,
+			ParameterMode.OUT);
+		final String streetPostalAddr = postalAddresss.getStreet();
+		spqAddr.setParameter("istreet", streetPostalAddr);
+		spqAddr.setParameter("icity", postalAddresss.getCity());
+		spqAddr.setParameter("pc", postalAddresss.getPostalCode());
+		spqAddr.setParameter("userid", u.getIduser());
+		System.out.println("EXECUTE : " + spqAddr.execute());
+		System.out.println("ADDRID : "
+			+ spqAddr.getOutputParameterValue("adressid"));
 	}
 
 	public boolean isTitleUnique(String title) {
