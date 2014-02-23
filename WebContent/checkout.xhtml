@@ -1,0 +1,41 @@
+<ui:composition template="/WEB-INF/xhtml/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<f:metadata>
+		<f:viewParam name="id" value="#{movieDisplayController.id}" />
+		<f:viewAction action="#{movieDisplayController.init}" />
+	</f:metadata>
+	<ui:define name="title">Checkout - <h:outputText
+			value="#{text['dvd_store.name']}" />
+	</ui:define>
+	<ui:define name="content">
+		<h1 style="text-align: center">Checkout -
+			#{text['dvd_store.name']}</h1>
+		<h:panelGroup id="checkout">
+			<h:form id="checkout_form"
+				rendered="#{cartController.cart != null and (not empty cartController.cart)}">
+				<h:dataTable id="checkout_table" value="#{cartController.cart.entrySet()}"
+					var="item" bgcolor="#F1F1F1" border="10" cellspacing="2"
+					width="60%" rules="all">
+					<h:column>
+						<f:facet name="header">Movie</f:facet>#{item.key.title}</h:column>
+					<h:column>
+						<f:facet name="header">Quantity</f:facet>
+					<h:inputText id="quantity"
+						value="#{item.value}" redisplay="true"
+						converterMessage="Please provide an integer" required="true"
+						requiredMessage="Please enter a quantity">
+						<f:validateLongRange minimum="1"
+							maximum="#{item.key.available}" />
+						<f:ajax event="blur" render="quantityMessage" />
+					</h:inputText></h:column>
+					<h:column><h:commandButton value="edit" action="#{cartController.editQuantity(item.key, item.value)}" /></h:column>
+                <h:column><h:commandButton value="delete" action="#{bean.delete}" /></h:column>
+                <h:column><h:message id="quantityMessage" for="quantity" /></h:column>
+				</h:dataTable>
+			</h:form>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>

@@ -48,6 +48,18 @@ public class CartController implements Serializable {
 		return "You have " + items + " items in your cart worth $" + amount;
 	}
 
+	public String checkout() {
+		return null;
+	}
+
+	public void editQuantity(Movie m, Integer q) {
+		addMovieToCart(m, q);
+	}
+
+	public void removeMovie(Movie m) {
+		cart.remove(m);
+	}
+
 	// =========================================================================
 	// Getters Setters
 	// =========================================================================

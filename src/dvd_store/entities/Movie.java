@@ -202,8 +202,7 @@ public class Movie implements Serializable {
 	// Helpers
 	// =========================================================================
 	public static enum Rating {
-		G("G"), NC_17("NC-17"), R("R"), PG("PG"), PG_13(
-				"PG-13");
+		G("G"), NC_17("NC-17"), R("R"), PG("PG"), PG_13("PG-13");
 
 		private String label;
 
@@ -227,5 +226,27 @@ public class Movie implements Serializable {
 
 	public List<Short> getYears() {
 		return YEARS;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + idmovie;
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (!(obj instanceof Movie)) return false;
+		Movie other = (Movie) obj;
+		if (idmovie != other.idmovie) return false;
+		if (title == null) {
+			if (other.title != null) return false;
+		} else if (!title.equals(other.title)) return false;
+		return true;
 	}
 }
