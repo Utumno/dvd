@@ -44,9 +44,13 @@ public class CheckoutController implements Serializable {
 
 	public String checkout() {
 		User u = (User) sessionGet("user");
-		System.out.println("CAAAAARRRTTT:" + _cart + "\n"); // YES!
+		System.out.println("CAAAAARRRTTT:" + _cart + " USER " + u.getUsername()
+			+ "\n"); // YES!
+		// cs = new CreditCard();
+		// csadr = adr = new Address();
+		// shippingInfo = null;
 		os.addOrder(cs, adr, csadr, u, _cart); // FIXME - REAL ORDER
-		return shippingInfo;
+		return null;
 	}
 
 	public void editRowQuantity(Movie movie, Integer quantity) {

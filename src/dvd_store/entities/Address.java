@@ -55,6 +55,9 @@ public class Address implements Serializable {
 		this.city = city;
 	}
 
+	// =========================================================================
+	// Getters Setters
+	// =========================================================================
 	public String getPostalCode() {
 		return this.postalCode;
 	}
