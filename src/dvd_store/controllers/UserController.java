@@ -18,6 +18,7 @@ import dvd_store.entities.User;
 import dvd_store.service.UserService;
 
 import static dvd_store.faces.utils.Utils.faces;
+import static dvd_store.faces.utils.Utils.msgError;
 import static dvd_store.faces.utils.Utils.sessionPut;
 
 @ManagedBean
@@ -62,10 +63,7 @@ public class UserController implements Serializable {
 	public String register() {
 		user = service.register(user);
 		if (user.getIduser() == 0) {
-			faces().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Registration failed", null));
+			msgError("Registration failed");
 			return null;
 		}
 		sessionPut("user", user);

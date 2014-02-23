@@ -3,15 +3,15 @@ package dvd_store.controllers;
 import java.io.Serializable;
 
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import dvd_store.entities.Category;
 import dvd_store.entities.Movie;
 import dvd_store.service.MovieService;
 
+import static dvd_store.faces.utils.Utils.msgError;
+import static dvd_store.faces.utils.Utils.sessionPut;
 @ManagedBean
 @ViewScoped
 public class MovieDisplayController implements Serializable {
@@ -27,22 +27,19 @@ public class MovieDisplayController implements Serializable {
 		// TODO: do not query the DB if coming from search results
 		if (getId() == 0) {
 			String message = "Bad request. Please use a link from within the system.";
-			FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+			msgError(message);
 			return;
 		}
 		movie = ms.find(getId());
 		if (movie == null) {
 			String message = "Bad request. Unknown movie.";
-			FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+			msgError(message);
 			return;
 		}
 		// hack to load the categories TODO
 		// see: https://community.oracle.com/thread/173733
 		movie.getCategories().size();
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-			.put("movie", movie);
+		sessionPut("movie", movie);
 	}
 
 	public String printCategories() {

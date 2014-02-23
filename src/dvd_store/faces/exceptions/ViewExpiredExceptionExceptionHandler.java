@@ -3,7 +3,6 @@ package dvd_store.faces.exceptions;
 import java.util.Iterator;
 
 import javax.faces.FacesException;
-import javax.faces.application.FacesMessage;
 import javax.faces.application.NavigationHandler;
 import javax.faces.application.ViewExpiredException;
 import javax.faces.context.ExceptionHandler;
@@ -12,6 +11,7 @@ import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 
 import static dvd_store.faces.utils.Utils.faces;
+import static dvd_store.faces.utils.Utils.msgError;
 
 public class ViewExpiredExceptionExceptionHandler extends
 		ExceptionHandlerWrapper {
@@ -43,10 +43,7 @@ public class ViewExpiredExceptionExceptionHandler extends
 					// Push some useful stuff to the request scope for use in
 					// the page
 					System.out.println("ViewExpiredException caught");
-					faces().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, vee
-							.getMessage(), null));
+					msgError(vee.getMessage());
 					navigationHandler.handleNavigation(faces(), null, "/index");
 					faces().renderResponse();
 				} finally {

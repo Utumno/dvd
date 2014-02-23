@@ -29,6 +29,7 @@ import dvd_store.service.CrewService;
 import dvd_store.service.MovieService;
 import dvd_store.service.RolesService;
 
+import static dvd_store.faces.utils.Utils.msgError;
 import static dvd_store.faces.utils.Utils.sessionGet;
 import static dvd_store.faces.utils.Utils.sessionPut;
 
@@ -77,15 +78,13 @@ public class MovieController implements Serializable {
 	}
 
 	public String add() {
-		FacesContext context = FacesContext.getCurrentInstance();
 		movie.setAvailable(movie.getNumberOfCopies());
 		System.out.println("PRICE: " + movie.getPrice());
 		System.out.println("YEAR: " + movie.getYearOfRelease());
 		System.out.println("RATING: " + movie.getRating());
 		movie = service.add(movie);
 		if (movie.getIdmovie() == 0) {
-			context.addMessage(null, new FacesMessage(
-				FacesMessage.SEVERITY_ERROR, "Adding movie failed", null));
+			msgError("Adding movie failed");
 			return null;
 		}
 		// what if no session?
