@@ -51,7 +51,7 @@ DROP TABLE IF EXISTS `hw1_db_1`.`credit_cards` ;
 
 SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `hw1_db_1`.`credit_cards` (
-  `credit_card_number` INT(16) UNSIGNED NOT NULL,
+  `credit_card_number` BIGINT NOT NULL,
   `credit_card_type` VARCHAR(45) NOT NULL,
   `addresses_idaddress` INT NOT NULL,
   PRIMARY KEY (`credit_card_number`),
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `hw1_db_1`.`orders` (
   `date` DATETIME NOT NULL,
   `addresses_idaddress` INT NOT NULL,
   `users_iduser` INT NOT NULL,
-  `credit_cards_credit_card_number` INT(16) UNSIGNED NOT NULL,
+  `credit_cards_credit_card_number` BIGINT NOT NULL,
   PRIMARY KEY (`idorder`),
   INDEX `fk_orders_addresses1_idx` (`addresses_idaddress` ASC),
   INDEX `fk_orders_users1_idx` (`users_iduser` ASC),
@@ -227,7 +227,7 @@ DROP TABLE IF EXISTS `hw1_db_1`.`users_has_credit_cards` ;
 SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `hw1_db_1`.`users_has_credit_cards` (
   `users_iduser` INT NOT NULL,
-  `credit_cards_credit_card_number` INT(16) UNSIGNED NOT NULL,
+  `credit_cards_credit_card_number` BIGINT NOT NULL,
   PRIMARY KEY (`users_iduser`, `credit_cards_credit_card_number`),
   INDEX `fk_users_has_credit_cards_credit_cards1_idx` (`credit_cards_credit_card_number` ASC),
   INDEX `fk_users_has_credit_cards_users1_idx` (`users_iduser` ASC),
@@ -715,7 +715,7 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-CREATE PROCEDURE `hw1_db_1`.`r9_insert_credit_card` (ccnum INT(16), cctype VARCHAR(45), istreet VARCHAR(45), icity VARCHAR(45), pc VARCHAR(10))
+CREATE PROCEDURE `hw1_db_1`.`r9_insert_credit_card` (ccnum BIGINT, cctype VARCHAR(45), istreet VARCHAR(45), icity VARCHAR(45), pc VARCHAR(10))
 BEGIN
 DECLARE id INT;
 -- START TRANSACTION; // done in Java
