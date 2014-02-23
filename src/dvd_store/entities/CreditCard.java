@@ -1,6 +1,7 @@
 package dvd_store.entities;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -24,7 +25,7 @@ public class CreditCard implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "credit_card_number")
-	private int creditCardNumber;
+	private BigInteger creditCardNumber;
 	@Column(name = "credit_card_type")
 	private String creditCardType;
 	// bi-directional many-to-one association to Address
@@ -40,11 +41,11 @@ public class CreditCard implements Serializable {
 
 	public CreditCard() {}
 
-	public int getCreditCardNumber() {
+	public BigInteger getCreditCardNumber() {
 		return this.creditCardNumber;
 	}
 
-	public void setCreditCardNumber(int creditCardNumber) {
+	public void setCreditCardNumber(BigInteger creditCardNumber) {
 		this.creditCardNumber = creditCardNumber;
 	}
 
