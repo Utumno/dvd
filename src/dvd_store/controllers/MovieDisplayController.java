@@ -6,7 +6,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.convert.BigIntegerConverter;
 
 import dvd_store.entities.Category;
 import dvd_store.entities.Movie;
@@ -28,6 +27,7 @@ public class MovieDisplayController implements Serializable {
 	@ManagedProperty(value = "#{cartController}")
 	private CartController cartController;
 
+	// @PostConstruct // init() called in a f:viewParam
 	public void init() {
 		// TODO: do not query the DB if coming from search results
 		if (getId() == 0) {
@@ -60,8 +60,6 @@ public class MovieDisplayController implements Serializable {
 	}
 
 	public int getAvailableForThisUser() {
-		System.out.println("BigIntegerConverter.BIGINTEGER_ID "
-			+ BigIntegerConverter.BIGINTEGER_ID);
 		// if (getCartController().getCart().get(movie) == null) return 0;
 		// System.out.println("IIIIIII: " +
 		// getCartController().getCart().get(movie) + "\n");

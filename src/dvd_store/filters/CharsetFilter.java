@@ -8,7 +8,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 
 // import org.elkethe.util.RequestPrinter;
@@ -17,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  * response streams. MUST BE THE VERY FIRST FILTER IN THE CHAIN. Also disables
  * page caching for supported browsers
  */
-@WebFilter(urlPatterns = { "/*" })
+// @WebFilter(urlPatterns = { "/*" })
 public class CharsetFilter implements Filter {
 
 	private String encoding;
