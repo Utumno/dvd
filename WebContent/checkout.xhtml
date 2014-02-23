@@ -27,7 +27,7 @@
 						<h:inputText id="quantity"
 							value="#{cartController.cart[item.key]}"
 							converterMessage="Please provide an integer" required="true"
-							requiredMessage="Please enter a quantity">
+							requiredMessage="Please enter a quantity" converter="javax.faces.Integer">
 							<!-- <f:validateLongRange minimum="1"
 							maximum="#{item.key.getAvailable()}" /> -->
 							<f:ajax event="blur" render="quantityMessage" />
