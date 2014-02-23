@@ -41,11 +41,14 @@ public class OrderService {
 			ParameterMode.IN);
 		nq.registerStoredProcedureParameter("pc", String.class,
 			ParameterMode.IN);
+		nq.registerStoredProcedureParameter("userid", Integer.class,
+			ParameterMode.IN);
 		nq.setParameter("ccnum", cc.getCreditCardNumber());
 		nq.setParameter("cctype", cc.getCreditCardType());
 		nq.setParameter("istreet", ccAddresss.getStreet());
 		nq.setParameter("icity", ccAddresss.getCity());
 		nq.setParameter("pc", ccAddresss.getPostalCode());
+		nq.setParameter("userid", u.getIduser());
 		// nq.registerStoredProcedureParameter("_idmovie", Integer.class,
 		// ParameterMode.OUT);
 		// boolean resultSet = nq.setParameter("str_title", query).execute();

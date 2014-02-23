@@ -715,7 +715,8 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-CREATE PROCEDURE `hw1_db_1`.`r9_insert_credit_card` (ccnum BIGINT, cctype VARCHAR(45), istreet VARCHAR(45), icity VARCHAR(45), pc VARCHAR(10))
+CREATE PROCEDURE `hw1_db_1`.`r9_insert_credit_card` (ccnum BIGINT, cctype VARCHAR(45),
+				istreet VARCHAR(45), icity VARCHAR(45), pc VARCHAR(10), userid INT)
 BEGIN
 DECLARE id INT;
 -- START TRANSACTION; // done in Java
@@ -727,12 +728,13 @@ SELECT idaddress INTO id
          AND city=icity
          AND postal_code=pc;
 IF id IS NULL THEN
-INSERT INTO addresses (street,city,postal_code) VALUES (istreet, icity, pc);
+	INSERT INTO addresses (street,city,postal_code) VALUES (istreet, icity, pc);
+	SET id = LAST_INSERT_ID();
 END IF;
 
-SET id = LAST_INSERT_ID();
-
 INSERT IGNORE INTO credit_cards VALUES (ccnum, cctype, id);
+INSERT IGNORE INTO users_has_credit_cards VALUES (userid, ccnum);
+
 -- COMMIT;
 END$$
 
