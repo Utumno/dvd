@@ -87,8 +87,12 @@
 						value="#{checkoutController.adr.postalCode}" redisplay="true" />
 					<h:message id="postalCMessage" for="postalC" />
 					<h:outputLabel for="shipInfo">Shipping info</h:outputLabel>
-					<h:inputText id="shipInfo"
-						value="#{checkoutController.shippingInfo}" redisplay="true" />
+					<h:selectOneMenu id="shipInfo"
+						value="#{checkoutController.shippingInfo}">
+						<f:selectItems value="#{checkoutController.shippingInfos}"
+							var="shipInfo" itemValue="#{shipInfo}" itemLabel="#{shipInfo.label}" />
+						<f:ajax event="blur" render="shipInfoMessage" />
+					</h:selectOneMenu>
 					<h:message id="shipInfoMessage" for="shipInfo" />
 				</h:panelGrid>
 				<h:commandButton value="Buy"

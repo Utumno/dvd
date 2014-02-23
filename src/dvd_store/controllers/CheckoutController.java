@@ -13,6 +13,7 @@ import dvd_store.entities.Address;
 import dvd_store.entities.CreditCard;
 import dvd_store.entities.Movie;
 import dvd_store.entities.Order;
+import dvd_store.entities.Order.ShippingInfo;
 import dvd_store.entities.User;
 import dvd_store.service.OrderService;
 
@@ -26,7 +27,7 @@ public class CheckoutController implements Serializable {
 	private CreditCard cs = new CreditCard();
 	private Address adr = new Address();
 	private Address csadr = new Address();
-	private String shippingInfo;
+	private ShippingInfo shippingInfo;
 	@EJB
 	private OrderService os;
 	@ManagedProperty(value = "#{cartController}")
@@ -62,6 +63,9 @@ public class CheckoutController implements Serializable {
 		cc.removeMovieFromCart(m);
 	}
 
+	public ShippingInfo[] getShippingInfos() {
+		return ShippingInfo.values();
+	}
 	// =========================================================================
 	// Getters Setters
 	// =========================================================================
@@ -89,11 +93,11 @@ public class CheckoutController implements Serializable {
 		this.csadr = csadr;
 	}
 
-	public String getShippingInfo() {
+	public ShippingInfo getShippingInfo() {
 		return shippingInfo;
 	}
 
-	public void setShippingInfo(String shippingInfo) {
+	public void setShippingInfo(ShippingInfo shippingInfo) {
 		this.shippingInfo = shippingInfo;
 	}
 

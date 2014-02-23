@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,7 +31,8 @@ public class Order implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	@Column(name = "shipping_info")
-	private String shippingInfo;
+	@Enumerated(EnumType.STRING)
+	private ShippingInfo shippingInfo;
 	// bi-directional many-to-one association to Address
 	@ManyToOne
 	@JoinColumn(name = "addresses_idaddress")
@@ -64,11 +67,11 @@ public class Order implements Serializable {
 		this.date = date;
 	}
 
-	public String getShippingInfo() {
+	public ShippingInfo getShippingInfo() {
 		return this.shippingInfo;
 	}
 
-	public void setShippingInfo(String shippingInfo) {
+	public void setShippingInfo(ShippingInfo shippingInfo) {
 		this.shippingInfo = shippingInfo;
 	}
 
@@ -114,5 +117,27 @@ public class Order implements Serializable {
 		getOrdersHasMovies().remove(ordersHasMovy);
 		ordersHasMovy.setOrder(null);
 		return ordersHasMovy;
+	}
+
+	// =========================================================================
+	// Helpers
+	// =========================================================================
+	public static enum ShippingInfo {
+		COURRIER("COURRIER"), SIMPLE("SIMPLE");
+
+		private String label;
+
+		private ShippingInfo(String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return label;
+		}
+
+		@Override
+		public String toString() {
+			return label;
+		}
 	}
 }
