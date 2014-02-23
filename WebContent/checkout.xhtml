@@ -27,7 +27,8 @@
 						<h:inputText id="quantity"
 							value="#{checkoutController.viewCart[item.key]}"
 							converterMessage="Please provide an integer" required="true"
-							requiredMessage="Please enter a quantity" converter="javax.faces.Integer">
+							requiredMessage="Please enter a quantity"
+							converter="javax.faces.Integer">
 							<!-- <f:validateLongRange minimum="1"
 							maximum="#{item.key.getAvailable()}" /> -->
 							<f:ajax event="blur" render="quantityMessage" />
@@ -49,9 +50,9 @@
 				<h:panelGrid columns="3">
 					<h:outputLabel for="creditCardNum">Credit card number</h:outputLabel>
 					<h:inputText id="creditCardNum"
-						value="#{checkoutController.cs.creditCardNumber}" converterMessage="HELP" redisplay="true">
-						<f:ajax event="blur" render="creditCardNumMessage"/>
-
+						value="#{checkoutController.cs.creditCardNumber}"
+						converterMessage="Gimme a Big Integer" redisplay="true">
+						<f:ajax event="blur" render="creditCardNumMessage" />
 					</h:inputText>
 					<h:message id="creditCardNumMessage" for="creditCardNum" />
 					<h:outputLabel for="creditCardPostalC">Credit card type</h:outputLabel>
@@ -92,11 +93,12 @@
 				</h:panelGrid>
 				<h:commandButton value="Buy"
 					action="#{checkoutController.checkout()}">
-				<f:ajax execute="@form" render="@form" />
-			</h:commandButton>
+					<f:ajax execute="@form" render="@form" />
+				</h:commandButton>
 			</h:form>
 			<h:outputText
-				rendered="#{checkoutController.viewCart == null or (empty checkoutController.viewCart)}" value="Your cart is empty"/>
+				rendered="#{checkoutController.viewCart == null or (empty checkoutController.viewCart)}"
+				value="Your cart is empty" />
 		</h:panelGroup>
 	</ui:define>
 </ui:composition>

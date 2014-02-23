@@ -26,6 +26,7 @@ public class CreditCard implements Serializable {
 	@Id
 	@Column(name = "credit_card_number")
 	// TODO validation
+	// @Min(value = 1);
 	private BigInteger creditCardNumber;
 	@Column(name = "credit_card_type")
 	private String creditCardType;
