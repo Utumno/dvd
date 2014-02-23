@@ -15,9 +15,9 @@
 			#{text['dvd_store.name']}</h1>
 		<h:panelGroup id="checkout">
 			<h:form id="checkout_form"
-				rendered="#{cartController.cart != null and (not empty cartController.cart)}">
+				rendered="#{checkoutController.viewCart != null and (not empty checkoutController.viewCart)}">
 				<h:dataTable id="checkout_table"
-					value="#{cartController.cart.entrySet()}" var="item"
+					value="#{checkoutController.viewCart.entrySet()}" var="item"
 					bgcolor="#F1F1F1" border="10" cellspacing="2" width="60%"
 					rules="all">
 					<h:column>
@@ -25,7 +25,7 @@
 					<h:column>
 						<f:facet name="header">Quantity</f:facet>
 						<h:inputText id="quantity"
-							value="#{cartController.cart[item.key]}"
+							value="#{checkoutController.viewCart[item.key]}"
 							converterMessage="Please provide an integer" required="true"
 							requiredMessage="Please enter a quantity" converter="javax.faces.Integer">
 							<!-- <f:validateLongRange minimum="1"
@@ -35,11 +35,11 @@
 					</h:column>
 					<h:column>
 						<h:commandButton value="edit"
-							action="#{cartController.editQuantity(item.key, item.value)}" />
+							action="#{checkoutController.editRowQuantity(item.key,item.value)}" />
 					</h:column>
 					<h:column>
 						<h:commandButton value="delete"
-							action="#{cartController.removeMovie(item.key)}" />
+							action="#{checkoutController.removeRowFromCart(item.key)}" />
 					</h:column>
 					<h:column>
 						<h:message id="quantityMessage" for="quantity" />
@@ -95,6 +95,8 @@
 				<f:ajax execute="@form" render="@form" />
 			</h:commandButton>
 			</h:form>
+			<h:outputText
+				rendered="#{checkoutController.viewCart == null or (empty checkoutController.viewCart)}" value="Your cart is empty"/>
 		</h:panelGroup>
 	</ui:define>
 </ui:composition>

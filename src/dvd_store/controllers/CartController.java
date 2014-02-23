@@ -31,12 +31,22 @@ public class CartController implements Serializable {
 	private int items;
 	private BigDecimal amount = new BigDecimal(0);
 
-	public String addMovieToCart(Movie movie, Integer quantity) {
+	public void mergeMovieToCart(Movie movie, Integer quantity) {
 		if (quantity > movie.getAvailable()) {
 			String message = "Available copies are " + movie.getAvailable();
 			msgError(message);
-			return null;
+			return;
 		}
+		updateAmountAndItems(movie, quantity);
+		cart.put(movie, quantity);
+	}
+
+	public void removeMovieFromCart(Movie movie) {
+		updateAmountAndItems(movie, 0);
+		cart.remove(movie);
+	}
+
+	private void updateAmountAndItems(Movie movie, Integer quantity) {
 		Integer ordered = cart.get(movie); // TODO: availability - events ?
 		if (ordered != null) {
 			items -= ordered;
@@ -46,8 +56,6 @@ public class CartController implements Serializable {
 		items += quantity;
 		amount = amount.add(movie.getPrice().multiply(
 			BigDecimal.valueOf(quantity))); // verbosen
-		cart.put(movie, quantity);
-		return null;
 	}
 
 	public String cartMessage() {
@@ -61,18 +69,11 @@ public class CartController implements Serializable {
 		return null;
 	}
 
-	public void editQuantity(Movie m, Integer q) {
-		addMovieToCart(m, q);
-	}
-
-	public void removeMovie(Movie m) {
-		cart.remove(m);
-	}
-
 	// =========================================================================
 	// Getters Setters
 	// =========================================================================
 	public Map<Movie, Integer> getCart() {
-		return cart;
+		return new LinkedHashMap<>(cart); // defensive copying, must not be
+											// modified from outside
 	}
 }

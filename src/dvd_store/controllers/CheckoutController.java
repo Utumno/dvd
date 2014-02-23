@@ -3,6 +3,7 @@ package dvd_store.controllers;
 import java.io.Serializable;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -31,13 +32,30 @@ public class CheckoutController implements Serializable {
 	@ManagedProperty(value = "#{cartController}")
 	private CartController cc;
 	private Order order; // UNUSED
+	/** this is edited by the view when user edits quantities */
+	private Map<Movie, Integer> viewCart;
+	private Map<Movie, Integer> _cart; // local mirror of the cart
+
+	@PostConstruct
+	void init() {
+		_cart = cc.getCart();
+		setViewCart(_cart);
+	}
 
 	public String checkout() {
 		User u = (User) sessionGet("user");
-		Map<Movie, Integer> cart = cc.getCart();
-		// System.out.println("CAAAAARRRTTT:" + cart + "\n"); // YES!
-		os.addOrder(cs, adr, csadr, u, cart); // FIXME - REAL ORDER
+		System.out.println("CAAAAARRRTTT:" + _cart + "\n"); // YES!
+		os.addOrder(cs, adr, csadr, u, _cart); // FIXME - REAL ORDER
 		return shippingInfo;
+	}
+
+	public void editRowQuantity(Movie movie, Integer quantity) {
+		cc.mergeMovieToCart(movie, quantity);
+	}
+
+	public void removeRowFromCart(Movie m) {
+		viewCart.remove(m);
+		cc.removeMovieFromCart(m);
 	}
 
 	// =========================================================================
@@ -89,5 +107,13 @@ public class CheckoutController implements Serializable {
 
 	public void setCc(CartController cc) {
 		this.cc = cc;
+	}
+
+	public Map<Movie, Integer> getViewCart() {
+		return viewCart;
+	}
+
+	public void setViewCart(Map<Movie, Integer> viewCart) {
+		this.viewCart = viewCart;
 	}
 }

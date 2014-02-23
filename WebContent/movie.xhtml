@@ -48,7 +48,7 @@
 						<f:ajax event="blur" render="quantityMessage" />
 					</h:inputText>
 					<h:commandButton value="Add to Cart"
-						action="#{cartController.addMovieToCart(movieDisplayController.movie, movieDisplayController.quantity)}">
+						action="#{cartController.mergeMovieToCart(movieDisplayController.movie, movieDisplayController.quantity)}">
 					</h:commandButton>
 				</h:panelGrid>
 				<h:outputText
