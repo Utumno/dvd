@@ -29,7 +29,7 @@
 					value="#{movieDisplayController.movie.rating}" />
 				<h:outputLabel for="numberOfCopies">Available copies</h:outputLabel>
 				<h:outputLabel id="numberOfCopies"
-					value="#{movieDisplayController.movie.available != 0 ? movieDisplayController.movie.available : 'Not available' }" />
+					value="#{movieDisplayController.availableForThisUser > 0 ? movieDisplayController.availableForThisUser : 'Not available' }" />
 				<h:outputLabel for="price">Price</h:outputLabel>
 				<h:outputLabel id="price"
 					value="#{movieDisplayController.movie.price}" />
@@ -37,8 +37,8 @@
 				<h:outputLabel id="category"
 					value="#{movieDisplayController.printCategories()}" />
 				<h:panelGroup />
-				<h:panelGrid columns="3"
-					rendered="#{movieDisplayController.movie.available != 0}">
+				<h:panelGrid columns="2"
+					rendered="#{movieDisplayController.movieAvailable}">
 					<h:inputText id="quantity"
 						value="#{movieDisplayController.quantity}" redisplay="true"
 						converterMessage="Please provide an integer" required="true"
@@ -50,8 +50,11 @@
 					<h:commandButton value="Add to Cart"
 						action="#{cartController.addMovieToCart(movieDisplayController.movie, movieDisplayController.quantity)}">
 					</h:commandButton>
-					<h:message id="quantityMessage" for="quantity" />
 				</h:panelGrid>
+				<h:outputText
+					rendered="#{not movieDisplayController.movieAvailable}"
+					value="#{movieDisplayController.hasOrdered() ? 'No more available - checkout!' : 'Not available' }" />
+				<h:message id="quantityMessage" for="quantity" />
 				<h:messages globalOnly="true" layout="table" />
 			</h:panelGrid>
 			<ui:include src="/WEB-INF/xhtml/movie_crew.xhtml" />

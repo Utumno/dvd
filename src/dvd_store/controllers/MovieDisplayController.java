@@ -4,7 +4,9 @@ import java.io.Serializable;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.convert.BigIntegerConverter;
 
 import dvd_store.entities.Category;
 import dvd_store.entities.Movie;
@@ -12,6 +14,7 @@ import dvd_store.service.MovieService;
 
 import static dvd_store.faces.utils.Utils.msgError;
 import static dvd_store.faces.utils.Utils.sessionPut;
+
 @ManagedBean
 @ViewScoped
 public class MovieDisplayController implements Serializable {
@@ -22,6 +25,8 @@ public class MovieDisplayController implements Serializable {
 	private Movie movie;
 	private int id;
 	private int quantity = 1;
+	@ManagedProperty(value = "#{cartController}")
+	private CartController cartController;
 
 	public void init() {
 		// TODO: do not query the DB if coming from search results
@@ -54,6 +59,23 @@ public class MovieDisplayController implements Serializable {
 		return sb.toString();
 	}
 
+	public int getAvailableForThisUser() {
+		System.out.println("BigIntegerConverter.BIGINTEGER_ID "
+			+ BigIntegerConverter.BIGINTEGER_ID);
+		// if (getCartController().getCart().get(movie) == null) return 0;
+		// System.out.println("IIIIIII: " +
+		// getCartController().getCart().get(movie) + "\n");
+		return movie.getAvailable()
+			- ((getCartController().getCart().containsKey(movie)) ? getCartController().getCart().get(movie) : 0);
+	}
+
+	public boolean hasOrdered() {
+		return getCartController().getCart().containsKey(movie);
+	}
+
+	public boolean getMovieAvailable() {
+		return getAvailableForThisUser() > 0;
+	}
 	// =========================================================================
 	// Getters Setters
 	// =========================================================================
@@ -79,5 +101,13 @@ public class MovieDisplayController implements Serializable {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public CartController getCartController() {
+		return cartController;
+	}
+
+	public void setCartController(CartController cartController) {
+		this.cartController = cartController;
 	}
 }

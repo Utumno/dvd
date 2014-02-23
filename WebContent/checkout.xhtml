@@ -16,25 +16,84 @@
 		<h:panelGroup id="checkout">
 			<h:form id="checkout_form"
 				rendered="#{cartController.cart != null and (not empty cartController.cart)}">
-				<h:dataTable id="checkout_table" value="#{cartController.cart.entrySet()}"
-					var="item" bgcolor="#F1F1F1" border="10" cellspacing="2"
-					width="60%" rules="all">
+				<h:dataTable id="checkout_table"
+					value="#{cartController.cart.entrySet()}" var="item"
+					bgcolor="#F1F1F1" border="10" cellspacing="2" width="60%"
+					rules="all">
 					<h:column>
 						<f:facet name="header">Movie</f:facet>#{item.key.title}</h:column>
 					<h:column>
 						<f:facet name="header">Quantity</f:facet>
-					<h:inputText id="quantity"
-						value="#{item.value}" redisplay="true"
-						converterMessage="Please provide an integer" required="true"
-						requiredMessage="Please enter a quantity">
-						<f:validateLongRange minimum="1"
-							maximum="#{item.key.available}" />
-						<f:ajax event="blur" render="quantityMessage" />
-					</h:inputText></h:column>
-					<h:column><h:commandButton value="edit" action="#{cartController.editQuantity(item.key, item.value)}" /></h:column>
-                <h:column><h:commandButton value="delete" action="#{bean.delete}" /></h:column>
-                <h:column><h:message id="quantityMessage" for="quantity" /></h:column>
+						<h:inputText id="quantity"
+							value="#{cartController.cart[item.key]}"
+							converterMessage="Please provide an integer" required="true"
+							requiredMessage="Please enter a quantity">
+							<!-- <f:validateLongRange minimum="1"
+							maximum="#{item.key.getAvailable()}" /> -->
+							<f:ajax event="blur" render="quantityMessage" />
+						</h:inputText>
+					</h:column>
+					<h:column>
+						<h:commandButton value="edit"
+							action="#{cartController.editQuantity(item.key, item.value)}" />
+					</h:column>
+					<h:column>
+						<h:commandButton value="delete"
+							action="#{cartController.removeMovie(item.key)}" />
+					</h:column>
+					<h:column>
+						<h:message id="quantityMessage" for="quantity" />
+					</h:column>
 				</h:dataTable>
+				<br />
+				<h:panelGrid columns="3">
+					<h:outputLabel for="creditCardNum">Credit card number</h:outputLabel>
+					<h:inputText id="creditCardNum"
+						value="#{checkoutController.cs.creditCardNumber}" converterMessage="HELP" redisplay="true">
+						<f:ajax event="blur" render="creditCardNumMessage"/>
+
+					</h:inputText>
+					<h:message id="creditCardNumMessage" for="creditCardNum" />
+					<h:outputLabel for="creditCardPostalC">Credit card type</h:outputLabel>
+					<h:inputText id="creditCardType"
+						value="#{checkoutController.cs.creditCardType}" redisplay="true" />
+					<h:message id="creditCardTypeMessage" for="creditCardType" />
+					<h:outputLabel for="creditCardAddress">Credit card address</h:outputLabel>
+					<h:inputText id="creditCardAddress"
+						value="#{checkoutController.csadr.street}" redisplay="true" />
+					<h:message id="creditCardAddressMessage" for="creditCardAddress" />
+					<h:outputLabel for="creditCardCity">Credit card address city</h:outputLabel>
+					<h:inputText id="creditCardCity"
+						value="#{checkoutController.csadr.city}" redisplay="true" />
+					<h:message id="creditCardCityMessage" for="creditCardCity" />
+					<h:outputLabel for="creditCardPostalC">Credit card postal code</h:outputLabel>
+					<h:inputText id="creditCardPostalC"
+						value="#{checkoutController.csadr.postalCode}" redisplay="true" />
+					<h:message id="creditCardPostalCMessage" for="creditCardPostalC" />
+				</h:panelGrid>
+				<br />
+				<h:panelGrid columns="3">
+					<h:outputLabel for="address">Address</h:outputLabel>
+					<h:inputText id="address" value="#{checkoutController.adr.street}"
+						redisplay="true" />
+					<h:message id="addressMessage" for="address" />
+					<h:outputLabel for="city">City</h:outputLabel>
+					<h:inputText id="city" value="#{checkoutController.adr.city}"
+						redisplay="true" />
+					<h:message id="cityMessage" for="city" />
+					<h:outputLabel for="postalC">Postal code</h:outputLabel>
+					<h:inputText id="postalC"
+						value="#{checkoutController.adr.postalCode}" redisplay="true" />
+					<h:message id="postalCMessage" for="postalC" />
+					<h:outputLabel for="shipInfo">Shipping info</h:outputLabel>
+					<h:inputText id="shipInfo"
+						value="#{checkoutController.shippingInfo}" redisplay="true" />
+					<h:message id="shipInfoMessage" for="shipInfo" />
+				</h:panelGrid>
+				<h:commandButton value="Buy"
+					action="#{checkoutController.checkout()}">
+				<f:ajax execute="@form" render="@form" />
+			</h:commandButton>
 			</h:form>
 		</h:panelGroup>
 	</ui:define>

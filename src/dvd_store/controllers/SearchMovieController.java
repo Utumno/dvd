@@ -30,7 +30,7 @@ public class SearchMovieController implements Serializable {
 	public String search() throws ServletException {
 		switch (type) {
 		case "Title":
-			setSearchResults(ms.searchTitles(query));
+			setSearchResults(ms.searchTitles(query)); // FIXME !
 			break;
 		case "Director":
 			setSearchResults(ms.searchDirector(query));

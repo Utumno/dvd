@@ -232,8 +232,9 @@ public class Movie implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + idmovie;
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + getIdmovie();
+		result = prime * result
+			+ ((getTitle() == null) ? 0 : getTitle().hashCode());
 		return result;
 	}
 
@@ -243,10 +244,10 @@ public class Movie implements Serializable {
 		if (obj == null) return false;
 		if (!(obj instanceof Movie)) return false;
 		Movie other = (Movie) obj;
-		if (idmovie != other.idmovie) return false;
-		if (title == null) {
-			if (other.title != null) return false;
-		} else if (!title.equals(other.title)) return false;
+		if (getIdmovie() != other.getIdmovie()) return false;
+		if (getTitle() == null) {
+			if (other.getTitle() != null) return false;
+		} else if (!getTitle().equals(other.getTitle())) return false;
 		return true;
 	}
 }
