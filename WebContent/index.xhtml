@@ -10,6 +10,10 @@
 		<h1 style="text-align: center">
 			<h:outputText value="#{text['index.head1']}" />
 		</h1>
-		You can <a href="register.xhtml">Register</a> if you want to enjoy all the goodies we have to offer.
+		<h:link value="Register" output="register.xhtml"
+			rendered="#{sessionScope.user == null}" />
+		<h:outputText rendered="#{sessionScope.user == null}"
+			value="#{text['index.content']}" />
+		<h:outputText rendered="#{sessionScope.user != null}" value="#{text['index.content.loggedin']}" />
 	</ui:define>
 </ui:composition>
