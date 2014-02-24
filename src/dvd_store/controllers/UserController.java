@@ -53,9 +53,8 @@ public class UserController implements Serializable {
 			// System.out.println(Utils.cause(e));
 			faces().addMessage(
 				null,
-				new FacesMessage(
-				FacesMessage.SEVERITY_ERROR, "Unknown login, please try again",
-				null));
+				new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Unknown login, please try again", null));
 			return null;
 		}
 	}

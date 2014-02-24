@@ -24,9 +24,9 @@ import static dvd_store.faces.utils.Utils.sessionGet;
 public class CheckoutController implements Serializable {
 
 	private static final long serialVersionUID = -330518307160114012L;
-	private CreditCard cs = new CreditCard();
-	private Address adr = new Address();
-	private Address csadr = new Address();
+	private CreditCard cd = new CreditCard();
+	private Address postalAddresss = new Address();
+	private Address ccAddresss = new Address();
 	private ShippingInfo shippingInfo;
 	@EJB
 	private OrderService os;
@@ -45,12 +45,13 @@ public class CheckoutController implements Serializable {
 
 	public String checkout() {
 		User u = (User) sessionGet("user");
-		System.out.println("CAAAAARRRTTT:" + _cart + " USER " + u.getUsername()
-			+ "\n"); // YES!
+		System.out.println("ADDR: " + postalAddresss.getStreet() + " USER "
+			+ u.getUsername() + "\n"); // YES!
 		// cs = new CreditCard();
 		// csadr = adr = new Address();
 		// shippingInfo = null;
-		os.addOrder(cs, adr, csadr, u, _cart); // FIXME - REAL ORDER
+		os.addOrder(cd, postalAddresss, ccAddresss, u, _cart); // FIXME - REAL
+																// ORDER
 		return null;
 	}
 
@@ -66,31 +67,32 @@ public class CheckoutController implements Serializable {
 	public ShippingInfo[] getShippingInfos() {
 		return ShippingInfo.values();
 	}
+
 	// =========================================================================
 	// Getters Setters
 	// =========================================================================
 	public CreditCard getCs() {
-		return cs;
+		return cd;
 	}
 
 	public void setCs(CreditCard cs) {
-		this.cs = cs;
+		this.cd = cs;
 	}
 
 	public Address getAdr() {
-		return adr;
+		return postalAddresss;
 	}
 
 	public void setAdr(Address adr) {
-		this.adr = adr;
+		this.postalAddresss = adr;
 	}
 
 	public Address getCsadr() {
-		return csadr;
+		return ccAddresss;
 	}
 
 	public void setCsadr(Address csadr) {
-		this.csadr = csadr;
+		this.ccAddresss = csadr;
 	}
 
 	public ShippingInfo getShippingInfo() {

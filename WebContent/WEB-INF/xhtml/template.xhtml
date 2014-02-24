@@ -4,24 +4,28 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <!-- <f:view encoding="UTF-8" contentType="text/html">-->
- <h:head>
+<h:head>
 	<title><ui:insert name="title">Default title</ui:insert></title>
 	<h:outputStylesheet library="default" name="css/style.css" />
 </h:head>
 <h:body>
 	<div id="wrapper" style="text-align: center; background-color: blue;">
 		<ui:insert name="header">
-			<ui:include src="header.xhtml"/>
+			<ui:include src="header.xhtml" />
 		</ui:insert>
 		<div id="menu" style="clear: both">
-			<h:link value="Home "  outcome="/index.xhtml" />
-			<h:link value="Browse Movies "  outcome="/movies.xhtml" />
-			<h:link value="Add Movie" rendered="#{sessionScope.user.admin}" outcome="/admin/add_movie.xhtml" />
+			<h:link value="Home " outcome="/index.xhtml" />
+			<h:link value="Browse Movies " outcome="/movies.xhtml" />
+			<h:link value="Add Movie" rendered="#{sessionScope.user.admin}"
+				outcome="/admin/add_movie.xhtml" />
 		</div>
 		<div id="content" style="clear: both; display: inline-block">
 			<ui:insert name="content">Default content</ui:insert>
 		</div>
-		<div id="footer"><br/><br/><br/><h:outputText value="#{text['footer.text']}" /></div>
+		<div id="footer">
+			<br /><br /><br />
+			<h:outputText value="#{text['footer.text']}" />
+		</div>
 	</div>
 </h:body>
 <!-- </f:view> -->

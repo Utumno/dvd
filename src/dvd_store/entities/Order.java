@@ -51,6 +51,9 @@ public class Order implements Serializable {
 
 	public Order() {}
 
+	// =========================================================================
+	// Getters Setters
+	// =========================================================================
 	public int getIdorder() {
 		return this.idorder;
 	}

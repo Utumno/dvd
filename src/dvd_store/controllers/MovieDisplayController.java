@@ -64,7 +64,8 @@ public class MovieDisplayController implements Serializable {
 		// System.out.println("IIIIIII: " +
 		// getCartController().getCart().get(movie) + "\n");
 		return movie.getAvailable()
-			- ((getCartController().getCart().containsKey(movie)) ? getCartController().getCart().get(movie) : 0);
+			- ((getCartController().getCart().containsKey(movie))
+					? getCartController().getCart().get(movie) : 0);
 	}
 
 	public boolean hasOrdered() {
@@ -74,6 +75,7 @@ public class MovieDisplayController implements Serializable {
 	public boolean getMovieAvailable() {
 		return getAvailableForThisUser() > 0;
 	}
+
 	// =========================================================================
 	// Getters Setters
 	// =========================================================================

@@ -8,19 +8,21 @@
 			<h:graphicImage library="default"
 				name="img/032-ivan-the-terrible-theredlist.jpg" />
 		</div>
-		<f:view><div style="float: left; background-color: red;">
-			<h:form id="loginForm" rendered="#{sessionScope.user == null}">
-				<h:panelGrid columns="2">
-					<h:outputLabel for="username">Username</h:outputLabel>
-					<h:inputText id="username" value="#{userController.user.username}" />
-					<h:outputLabel for="password">Password</h:outputLabel>
-					<h:inputSecret id="password"
-						value="#{userController.user.password}" />
-					<h:link outcome="/register.xhtml">Register</h:link>
-					<h:commandButton value="Login" action="#{userController.login}" />
-				</h:panelGrid>
-			</h:form>
-		</div></f:view>
+		<f:view>
+			<div style="float: left; background-color: red;">
+				<h:form id="loginForm" rendered="#{sessionScope.user == null}">
+					<h:panelGrid columns="2">
+						<h:outputLabel for="username">Username</h:outputLabel>
+						<h:inputText id="username" value="#{userController.user.username}" />
+						<h:outputLabel for="password">Password</h:outputLabel>
+						<h:inputSecret id="password"
+							value="#{userController.user.password}" />
+						<h:link outcome="/register.xhtml">Register</h:link>
+						<h:commandButton value="Login" action="#{userController.login}" />
+					</h:panelGrid>
+				</h:form>
+			</div>
+		</f:view>
 		<div style="float: left; background-color: red;">
 			<h:form rendered="#{sessionScope.user != null}">
 				<h:outputText
@@ -30,7 +32,7 @@
 				<h:commandButton value="Logout" action="#{userController.logout}" />
 			</h:form>
 		</div>
-		<f:view locale="#{localeBean.locale}" >
+		<f:view locale="#{localeBean.locale}">
 			<h:form>
 				<h:selectOneMenu value="#{localeBean.language}" onchange="submit()">
 					<f:selectItem itemValue="en" itemLabel="English" />
@@ -40,7 +42,7 @@
 			<p>
 				<h:outputText value="#{text['dvd_store.name']}" />
 			</p>
-		<ui:include src="cart.xhtml"/>
+			<ui:include src="cart.xhtml" />
 		</f:view>
 	</div>
 </ui:composition>

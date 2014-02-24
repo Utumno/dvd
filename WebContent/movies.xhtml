@@ -34,7 +34,7 @@
 			</h:panelGrid>
 			<h:commandButton value="Browse"
 				action="#{searchMovieController.search}" />
-				<!-- TODO ajax ?? -->
+			<!-- TODO ajax ?? -->
 			<h:messages />
 		</h:form>
 		<h:form>
@@ -45,7 +45,8 @@
 					<f:facet name="header">
 						<h:outputText value="Title" />
 					</f:facet>
-					<h:link value="View details of #{searchResult.title}" outcome="/movie">
+					<h:link value="View details of #{searchResult.title}"
+						outcome="/movie">
 						<f:param name="id" value="#{searchResult.idmovie}" />
 					</h:link>
 				</h:column>

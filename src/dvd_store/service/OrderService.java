@@ -29,47 +29,50 @@ public class OrderService {
 
 	public void addOrder(CreditCard cc, Address postalAddresss,
 			Address ccAddresss, User u, Map<Movie, Integer> m) {
-		StoredProcedureQuery nq = em
-			.createStoredProcedureQuery("r9_insert_credit_card");
-		nq.registerStoredProcedureParameter("ccnum", BigInteger.class,
-			ParameterMode.IN);
-		nq.registerStoredProcedureParameter("cctype", String.class,
-			ParameterMode.IN);
-		nq.registerStoredProcedureParameter("istreet", String.class,
-			ParameterMode.IN);
-		nq.registerStoredProcedureParameter("icity", String.class,
-			ParameterMode.IN);
-		nq.registerStoredProcedureParameter("pc", String.class,
-			ParameterMode.IN);
-		nq.registerStoredProcedureParameter("userid", Integer.class,
-			ParameterMode.IN);
-		nq.setParameter("ccnum", cc.getCreditCardNumber());
-		nq.setParameter("cctype", cc.getCreditCardType());
-		nq.setParameter("istreet", ccAddresss.getStreet());
-		nq.setParameter("icity", ccAddresss.getCity());
-		nq.setParameter("pc", ccAddresss.getPostalCode());
-		nq.setParameter("userid", u.getIduser());
-		nq.execute();
-		StoredProcedureQuery spqAddr = em
-			.createStoredProcedureQuery("r9_insert_address");
-		spqAddr.registerStoredProcedureParameter("istreet", String.class,
-			ParameterMode.IN);
-		spqAddr.registerStoredProcedureParameter("icity", String.class,
-			ParameterMode.IN);
-		spqAddr.registerStoredProcedureParameter("pc", String.class,
-			ParameterMode.IN);
-		spqAddr.registerStoredProcedureParameter("userid", Integer.class,
-			ParameterMode.IN);
-		spqAddr.registerStoredProcedureParameter("adressid", Integer.class,
-			ParameterMode.OUT);
-		final String streetPostalAddr = postalAddresss.getStreet();
-		spqAddr.setParameter("istreet", streetPostalAddr);
-		spqAddr.setParameter("icity", postalAddresss.getCity());
-		spqAddr.setParameter("pc", postalAddresss.getPostalCode());
-		spqAddr.setParameter("userid", u.getIduser());
-		System.out.println("EXECUTE : " + spqAddr.execute());
-		System.out.println("ADDRID : "
-			+ spqAddr.getOutputParameterValue("adressid"));
+		{
+			StoredProcedureQuery _sq_ = em
+				.createStoredProcedureQuery("r9_insert_credit_card");
+			_sq_.registerStoredProcedureParameter("ccnum", BigInteger.class,
+				ParameterMode.IN);
+			_sq_.registerStoredProcedureParameter("cctype", String.class,
+				ParameterMode.IN);
+			_sq_.registerStoredProcedureParameter("istreet", String.class,
+				ParameterMode.IN);
+			_sq_.registerStoredProcedureParameter("icity", String.class,
+				ParameterMode.IN);
+			_sq_.registerStoredProcedureParameter("pc", String.class,
+				ParameterMode.IN);
+			_sq_.registerStoredProcedureParameter("userid", Integer.class,
+				ParameterMode.IN);
+			_sq_.setParameter("ccnum", cc.getCreditCardNumber());
+			_sq_.setParameter("cctype", cc.getCreditCardType());
+			_sq_.setParameter("istreet", ccAddresss.getStreet());
+			_sq_.setParameter("icity", ccAddresss.getCity());
+			_sq_.setParameter("pc", ccAddresss.getPostalCode());
+			_sq_.setParameter("userid", u.getIduser());
+			_sq_.execute();
+		}
+		{
+			StoredProcedureQuery _sq_ = em
+				.createStoredProcedureQuery("r9_insert_address");
+			_sq_.registerStoredProcedureParameter("istreet", String.class,
+				ParameterMode.IN);
+			_sq_.registerStoredProcedureParameter("icity", String.class,
+				ParameterMode.IN);
+			_sq_.registerStoredProcedureParameter("pc", String.class,
+				ParameterMode.IN);
+			_sq_.registerStoredProcedureParameter("userid", Integer.class,
+				ParameterMode.IN);
+			_sq_.registerStoredProcedureParameter("adressid", Integer.class,
+				ParameterMode.OUT);
+			_sq_.setParameter("istreet", postalAddresss.getStreet());
+			_sq_.setParameter("icity", postalAddresss.getCity());
+			_sq_.setParameter("pc", postalAddresss.getPostalCode());
+			_sq_.setParameter("userid", u.getIduser());
+			System.out.println("EXECUTE : " + _sq_.execute());
+			System.out.println("ADDRID : "
+				+ _sq_.getOutputParameterValue("adressid"));
+		}
 	}
 
 	public boolean isTitleUnique(String title) {

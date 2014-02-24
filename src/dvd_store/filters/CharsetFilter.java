@@ -43,7 +43,7 @@ public class CharsetFilter implements Filter {
 		// See :
 		// http://stackoverflow.com/questions/49547/making-sure-a-web-page-is-not-cached-across-all-browsers/2068407#2068407
 		httpResp.setHeader("Cache-Control",
-				"no-cache, no-store, must-revalidate"); // HTTP 1.1.
+			"no-cache, no-store, must-revalidate"); // HTTP 1.1.
 		httpResp.setHeader("Pragma", "no-cache"); // HTTP 1.0.
 		httpResp.setDateHeader("Expires", 0); // Proxies.
 		// System.out.println("Headers : "

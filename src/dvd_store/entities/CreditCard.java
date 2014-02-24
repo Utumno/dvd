@@ -45,6 +45,9 @@ public class CreditCard implements Serializable {
 
 	public CreditCard() {}
 
+	// =========================================================================
+	// Getters Setters
+	// =========================================================================
 	public BigInteger getCreditCardNumber() {
 		return this.creditCardNumber;
 	}
