@@ -17,7 +17,6 @@ import javax.faces.validator.ValidatorException;
 import dvd_store.entities.User;
 import dvd_store.service.UserService;
 
-import static dvd_store.faces.utils.Utils.faces;
 import static dvd_store.faces.utils.Utils.msgError;
 import static dvd_store.faces.utils.Utils.sessionPut;
 
@@ -51,10 +50,7 @@ public class UserController implements Serializable {
 			return "/index.xhtml";
 		} catch (EJBException e) {
 			// System.out.println(Utils.cause(e));
-			faces().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Unknown login, please try again", null));
+			msgError("Unknown login, please try again");
 			return null;
 		}
 	}

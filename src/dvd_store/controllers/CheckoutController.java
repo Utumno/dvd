@@ -17,6 +17,7 @@ import dvd_store.entities.Order.ShippingInfo;
 import dvd_store.entities.User;
 import dvd_store.service.OrderService;
 
+import static dvd_store.faces.utils.Utils.msgInfo;
 import static dvd_store.faces.utils.Utils.sessionGet;
 
 @ManagedBean
@@ -52,6 +53,7 @@ public class CheckoutController implements Serializable {
 			os.addOrder(cd, postalAddresss, ccAddresss, shippingInfo, u,
 				cc.getCart());
 		cc.emptyCart();
+		msgInfo("Purchase successful - email soon");
 		return /* "/index.xhtml" */null;
 	}
 

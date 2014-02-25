@@ -23,4 +23,9 @@ public class Utils {
 		faces().addMessage(null,
 			new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
 	}
+
+	public static void msgInfo(String message) {
+		faces().addMessage(null,
+			new FacesMessage(FacesMessage.SEVERITY_INFO, message, null));
+	}
 }
