@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.Parameter;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -46,7 +45,7 @@ public class OrderService {
 		{
 			// r9_insert_credit_card //
 			// insert ignore into CC - update user_has_credit_cards
-			// FIXME not accept an address if already has one
+			// FIXME overrides address of existing credit card
 			StoredProcedureQuery _sq_ = em
 				.createStoredProcedureQuery("r9_insert_credit_card");
 			_sq_.registerStoredProcedureParameter("ccnum", BigInteger.class,
@@ -100,17 +99,23 @@ public class OrderService {
 			postalAddresss.setIdaddress((int) _sq_
 				.getOutputParameterValue("adressid"));
 		}
+		em.persist(or);
+		// System.out.println("ORDER ID :" + or.getIdorder()); // 0
+		em.flush();
+		// System.out.println("ORDER ID AFTER FLUSH :" + or.getIdorder()); // 9
 		{
 			List<OrdersHasMovy> ordersHasMovies = new ArrayList<>();
 			for (Entry<Movie, Integer> movies : m.entrySet()) {
 				final OrdersHasMovy ohm = new OrdersHasMovy();
+				System.out.println("MOVIES " + movies.getKey().getIdmovie());
 				ohm.setMovy(movies.getKey());
 				ohm.setQuantity(movies.getValue());
+				ohm.setOrder(or);
 				ordersHasMovies.add(ohm);
 			}
 			or.setOrdersHasMovies(ordersHasMovies);
 		}
-		em.persist(or);
+		em.merge(or);
 		// em.persist(ccAddresss); // this double persists the address (same
 		// // street/city/PC, different id)
 		// em.flush();

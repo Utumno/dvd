@@ -39,8 +39,7 @@ public class CheckoutController implements Serializable {
 
 	@PostConstruct
 	void init() {
-		_cart = cc.getCart();
-		setViewCart(_cart);
+		setViewCart(cc.getCart());
 	}
 
 	public String checkout() {
@@ -50,8 +49,8 @@ public class CheckoutController implements Serializable {
 		// cs = new CreditCard();
 		// csadr = adr = new Address();
 		// shippingInfo = null;
-		os.addOrder(cd, postalAddresss, ccAddresss, u, _cart); // FIXME - REAL
-																// ORDER
+		os.addOrder(cd, postalAddresss, ccAddresss, shippingInfo, u,
+			cc.getCart()); // FIXME - REAL ORDER
 		return null;
 	}
 

@@ -4,8 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -20,15 +23,18 @@ public class OrdersHasMovy implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@EmbeddedId
+	@GeneratedValue(strategy = GenerationType.IDENTITY)	// FIXME NEEDED ?
 	private OrdersHasMovyPK id;
 	private int quantity;
 	// bi-directional many-to-one association to Movy
 	@ManyToOne
 	@JoinColumn(name = "movies_idmovie")
+	@MapsId("moviesIdmovie")
 	private Movie movy;
 	// bi-directional many-to-one association to Order
 	@ManyToOne
 	@JoinColumn(name = "orders_idorder")
+	@MapsId("ordersIdorder")
 	private Order order;
 
 	public OrdersHasMovy() {}
