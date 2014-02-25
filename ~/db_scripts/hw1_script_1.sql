@@ -1086,7 +1086,6 @@ USE `hw1_db_1`$$
 CREATE PROCEDURE `hw1_db_1`.`r9_insert_address` (istreet VARCHAR(45), icity VARCHAR(45),
 				pc VARCHAR(10), userid INT, OUT adressid INT)
 BEGIN
-	DECLARE adressid INT;
 	SELECT idaddress INTO adressid
 		FROM addresses
 		WHERE
