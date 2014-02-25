@@ -43,6 +43,7 @@ public class Movie implements Serializable {
 	private int numberOfCopies = 1; // or Integer to avoid seeing value in form
 	// PRICE
 	@Digits(fraction = 2, integer = 3)
+	@NotNull(message = "Please enter price")
 	private BigDecimal price;
 	// RATING
 	@Enumerated(EnumType.STRING)

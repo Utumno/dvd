@@ -14,6 +14,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Size;
 
 /**
  * The persistent class for the credit_cards database table.
@@ -26,11 +27,13 @@ public class CreditCard implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "credit_card_number")
-	// TODO validation
+	// FIXME validation
 	// @Min(value = 1);
+	// @Positive ?
 	@Digits(integer = 16, message = "At most sixteen digits", fraction = 0)
 	private BigInteger creditCardNumber;
 	@Column(name = "credit_card_type")
+	@Size(max = 45, message = "Max 45 chars")
 	private String creditCardType;
 	// bi-directional many-to-one association to Address
 	@ManyToOne

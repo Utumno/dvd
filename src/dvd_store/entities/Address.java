@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -27,11 +28,14 @@ public class Address implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idaddress;
 	@Size(max = 45, message = "Max 45 chars")
+	@NotNull(message = "Please enter a city")
 	private String city;
 	@Column(name = "postal_code")
 	@Size(max = 10, message = "Max 10 chars")
+	@NotNull(message = "Please enter a postal code")
 	private String postalCode;
 	@Size(max = 45, message = "Max 45 chars")
+	@NotNull(message = "Please enter an address")
 	private String street;
 	// bi-directional many-to-one association to CreditCard
 	@OneToMany(mappedBy = "address")
