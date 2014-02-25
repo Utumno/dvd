@@ -10,11 +10,13 @@
 	<ui:define name="title">Search Movies - <h:outputText
 			value="#{text['dvd_store.name']}" />
 	</ui:define>
-	<ui:define name="content">
+	<ui:define name="h1">
 		<h1 style="text-align: center">
 			<h:outputText
 				value="#{(movieDisplayController.movie != null) ? movieDisplayController.movie.title : text['dvd_store.name']}" />
 		</h1>
+	</ui:define>
+	<ui:define name="content">
 		<h:form id="movie_form">
 			<h:panelGrid columns="2"
 				rendered="#{movieDisplayController.movie != null}">

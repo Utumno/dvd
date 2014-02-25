@@ -6,14 +6,17 @@
 	<ui:define name="title">
 		<h:outputText value="#{text['index.title']}" />
 	</ui:define>
-	<ui:define name="content">
+	<ui:define name="h1">
 		<h1 style="text-align: center">
 			<h:outputText value="#{text['index.head1']}" />
 		</h1>
+	</ui:define>
+	<ui:define name="content">
 		<h:link value="Register" output="register.xhtml"
 			rendered="#{sessionScope.user == null}" />
 		<h:outputText rendered="#{sessionScope.user == null}"
 			value="#{text['index.content']}" />
-		<h:outputText rendered="#{sessionScope.user != null}" value="#{text['index.content.loggedin']}" />
+		<h:outputText rendered="#{sessionScope.user != null}"
+			value="#{text['index.content.loggedin']}" />
 	</ui:define>
 </ui:composition>

@@ -11,8 +11,6 @@
 			value="#{text['dvd_store.name']}" />
 	</ui:define>
 	<ui:define name="content">
-		<h1 style="text-align: center">Checkout -
-			#{text['dvd_store.name']}</h1>
 		<h:panelGroup id="checkout">
 			<h:form id="checkout_form"
 				rendered="#{checkoutController.viewCart != null and (not empty checkoutController.viewCart)}">

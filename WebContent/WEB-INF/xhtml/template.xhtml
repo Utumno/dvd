@@ -20,10 +20,17 @@
 				outcome="/admin/add_movie.xhtml" />
 		</div>
 		<div id="content" style="clear: both; display: inline-block">
+			<ui:insert name="h1">
+				<h1 style="text-align: center">
+					<ui:insert name="title">Main header by default the page title</ui:insert>
+				</h1>
+			</ui:insert>
 			<ui:insert name="content">Default content</ui:insert>
 		</div>
 		<div id="footer">
-			<br /><br /><br />
+			<br />
+			<br />
+			<br />
 			<h:outputText value="#{text['footer.text']}" />
 		</div>
 	</div>
