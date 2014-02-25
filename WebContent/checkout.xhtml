@@ -97,7 +97,7 @@
 				</h:panelGrid>
 				<h:commandButton value="Buy"
 					action="#{checkoutController.checkout()}">
-					<f:ajax execute="@form" render="@form" />
+					<f:ajax execute="@form" render="@form :cart_form" />
 				</h:commandButton>
 			</h:form>
 			<h:outputText

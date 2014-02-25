@@ -35,7 +35,6 @@ public class CheckoutController implements Serializable {
 	private Order order; // UNUSED
 	/** this is edited by the view when user edits quantities */
 	private Map<Movie, Integer> viewCart;
-	private Map<Movie, Integer> _cart; // local mirror of the cart
 
 	@PostConstruct
 	void init() {
@@ -49,9 +48,11 @@ public class CheckoutController implements Serializable {
 		// cs = new CreditCard();
 		// csadr = adr = new Address();
 		// shippingInfo = null;
-		os.addOrder(cd, postalAddresss, ccAddresss, shippingInfo, u,
-			cc.getCart()); // FIXME - REAL ORDER
-		return null;
+		if (!cc.getCart().isEmpty()) // hack - I want to stay in checkout
+			os.addOrder(cd, postalAddresss, ccAddresss, shippingInfo, u,
+				cc.getCart());
+		cc.emptyCart();
+		return /* "/index.xhtml" */null;
 	}
 
 	public void editRowQuantity(Movie movie, Integer quantity) {

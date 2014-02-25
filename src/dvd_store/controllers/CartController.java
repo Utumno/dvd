@@ -69,6 +69,10 @@ public class CartController implements Serializable {
 		return null;
 	}
 
+	public void emptyCart() {
+		cart.clear();
+	}
+
 	// =========================================================================
 	// Getters Setters
 	// =========================================================================
