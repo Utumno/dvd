@@ -1,11 +1,15 @@
 package dvd_store.service;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.Parameter;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -14,6 +18,9 @@ import javax.persistence.StoredProcedureQuery;
 import dvd_store.entities.Address;
 import dvd_store.entities.CreditCard;
 import dvd_store.entities.Movie;
+import dvd_store.entities.Order;
+import dvd_store.entities.Order.ShippingInfo;
+import dvd_store.entities.OrdersHasMovy;
 import dvd_store.entities.User;
 
 @Stateless
@@ -28,8 +35,18 @@ public class OrderService {
 	}
 
 	public void addOrder(CreditCard cc, Address postalAddresss,
-			Address ccAddresss, User u, Map<Movie, Integer> m) {
+			Address ccAddresss, ShippingInfo shippingInfo, User u,
+			Map<Movie, Integer> m) {
+		Order or = new Order();
+		or.setAddress(postalAddresss);
+		or.setCreditCard(cc);
+		or.setDate(new Date()); // automatically on Insert ????
+		or.setShippingInfo(shippingInfo);
+		or.setUser(u);
 		{
+			// r9_insert_credit_card //
+			// insert ignore into CC - update user_has_credit_cards
+			// FIXME not accept an address if already has one
 			StoredProcedureQuery _sq_ = em
 				.createStoredProcedureQuery("r9_insert_credit_card");
 			_sq_.registerStoredProcedureParameter("ccnum", BigInteger.class,
@@ -53,6 +70,9 @@ public class OrderService {
 			_sq_.execute();
 		}
 		{
+			// r9_insert_address //
+			// insert into Address ONLY WHEN ADDRESS DIFFERS - update
+			// user_has_addresses
 			StoredProcedureQuery _sq_ = em
 				.createStoredProcedureQuery("r9_insert_address");
 			_sq_.registerStoredProcedureParameter("istreet", String.class,
@@ -69,10 +89,39 @@ public class OrderService {
 			_sq_.setParameter("icity", postalAddresss.getCity());
 			_sq_.setParameter("pc", postalAddresss.getPostalCode());
 			_sq_.setParameter("userid", u.getIduser());
-			System.out.println("EXECUTE : " + _sq_.execute());
-			System.out.println("ADDRID : "
-				+ _sq_.getOutputParameterValue("adressid"));
+			_sq_.execute();
+			// final boolean execute = _sq_.execute();
+			// System.out.println("EXECUTE : " + execute); // false
+			// em.flush(); // nothing
+			// for (Parameter<?> p : _sq_.getParameters())
+			// System.out.println("P: " + p);
+			// System.out.println("ADDRID : "
+			// + _sq_.getOutputParameterValue("adressid")); // yes!!!
+			postalAddresss.setIdaddress((int) _sq_
+				.getOutputParameterValue("adressid"));
 		}
+		{
+			List<OrdersHasMovy> ordersHasMovies = new ArrayList<>();
+			for (Entry<Movie, Integer> movies : m.entrySet()) {
+				final OrdersHasMovy ohm = new OrdersHasMovy();
+				ohm.setMovy(movies.getKey());
+				ohm.setQuantity(movies.getValue());
+				ordersHasMovies.add(ohm);
+			}
+			or.setOrdersHasMovies(ordersHasMovies);
+		}
+		em.persist(or);
+		// em.persist(ccAddresss); // this double persists the address (same
+		// // street/city/PC, different id)
+		// em.flush();
+		// System.out.println("CCADDRESSID :" + ccAddresss.getIdaddress());// ok
+		// cc.setAddress(ccAddresss);
+		// em.persist(cc); // this throws if I pass the same cc number. merge()
+		// // throws if the card does not exist
+		// // update user_has_credit_cards
+		// em.persist(postalAddresss);
+		// // user_has_addresses
+		// em.flush();
 	}
 
 	public boolean isTitleUnique(String title) {

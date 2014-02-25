@@ -126,7 +126,7 @@ public class Order implements Serializable {
 	// Helpers
 	// =========================================================================
 	public static enum ShippingInfo {
-		COURRIER("COURRIER"), SIMPLE("SIMPLE");
+		COURRIER("COURRIER"), DSL("DSL"), POST("POST");
 
 		private String label;
 
