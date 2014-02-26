@@ -44,6 +44,7 @@ public class MovieDisplayController implements Serializable {
 		// hack to load the categories TODO
 		// see: https://community.oracle.com/thread/173733
 		movie.getCategories().size();
+		movie.getMoviesHasCrews().size();
 		sessionPut("movie", movie);
 	}
 
