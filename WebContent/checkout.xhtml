@@ -42,7 +42,8 @@
 					<h:column>
 						<h:commandButton value="delete"
 							action="#{checkoutController.removeRowFromCart(item.key)}">
-							<f:ajax execute="@this" render=":checkout_form :cart_form" /> <!-- TODO : not render the whole form -->
+							<f:ajax execute="@this" render=":checkout_form :cart_form" />
+							<!-- TODO : not render the whole form -->
 						</h:commandButton>
 					</h:column>
 					<h:column>
