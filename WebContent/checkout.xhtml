@@ -88,7 +88,8 @@
 					<h:selectOneMenu id="shipInfo"
 						value="#{checkoutController.shippingInfo}">
 						<f:selectItems value="#{checkoutController.shippingInfos}"
-							var="shipInfo" itemValue="#{shipInfo}" itemLabel="#{shipInfo.label}" />
+							var="shipInfo" itemValue="#{shipInfo}"
+							itemLabel="#{shipInfo.label}" />
 						<f:ajax event="blur" render="shipInfoMessage" />
 					</h:selectOneMenu>
 					<h:message id="shipInfoMessage" for="shipInfo" />

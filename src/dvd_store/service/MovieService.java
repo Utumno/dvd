@@ -66,6 +66,9 @@ public class MovieService {
 		return em.find(Movie.class, id);
 	}
 
+	// =========================================================================
+	// Browse Movies
+	// =========================================================================
 	public List<Movie> searchTitles(String query) {
 		StoredProcedureQuery nq = em.createStoredProcedureQuery(
 			"r2_browse_movies_by_title", Movie.class);

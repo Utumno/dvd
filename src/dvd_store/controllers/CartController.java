@@ -62,7 +62,8 @@ public class CartController implements Serializable {
 		if (cart.isEmpty()) {
 			return "Your cart is empty";
 		}
-		return "You have " + items + " items in your cart worth $" + amount;
+		return "You have " + items + " item" + (items == 1 ? "" : "s")
+			+ " in your cart worth $" + amount;
 	}
 
 	public String checkout() {

@@ -31,10 +31,10 @@ public class ViewExpiredExceptionExceptionHandler extends
 	public void handle() throws FacesException {
 		for (Iterator<ExceptionQueuedEvent> i = getUnhandledExceptionQueuedEvents()
 			.iterator(); i.hasNext();) {
-			ExceptionQueuedEvent event = i.next();
-			ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event
+			ExceptionQueuedEvent nextEvent = i.next();
+			ExceptionQueuedEventContext eventContext = (ExceptionQueuedEventContext) nextEvent
 				.getSource();
-			Throwable t = context.getException();
+			Throwable t = eventContext.getException();
 			if (t instanceof ViewExpiredException) {
 				ViewExpiredException vee = (ViewExpiredException) t;
 				NavigationHandler navigationHandler = faces().getApplication()

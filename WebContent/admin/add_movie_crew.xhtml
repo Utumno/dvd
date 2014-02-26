@@ -8,7 +8,6 @@
 	<ui:define name="content">
 		<!-- <h:outputText value="#{sessionScope.movie.moviesHasCrews}" /> -->
 		<ui:include src="/WEB-INF/xhtml/movie_crew.xhtml"/>
-		<!-- <h:messages /> -->
 		<h:form id="movie_add_crew_form"
 			rendered="#{sessionScope.movie != null}">
 			<h:panelGrid columns="4">
