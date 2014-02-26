@@ -12,9 +12,9 @@
 	</ui:define>
 	<ui:define name="content">
 		<h:panelGroup id="checkout">
-			<h:form id="checkout_form"
-				rendered="#{checkoutController.viewCart != null and (not empty checkoutController.viewCart)}">
+			<h:form id="checkout_form">
 				<h:dataTable id="checkout_table"
+					rendered="#{checkoutController.viewCart != null and (not empty checkoutController.viewCart)}"
 					value="#{checkoutController.viewCart.entrySet()}" var="item"
 					bgcolor="#F1F1F1" border="10" cellspacing="2" width="60%"
 					rules="all">
@@ -35,13 +35,14 @@
 					<h:column>
 						<h:commandButton value="edit"
 							action="#{checkoutController.editRowQuantity(item.key,item.value)}">
-							<f:ajax execute="@this" render="quantity :cart_form" />
+							<f:ajax execute="@this"
+								render="quantity quantityMessage :cart_form" />
 						</h:commandButton>
 					</h:column>
 					<h:column>
 						<h:commandButton value="delete"
-							action="#{checkoutController.removeRowFromCart(item.key)}" >
-							<f:ajax execute="@this" render=":checkout_form :cart_form" />
+							action="#{checkoutController.removeRowFromCart(item.key)}">
+							<f:ajax execute="@this" render=":checkout_form :cart_form" /> <!-- TODO : not render the whole form -->
 						</h:commandButton>
 					</h:column>
 					<h:column>
@@ -99,6 +100,7 @@
 					<h:message id="shipInfoMessage" for="shipInfo" />
 				</h:panelGrid>
 				<h:commandButton value="Buy"
+					rendered="#{checkoutController.viewCart != null and (not empty checkoutController.viewCart)}"
 					action="#{checkoutController.checkout()}">
 					<f:ajax execute="@form" render="@form :cart_form" />
 				</h:commandButton>

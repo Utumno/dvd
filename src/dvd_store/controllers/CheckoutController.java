@@ -50,18 +50,21 @@ public class CheckoutController implements Serializable {
 		// cs = new CreditCard();
 		// csadr = adr = new Address();
 		// shippingInfo = null;
-		if (!cc.getCart().isEmpty()) // hack - I want to stay in checkout
+		if (!cc.getCart().isEmpty()) // hack - I want to stay in checkout TODO
 			os.addOrder(cd, postalAddresss, ccAddresss, shippingInfo, u,
 				cc.getCart());
 		cc.emptyCart();
 		msgInfo("Purchase successful - email soon");
+		viewCart.clear();
 		return /* "/index.xhtml" */null;
 	}
 
 	public void editRowQuantity(Movie movie, Integer quantity) {
-		if (quantity > movie.getAvailable()) {
-			String message = "Available copies are " + movie.getAvailable();
-			msgErrorTo("quantityMessage", message);
+		final int available = movie.getAvailable();
+		if (quantity > available) {
+			msgErrorTo("quantityMessage", "Available copies are currently "
+				+ available);
+			viewCart.put(movie, available);
 			return;
 		}
 		cc.mergeMovieToCart(movie, quantity);
