@@ -148,4 +148,12 @@ public class Order implements Serializable {
 			return label;
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "Order [idorder=" + idorder + ", date=" + date
+			+ ", shippingInfo=" + shippingInfo + ", address=" + address
+			+ ", creditCard=" + creditCard + ", user=" + user
+			+ ", ordersHasMovies=" + ordersHasMovies + "]";
+	}
 }

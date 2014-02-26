@@ -34,6 +34,7 @@
 				action="#{movieController.addCrewMember}">
 				<f:ajax execute="@form" render="@form :movie_crew" />
 			</h:commandButton>
+			<h:messages infoStyle="color:darkgreen" globalOnly="true" />
 		</h:form>
 		<h:link value="Back Home" outcome="/index" />
 	</ui:define>

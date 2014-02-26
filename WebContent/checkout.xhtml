@@ -104,6 +104,7 @@
 					action="#{checkoutController.checkout()}">
 					<f:ajax execute="@form" render="@form :cart_form" />
 				</h:commandButton>
+				<h:messages infoStyle="color:darkgreen" globalOnly="true" />
 			</h:form>
 			<h:outputText
 				rendered="#{checkoutController.viewCart == null or (empty checkoutController.viewCart)}"

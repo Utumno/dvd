@@ -57,9 +57,9 @@
 					rendered="#{not movieDisplayController.movieAvailable}"
 					value="#{movieDisplayController.hasOrdered() ? 'No more available - checkout!' : 'Not available' }" />
 				<h:message id="quantityMessage" for="quantity" />
-				<h:messages globalOnly="true" layout="table" />
 			</h:panelGrid>
 			<ui:include src="/WEB-INF/xhtml/movie_crew.xhtml" />
+			<h:messages globalOnly="true" layout="table" />
 		</h:form>
 	</ui:define>
 </ui:composition>

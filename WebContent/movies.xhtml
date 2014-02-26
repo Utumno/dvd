@@ -33,7 +33,7 @@
 			<h:commandButton value="Browse"
 				action="#{searchMovieController.search}" />
 			<!-- TODO ajax ?? -->
-			<h:messages globalOnly="true" />
+			<h:messages infoStyle="color:darkgreen" globalOnly="true" />
 		</h:form>
 		<h:form>
 			<h:dataTable value="#{searchMovieController.searchResults}"
