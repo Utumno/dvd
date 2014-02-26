@@ -14,6 +14,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -30,6 +31,7 @@ public class CreditCard implements Serializable {
 	// FIXME validation
 	// @Min(value = 1);
 	// @Positive ?
+	@NotNull(message = "Please provide a credit card number")
 	@Digits(integer = 16, message = "At most sixteen digits", fraction = 0)
 	private BigInteger creditCardNumber;
 	@Column(name = "credit_card_type")
