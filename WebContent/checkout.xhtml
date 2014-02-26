@@ -51,6 +51,9 @@
 					</h:column>
 				</h:dataTable>
 				<br />
+				<h2 style="text-align: center">
+					<ui:insert name="title">Credit Card</ui:insert>
+				</h2>
 				<h:panelGrid columns="3">
 					<h:outputLabel for="creditCardNum">Credit card number</h:outputLabel>
 					<h:inputText id="creditCardNum"
@@ -77,6 +80,9 @@
 					<h:message id="creditCardPostalCMessage" for="creditCardPostalC" />
 				</h:panelGrid>
 				<br />
+				<h2 style="text-align: center">
+					<ui:insert name="title">Postal Address</ui:insert>
+				</h2>
 				<h:panelGrid columns="3">
 					<h:outputLabel for="address">Address</h:outputLabel>
 					<h:inputText id="address" value="#{checkoutController.adr.street}"

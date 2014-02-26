@@ -12,7 +12,7 @@
 		</h1>
 	</ui:define>
 	<ui:define name="content">
-		<h:link value="Register" output="register.xhtml"
+		<h:link value="Register" outcome="register.xhtml"
 			rendered="#{sessionScope.user == null}" />
 		<h:outputText rendered="#{sessionScope.user == null}"
 			value="#{text['index.content']}" />
