@@ -34,11 +34,15 @@
 					</h:column>
 					<h:column>
 						<h:commandButton value="edit"
-							action="#{checkoutController.editRowQuantity(item.key,item.value)}" />
+							action="#{checkoutController.editRowQuantity(item.key,item.value)}">
+							<f:ajax execute="@this" render="quantity :cart_form" />
+						</h:commandButton>
 					</h:column>
 					<h:column>
 						<h:commandButton value="delete"
-							action="#{checkoutController.removeRowFromCart(item.key)}" />
+							action="#{checkoutController.removeRowFromCart(item.key)}" >
+							<f:ajax execute="@this" render=":checkout_form :cart_form" />
+						</h:commandButton>
 					</h:column>
 					<h:column>
 						<h:message id="quantityMessage" for="quantity" />

@@ -29,7 +29,7 @@ public class MovieService {
 	}
 
 	public void addCrew(Movie m, Crew w, Role role) {
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println("!!!!!!!!!!!!!!!  Hello again !!!!!!!!!!!!!");
 		// System.out.println("movie :" + m.getIdmovie());
 		// em.persist(m);
 		// em.persist(Role.DEFAUT_ROLE);
@@ -41,7 +41,13 @@ public class MovieService {
 		moviesHasCrew.setMovy(m);
 		moviesHasCrew.setRole(role);
 		em.persist(moviesHasCrew);
-		m.addMoviesHasCrew(moviesHasCrew);
+		m.addMoviesHasCrew(moviesHasCrew); // if dropped I get
+		// Can not refresh not managed object: dvd_store.entities.Movie@34906e9d
+		// em.merge(m);
+		// em.merge(w);
+		// em.flush();
+		// em.refresh(m);
+		// em.refresh(w);
 		// em.merge(m);
 		// List<Crew> crews = m.getCrew();
 		// if (crews == null) crews = new ArrayList<>();
