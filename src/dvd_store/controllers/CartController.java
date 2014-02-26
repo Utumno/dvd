@@ -14,8 +14,6 @@ import dvd_store.service.CategoriesService;
 import dvd_store.service.CrewService;
 import dvd_store.service.MovieService;
 
-import static dvd_store.faces.utils.Utils.msgError;
-
 @ManagedBean
 @SessionScoped
 public class CartController implements Serializable {
@@ -32,11 +30,6 @@ public class CartController implements Serializable {
 	private BigDecimal amount = new BigDecimal(0);
 
 	public void mergeMovieToCart(Movie movie, Integer quantity) {
-		if (quantity > movie.getAvailable()) {
-			String message = "Available copies are " + movie.getAvailable();
-			msgError(message);
-			return;
-		}
 		updateAmountAndItems(movie, quantity);
 		cart.put(movie, quantity);
 	}
@@ -72,6 +65,8 @@ public class CartController implements Serializable {
 
 	public void emptyCart() {
 		cart.clear();
+		amount = BigDecimal.ZERO;
+		items = 0;
 	}
 
 	// =========================================================================

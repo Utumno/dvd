@@ -17,6 +17,7 @@ import dvd_store.entities.Order.ShippingInfo;
 import dvd_store.entities.User;
 import dvd_store.service.OrderService;
 
+import static dvd_store.faces.utils.Utils.msgErrorTo;
 import static dvd_store.faces.utils.Utils.msgInfo;
 import static dvd_store.faces.utils.Utils.sessionGet;
 
@@ -58,6 +59,11 @@ public class CheckoutController implements Serializable {
 	}
 
 	public void editRowQuantity(Movie movie, Integer quantity) {
+		if (quantity > movie.getAvailable()) {
+			String message = "Available copies are " + movie.getAvailable();
+			msgErrorTo("quantityMessage", message);
+			return;
+		}
 		cc.mergeMovieToCart(movie, quantity);
 	}
 

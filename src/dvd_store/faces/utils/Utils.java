@@ -24,6 +24,11 @@ public class Utils {
 			new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
 	}
 
+	public static void msgErrorTo(String clientId, String message) {
+		faces().addMessage(clientId,
+			new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+	}
+
 	public static void msgInfo(String message) {
 		faces().addMessage(null,
 			new FacesMessage(FacesMessage.SEVERITY_INFO, message, null));
