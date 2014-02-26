@@ -107,11 +107,17 @@ public class OrderService {
 			List<OrdersHasMovy> ordersHasMovies = new ArrayList<>();
 			for (Entry<Movie, Integer> movies : m.entrySet()) {
 				final OrdersHasMovy ohm = new OrdersHasMovy();
-				System.out.println("MOVIES " + movies.getKey().getIdmovie());
-				ohm.setMovy(movies.getKey());
-				ohm.setQuantity(movies.getValue());
+				final Movie movie = movies.getKey();
+				System.out.println("MOVIES " + movie.getTitle());
+				ohm.setMovy(movie);
+				final Integer quantity = movies.getValue();
+				ohm.setQuantity(quantity);
 				ohm.setOrder(or);
 				ordersHasMovies.add(ohm);
+				// remove the quantity from available movies
+				movie.setAvailable(movie.getAvailable() - quantity); // this
+				// check must be moved to the beginning FIXME
+				em.merge(movie);
 			}
 			or.setOrdersHasMovies(ordersHasMovies);
 		}
