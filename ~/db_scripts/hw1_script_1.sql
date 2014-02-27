@@ -112,9 +112,9 @@ CREATE TABLE IF NOT EXISTS `hw1_db_1`.`movies` (
   `title` VARCHAR(200) NOT NULL,
   `year_of_release` SMALLINT(4) NOT NULL,
   `rating` ENUM('G','PG','PG_13','R','NC_17') NOT NULL,
-  `number_of_copies` SMALLINT UNSIGNED NOT NULL,
+  `number_of_copies` INT UNSIGNED NOT NULL,
   `price` DECIMAL(5,2) NOT NULL,
-  `available` SMALLINT UNSIGNED NOT NULL,
+  `available` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`idmovie`),
   INDEX `IDX_YEAR` (`year_of_release` DESC),
   UNIQUE INDEX `IDX__TITLE` (`title` ASC))
@@ -437,15 +437,13 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE FUNCTION `hw1_db_1`.`r4_add_movie`
 				(title VARCHAR(100),
 				year_of_release YEAR,
 				rating ENUM('G','PG','PG-13','R','NC-17'),
-				num_of_copies SMALLINT,
+				num_of_copies INT,
 				price DECIMAL(3,2),
-				available SMALLINT)
+				available INT)
 RETURNS INT
 BEGIN
 	-- add the movie
