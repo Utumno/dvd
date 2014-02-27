@@ -21,7 +21,7 @@ public class Category implements Serializable {
 	@Id
 	private int idcategory;
 	private String name;
-	// bi-directional many-to-many association to Movy
+	// bi-directional many-to-many association to Movie
 	@ManyToMany(mappedBy = "categories")
 	private List<Movie> movies;
 

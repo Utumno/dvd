@@ -22,14 +22,15 @@ import static dvd_store.faces.utils.Utils.sessionPut;
 
 @ManagedBean
 @ViewScoped
-public class UserController implements Serializable {
+public class UserController implements Serializable { // FIXME session and rip
 
+														// register to a view
+														// one
 	private static final long serialVersionUID = -8565364141850705694L;
 	// http://stackoverflow.com/a/10691832/281545
 	private User user;
 	@EJB
-	// do not inject stateful beans !
-	// @Inject // TODO !
+	// @Inject // TODO ! NBdo not inject stateful beans
 	private UserService service;
 
 	public User getUser() {
