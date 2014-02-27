@@ -1,0 +1,66 @@
+<ui:composition template="/WEB-INF/xhtml/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:define name="title">Account</ui:define>
+	<ui:define name="h1">
+		<h1 style="text-align: center">
+			You are
+			<h:outputText value="#{userController.user.name}" />
+		</h1>
+	</ui:define>
+	<ui:define name="content">
+		<h:panelGrid id="user_data" columns="3">
+			<h:outputLabel for="username">Username</h:outputLabel>
+			<h:outputLabel id="username" value="#{userController.user.username}" />
+			<h:message id="usernameMessage" for="username" />
+			<h:outputLabel for="name">Name</h:outputLabel>
+			<h:outputLabel id="name" value="#{userController.user.name}" />
+			<h:message id="nameMessage" for="name" />
+			<h:outputLabel for="surname">Surname</h:outputLabel>
+			<h:outputLabel id="surname" value="#{userController.user.surname}" />
+			<h:message id="surnameMessage" for="surname" />
+			<h:outputLabel for="email">Email</h:outputLabel>
+			<h:outputLabel id="email" value="#{userController.user.email}" />
+			<h:message id="emailMessage" for="email" />
+			<h:outputLabel for="birthdate">Birthdate (yyyy-MM-dd)</h:outputLabel>
+			<h:outputLabel id="birthdate"
+				value="#{userController.user.birthdate}" />
+			<h:message id="birthdateMessage" for="birthdate" />
+			<h:outputLabel for="phone">Phone</h:outputLabel>
+			<h:outputLabel id="phone" value="#{userController.user.phoneNumber}" />
+			<h:message id="phoneMessage" for="phone" />
+			<h:panelGroup />
+		</h:panelGrid>
+		<h:form id="change_password_form">
+			TODO: reset PSWD
+				<h:messages infoStyle="color:darkgreen" globalOnly="true" />
+		</h:form>
+		<ol>
+			<ui:repeat value="#{userController.orders}" var="order">
+				<li>Order ID: #{order.idorder} @#{order.date}</li>
+				<ul>
+					<ui:repeat value="#{order.ordersHasMovies}"
+						var="ohm">
+						<li>#{ohm.movy.title} (#{ohm.quantity} copies)</li>
+					</ui:repeat>
+				</ul>
+			</ui:repeat>
+		</ol>
+		<!-- <h:dataTable id="user_orders_table"
+				value="#{userController.orders}" var="order"
+				rendered="#{not empty userController.orders}">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Title" />
+					</f:facet>
+					<h:link value="View details of #{order.title}" outcome="/movie">
+						<f:param name="id" value="#{order.idmovie}" />
+					</h:link>
+				</h:column>
+			</h:dataTable> -->
+		<h:outputText value="No orders found!"
+			rendered="#{empty userController.orders}" />
+	</ui:define>
+</ui:composition>

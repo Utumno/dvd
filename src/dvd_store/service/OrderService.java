@@ -178,4 +178,11 @@ public class OrderService {
 			ParameterMode.IN);
 		return nq.setParameter("str_category", query).getResultList();
 	}
+
+	public List<Order> getOrders(User u) {
+		u = em.merge(u); // the parameter u should not be assigned - why merge
+							// does not use u as output parameter ?
+		em.refresh(u);
+		return u.getOrders();
+	}
 }
