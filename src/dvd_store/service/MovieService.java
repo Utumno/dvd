@@ -77,7 +77,7 @@ public class MovieService {
 		int numberOfCopies = mov.getNumberOfCopies();
 		mov.setAvailable(available + arrivals);
 		mov.setNumberOfCopies(numberOfCopies + arrivals);
-		em.persist(mov);
+		em.merge(mov);
 	}
 
 	// =========================================================================
