@@ -60,6 +60,19 @@
 			</h:panelGrid>
 			<ui:include src="/WEB-INF/xhtml/movie_crew.xhtml" />
 			<h:messages globalOnly="true" layout="table" />
+			<h:form id="new_arrivals_form" rendered="#{sessionScope.user.admin}">
+				<h:panelGrid columns="2">
+					<h:inputText id="arrivals"
+						value="#{newArrivalsController.arrivals}"
+						converterMessage="Please input an integer">
+						<f:ajax event="blur" render="arrivalsMessage" />
+					</h:inputText>
+					<h:message id="arrivalsMessage" for="arrivals" />
+					<h:commandButton value="Add copies"
+						action="#{newArrivalsController.increaseCopies(movieDisplayController.movie)}">
+					</h:commandButton>
+				</h:panelGrid>
+			</h:form>
 		</h:form>
 	</ui:define>
 </ui:composition>

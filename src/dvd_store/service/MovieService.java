@@ -72,6 +72,14 @@ public class MovieService {
 		return em.find(Movie.class, id);
 	}
 
+	public void increaseCopies(Movie mov, int arrivals) {
+		int available = mov.getAvailable();
+		int numberOfCopies = mov.getNumberOfCopies();
+		mov.setAvailable(available + arrivals);
+		mov.setNumberOfCopies(numberOfCopies + arrivals);
+		em.persist(mov);
+	}
+
 	// =========================================================================
 	// Browse Movies
 	// =========================================================================
