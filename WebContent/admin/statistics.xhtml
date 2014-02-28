@@ -1,0 +1,45 @@
+<ui:composition template="/WEB-INF/xhtml/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:define name="title">Stats</ui:define>
+	<ui:define name="content">
+		<h:form>
+			<h:panelGrid columns="2">
+				<h:outputLabel for="type">Most Popular: </h:outputLabel>
+				<h:selectOneListbox id="type" redisplay="true" size="3"
+					value="#{statisticsController.type}">
+					<f:selectItems value="#{statisticsController.types}" var="entry"
+						itemValue="#{entry}" itemLabel="#{entry}" />
+				</h:selectOneListbox>
+				<h:outputLabel for="howMany">How many: </h:outputLabel>
+				<h:panelGroup id="howMany">
+					<h:inputText value="#{statisticsController.howMany}"
+						required="true" requiredMessage="Please enter a limit" />
+				</h:panelGroup>
+			</h:panelGrid>
+			<h:commandButton value="Most popular"
+				action="#{statisticsController.mostPopular()}" />
+			<!-- TODO ajax ?? -->
+		</h:form>
+		<h:dataTable value="#{statisticsController.popMovies}"
+			var="searchResult" rendered="#{not empty statisticsController.popMovies}">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Most popular #{statisticsController.type}" />
+				</f:facet>
+				#{searchResult.title}
+			</h:column>
+		</h:dataTable>
+		<h:dataTable value="#{(not empty statisticsController.popActors) ? statisticsController.popActors : statisticsController.popDirectors}"
+			var="searchResult" rendered="#{not empty statisticsController.popActors or (not empty statisticsController.popDirectors)}">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Most popular #{statisticsController.type}" />
+				</f:facet>
+				#{searchResult.name}
+			</h:column>
+		</h:dataTable>
+	</ui:define>
+</ui:composition>

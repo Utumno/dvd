@@ -1,0 +1,15 @@
+<ui:composition lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+		<div id="menu" style="clear: both">
+			<h:link value="Home " outcome="/index.xhtml" />
+			<h:link value="Browse Movies " outcome="/movies.xhtml" />
+			<h:link value="Add Movie " rendered="#{sessionScope.user.admin}"
+				outcome="/admin/add_movie.xhtml" />
+			<h:link value="Stats " rendered="#{sessionScope.user.admin}"
+				outcome="/admin/statistics.xhtml" />
+			<h:link value="Account" rendered="#{sessionScope.user != null}"
+				outcome="/account.xhtml" /> <!-- / needed! -->
+		</div>
+</ui:composition>

@@ -109,4 +109,23 @@ public class MovieService {
 			ParameterMode.IN);
 		return nq.setParameter("str_category", query).getResultList();
 	}
+
+	// =========================================================================
+	// Popular Movies/Actors/Directors
+	// =========================================================================
+	public List<Movie> popularMovies(int howMany) {
+		StoredProcedureQuery nq = em.createStoredProcedureQuery(
+			"r10_ most_popular_movies", Movie.class);
+		nq.registerStoredProcedureParameter("m", Integer.class,
+			ParameterMode.IN);
+		return nq.setParameter("m", howMany).getResultList();
+	}
+
+	public List<Crew> popActors(int howMany) {
+		throw new RuntimeException("NOT IMPLEMENTED");
+	}
+
+	public List<Crew> popDirectors(int howMany) {
+		throw new RuntimeException("NOT IMPLEMENTED");
+	}
 }
