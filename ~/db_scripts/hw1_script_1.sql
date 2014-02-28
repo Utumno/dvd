@@ -425,12 +425,10 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE FUNCTION `hw1_db_1`.`r4_add_movie`
 				(title VARCHAR(100),
 				year_of_release YEAR,
-				rating ENUM('G','PG','PG-13','R','NC-17'),
+				rating ENUM('G','PG','PG_13','R','NC_17'),
 				num_of_copies INT,
 				price DECIMAL(3,2),
 				available INT)
@@ -654,8 +652,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE PROCEDURE `hw1_db_1`.`r7BuyingSuggestions` (movieid INT, userid INT)
 BEGIN
 SELECT *
@@ -673,7 +669,7 @@ WHERE
          AND users_iduser != userid
        )
 GROUP BY (movies_idmovie)
-ORDER BY count(*) DESC #sum(quantity) DESC
+ORDER BY count(movies_idmovie) DESC #sum(quantity) DESC
 ;
 END$$
 
@@ -741,8 +737,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE PROCEDURE `hw1_db_1`.`r10_most_popular_actors` (m INT)
 BEGIN
 SELECT name
