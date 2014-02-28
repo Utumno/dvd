@@ -1,6 +1,6 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
 DROP SCHEMA IF EXISTS `hw1_db_1` ;
 CREATE SCHEMA IF NOT EXISTS `hw1_db_1` DEFAULT CHARACTER SET utf8 ;
@@ -13,17 +13,17 @@ USE `hw1_db_1` ;
 DROP TABLE IF EXISTS `hw1_db_1`.`users` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `hw1_db_1`.`users` (
-  `iduser` INT NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
-  `surname` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  `birthdate` DATE NOT NULL,
-  `phone_number` BIGINT NULL,
-  PRIMARY KEY (`iduser`),
-  UNIQUE INDEX `IDX__USERNAME` (`username` ASC))
+CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`users` (
+  `iduser` INT NOT NULL AUTO_INCREMENT ,
+  `username` VARCHAR(45) NOT NULL ,
+  `password` VARCHAR(45) NOT NULL ,
+  `name` VARCHAR(45) NOT NULL ,
+  `surname` VARCHAR(45) NOT NULL ,
+  `email` VARCHAR(45) NOT NULL ,
+  `birthdate` DATE NOT NULL ,
+  `phone_number` BIGINT NULL ,
+  PRIMARY KEY (`iduser`) ,
+  UNIQUE INDEX `IDX__USERNAME` (`username` ASC) )
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -34,12 +34,12 @@ SHOW WARNINGS;
 DROP TABLE IF EXISTS `hw1_db_1`.`addresses` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `hw1_db_1`.`addresses` (
-  `idaddress` INT NOT NULL AUTO_INCREMENT,
-  `street` VARCHAR(45) NOT NULL,
-  `city` VARCHAR(45) NOT NULL,
-  `postal_code` VARCHAR(10) NOT NULL,
-  PRIMARY KEY (`idaddress`))
+CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`addresses` (
+  `idaddress` INT NOT NULL AUTO_INCREMENT ,
+  `street` VARCHAR(45) NOT NULL ,
+  `city` VARCHAR(45) NOT NULL ,
+  `postal_code` VARCHAR(10) NOT NULL ,
+  PRIMARY KEY (`idaddress`) )
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -50,15 +50,15 @@ SHOW WARNINGS;
 DROP TABLE IF EXISTS `hw1_db_1`.`credit_cards` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `hw1_db_1`.`credit_cards` (
-  `credit_card_number` BIGINT NOT NULL,
-  `credit_card_type` VARCHAR(45) NOT NULL,
-  `addresses_idaddress` INT NOT NULL,
-  PRIMARY KEY (`credit_card_number`),
-  INDEX `fk_credit_cards_addresses1_idx` (`addresses_idaddress` ASC),
+CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`credit_cards` (
+  `credit_card_number` BIGINT NOT NULL ,
+  `credit_card_type` VARCHAR(45) NOT NULL ,
+  `addresses_idaddress` INT NOT NULL ,
+  PRIMARY KEY (`credit_card_number`) ,
+  INDEX `fk_credit_cards_addresses1_idx` (`addresses_idaddress` ASC) ,
   CONSTRAINT `fk_credit_cards_addresses1`
-    FOREIGN KEY (`addresses_idaddress`)
-    REFERENCES `hw1_db_1`.`addresses` (`idaddress`)
+    FOREIGN KEY (`addresses_idaddress` )
+    REFERENCES `hw1_db_1`.`addresses` (`idaddress` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -71,30 +71,30 @@ SHOW WARNINGS;
 DROP TABLE IF EXISTS `hw1_db_1`.`orders` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `hw1_db_1`.`orders` (
-  `idorder` INT NOT NULL AUTO_INCREMENT,
-  `shipping_info` ENUM('DSL','COURRIER','POST') NOT NULL,
-  `date` DATETIME NOT NULL,
-  `addresses_idaddress` INT NOT NULL,
-  `users_iduser` INT NOT NULL,
-  `credit_cards_credit_card_number` BIGINT NOT NULL,
-  PRIMARY KEY (`idorder`),
-  INDEX `fk_orders_addresses1_idx` (`addresses_idaddress` ASC),
-  INDEX `fk_orders_users1_idx` (`users_iduser` ASC),
-  INDEX `fk_orders_credit_cards1_idx` (`credit_cards_credit_card_number` ASC),
+CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`orders` (
+  `idorder` INT NOT NULL AUTO_INCREMENT ,
+  `shipping_info` ENUM('DSL','COURRIER','POST') NOT NULL ,
+  `date` DATETIME NOT NULL ,
+  `addresses_idaddress` INT NOT NULL ,
+  `users_iduser` INT NOT NULL ,
+  `credit_cards_credit_card_number` BIGINT NOT NULL ,
+  PRIMARY KEY (`idorder`) ,
+  INDEX `fk_orders_addresses1_idx` (`addresses_idaddress` ASC) ,
+  INDEX `fk_orders_users1_idx` (`users_iduser` ASC) ,
+  INDEX `fk_orders_credit_cards1_idx` (`credit_cards_credit_card_number` ASC) ,
   CONSTRAINT `fk_orders_addresses1`
-    FOREIGN KEY (`addresses_idaddress`)
-    REFERENCES `hw1_db_1`.`addresses` (`idaddress`)
+    FOREIGN KEY (`addresses_idaddress` )
+    REFERENCES `hw1_db_1`.`addresses` (`idaddress` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_orders_users1`
-    FOREIGN KEY (`users_iduser`)
-    REFERENCES `hw1_db_1`.`users` (`iduser`)
+    FOREIGN KEY (`users_iduser` )
+    REFERENCES `hw1_db_1`.`users` (`iduser` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_orders_credit_cards1`
-    FOREIGN KEY (`credit_cards_credit_card_number`)
-    REFERENCES `hw1_db_1`.`credit_cards` (`credit_card_number`)
+    FOREIGN KEY (`credit_cards_credit_card_number` )
+    REFERENCES `hw1_db_1`.`credit_cards` (`credit_card_number` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -107,17 +107,17 @@ SHOW WARNINGS;
 DROP TABLE IF EXISTS `hw1_db_1`.`movies` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `hw1_db_1`.`movies` (
-  `idmovie` INT NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(200) NOT NULL,
-  `year_of_release` SMALLINT(4) NOT NULL,
-  `rating` ENUM('G','PG','PG_13','R','NC_17') NOT NULL,
-  `number_of_copies` INT UNSIGNED NOT NULL,
-  `price` DECIMAL(5,2) NOT NULL,
-  `available` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`idmovie`),
-  INDEX `IDX_YEAR` (`year_of_release` DESC),
-  UNIQUE INDEX `IDX__TITLE` (`title` ASC))
+CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`movies` (
+  `idmovie` INT NOT NULL AUTO_INCREMENT ,
+  `title` VARCHAR(200) NOT NULL ,
+  `year_of_release` SMALLINT(4) NOT NULL ,
+  `rating` ENUM('G','PG','PG_13','R','NC_17') NOT NULL ,
+  `number_of_copies` INT UNSIGNED NOT NULL ,
+  `price` DECIMAL(5,2) NOT NULL ,
+  `available` INT UNSIGNED NOT NULL ,
+  PRIMARY KEY (`idmovie`) ,
+  INDEX `IDX_YEAR` (`year_of_release` DESC) ,
+  UNIQUE INDEX `IDX__TITLE` (`title` ASC) )
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -128,11 +128,11 @@ SHOW WARNINGS;
 DROP TABLE IF EXISTS `hw1_db_1`.`crew` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `hw1_db_1`.`crew` (
-  `idcrew` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`idcrew`),
-  UNIQUE INDEX `IDX_NAME` (`name` ASC))
+CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`crew` (
+  `idcrew` INT NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(100) NOT NULL ,
+  PRIMARY KEY (`idcrew`) ,
+  UNIQUE INDEX `IDX_NAME` (`name` ASC) )
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -143,11 +143,11 @@ SHOW WARNINGS;
 DROP TABLE IF EXISTS `hw1_db_1`.`roles` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `hw1_db_1`.`roles` (
-  `idrole` INT NOT NULL AUTO_INCREMENT,
-  `role_name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idrole`),
-  UNIQUE INDEX `IDX_ROLE_NAME` (`role_name` ASC))
+CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`roles` (
+  `idrole` INT NOT NULL AUTO_INCREMENT ,
+  `role_name` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`idrole`) ,
+  UNIQUE INDEX `IDX_ROLE_NAME` (`role_name` ASC) )
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -158,10 +158,10 @@ SHOW WARNINGS;
 DROP TABLE IF EXISTS `hw1_db_1`.`categories` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `hw1_db_1`.`categories` (
-  `idcategory` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idcategory`))
+CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`categories` (
+  `idcategory` INT NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`idcategory`) )
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -172,21 +172,21 @@ SHOW WARNINGS;
 DROP TABLE IF EXISTS `hw1_db_1`.`orders_has_movies` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `hw1_db_1`.`orders_has_movies` (
-  `orders_idorder` INT NOT NULL,
-  `movies_idmovie` INT NOT NULL,
-  `quantity` SMALLINT(4) UNSIGNED NOT NULL,
-  PRIMARY KEY (`orders_idorder`, `movies_idmovie`),
-  INDEX `fk_orders_has_movies_movies1_idx` (`movies_idmovie` ASC),
-  INDEX `fk_orders_has_movies_orders1_idx` (`orders_idorder` ASC),
+CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`orders_has_movies` (
+  `orders_idorder` INT NOT NULL ,
+  `movies_idmovie` INT NOT NULL ,
+  `quantity` SMALLINT(4) UNSIGNED NOT NULL ,
+  PRIMARY KEY (`orders_idorder`, `movies_idmovie`) ,
+  INDEX `fk_orders_has_movies_movies1_idx` (`movies_idmovie` ASC) ,
+  INDEX `fk_orders_has_movies_orders1_idx` (`orders_idorder` ASC) ,
   CONSTRAINT `fk_orders_has_movies_orders1`
-    FOREIGN KEY (`orders_idorder`)
-    REFERENCES `hw1_db_1`.`orders` (`idorder`)
+    FOREIGN KEY (`orders_idorder` )
+    REFERENCES `hw1_db_1`.`orders` (`idorder` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_orders_has_movies_movies1`
-    FOREIGN KEY (`movies_idmovie`)
-    REFERENCES `hw1_db_1`.`movies` (`idmovie`)
+    FOREIGN KEY (`movies_idmovie` )
+    REFERENCES `hw1_db_1`.`movies` (`idmovie` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -199,20 +199,20 @@ SHOW WARNINGS;
 DROP TABLE IF EXISTS `hw1_db_1`.`users_has_addresses` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `hw1_db_1`.`users_has_addresses` (
-  `users_iduser` INT NOT NULL,
-  `addresses_idaddress` INT NOT NULL,
-  PRIMARY KEY (`users_iduser`, `addresses_idaddress`),
-  INDEX `fk_users_has_addresses_addresses1_idx` (`addresses_idaddress` ASC),
-  INDEX `fk_users_has_addresses_users1_idx` (`users_iduser` ASC),
+CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`users_has_addresses` (
+  `users_iduser` INT NOT NULL ,
+  `addresses_idaddress` INT NOT NULL ,
+  PRIMARY KEY (`users_iduser`, `addresses_idaddress`) ,
+  INDEX `fk_users_has_addresses_addresses1_idx` (`addresses_idaddress` ASC) ,
+  INDEX `fk_users_has_addresses_users1_idx` (`users_iduser` ASC) ,
   CONSTRAINT `fk_users_has_addresses_users1`
-    FOREIGN KEY (`users_iduser`)
-    REFERENCES `hw1_db_1`.`users` (`iduser`)
+    FOREIGN KEY (`users_iduser` )
+    REFERENCES `hw1_db_1`.`users` (`iduser` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_users_has_addresses_addresses1`
-    FOREIGN KEY (`addresses_idaddress`)
-    REFERENCES `hw1_db_1`.`addresses` (`idaddress`)
+    FOREIGN KEY (`addresses_idaddress` )
+    REFERENCES `hw1_db_1`.`addresses` (`idaddress` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -225,20 +225,20 @@ SHOW WARNINGS;
 DROP TABLE IF EXISTS `hw1_db_1`.`users_has_credit_cards` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `hw1_db_1`.`users_has_credit_cards` (
-  `users_iduser` INT NOT NULL,
-  `credit_cards_credit_card_number` BIGINT NOT NULL,
-  PRIMARY KEY (`users_iduser`, `credit_cards_credit_card_number`),
-  INDEX `fk_users_has_credit_cards_credit_cards1_idx` (`credit_cards_credit_card_number` ASC),
-  INDEX `fk_users_has_credit_cards_users1_idx` (`users_iduser` ASC),
+CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`users_has_credit_cards` (
+  `users_iduser` INT NOT NULL ,
+  `credit_cards_credit_card_number` BIGINT NOT NULL ,
+  PRIMARY KEY (`users_iduser`, `credit_cards_credit_card_number`) ,
+  INDEX `fk_users_has_credit_cards_credit_cards1_idx` (`credit_cards_credit_card_number` ASC) ,
+  INDEX `fk_users_has_credit_cards_users1_idx` (`users_iduser` ASC) ,
   CONSTRAINT `fk_users_has_credit_cards_users1`
-    FOREIGN KEY (`users_iduser`)
-    REFERENCES `hw1_db_1`.`users` (`iduser`)
+    FOREIGN KEY (`users_iduser` )
+    REFERENCES `hw1_db_1`.`users` (`iduser` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_users_has_credit_cards_credit_cards1`
-    FOREIGN KEY (`credit_cards_credit_card_number`)
-    REFERENCES `hw1_db_1`.`credit_cards` (`credit_card_number`)
+    FOREIGN KEY (`credit_cards_credit_card_number` )
+    REFERENCES `hw1_db_1`.`credit_cards` (`credit_card_number` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -251,27 +251,27 @@ SHOW WARNINGS;
 DROP TABLE IF EXISTS `hw1_db_1`.`movies_has_crew` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `hw1_db_1`.`movies_has_crew` (
-  `movies_idmovie` INT NOT NULL,
-  `crew_idcrew` INT NOT NULL,
-  `roles_idrole` INT NOT NULL,
-  PRIMARY KEY (`movies_idmovie`, `crew_idcrew`, `roles_idrole`),
-  INDEX `fk_movies_has_crew_crew1_idx` (`crew_idcrew` ASC),
-  INDEX `fk_movies_has_crew_movies1_idx` (`movies_idmovie` ASC),
-  INDEX `fk_movies_has_crew_roles1_idx` (`roles_idrole` ASC),
+CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`movies_has_crew` (
+  `movies_idmovie` INT NOT NULL ,
+  `crew_idcrew` INT NOT NULL ,
+  `roles_idrole` INT NOT NULL ,
+  PRIMARY KEY (`movies_idmovie`, `crew_idcrew`, `roles_idrole`) ,
+  INDEX `fk_movies_has_crew_crew1_idx` (`crew_idcrew` ASC) ,
+  INDEX `fk_movies_has_crew_movies1_idx` (`movies_idmovie` ASC) ,
+  INDEX `fk_movies_has_crew_roles1_idx` (`roles_idrole` ASC) ,
   CONSTRAINT `fk_movies_has_crew_movies1`
-    FOREIGN KEY (`movies_idmovie`)
-    REFERENCES `hw1_db_1`.`movies` (`idmovie`)
+    FOREIGN KEY (`movies_idmovie` )
+    REFERENCES `hw1_db_1`.`movies` (`idmovie` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_movies_has_crew_crew1`
-    FOREIGN KEY (`crew_idcrew`)
-    REFERENCES `hw1_db_1`.`crew` (`idcrew`)
+    FOREIGN KEY (`crew_idcrew` )
+    REFERENCES `hw1_db_1`.`crew` (`idcrew` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_movies_has_crew_roles1`
-    FOREIGN KEY (`roles_idrole`)
-    REFERENCES `hw1_db_1`.`roles` (`idrole`)
+    FOREIGN KEY (`roles_idrole` )
+    REFERENCES `hw1_db_1`.`roles` (`idrole` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -284,20 +284,20 @@ SHOW WARNINGS;
 DROP TABLE IF EXISTS `hw1_db_1`.`movies_has_categories` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `hw1_db_1`.`movies_has_categories` (
-  `movies_idmovie` INT NOT NULL,
-  `categories_idcategory` INT NOT NULL,
-  PRIMARY KEY (`movies_idmovie`, `categories_idcategory`),
-  INDEX `fk_movies_has_categories_categories1_idx` (`categories_idcategory` ASC),
-  INDEX `fk_movies_has_categories_movies1_idx` (`movies_idmovie` ASC),
+CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`movies_has_categories` (
+  `movies_idmovie` INT NOT NULL ,
+  `categories_idcategory` INT NOT NULL ,
+  PRIMARY KEY (`movies_idmovie`, `categories_idcategory`) ,
+  INDEX `fk_movies_has_categories_categories1_idx` (`categories_idcategory` ASC) ,
+  INDEX `fk_movies_has_categories_movies1_idx` (`movies_idmovie` ASC) ,
   CONSTRAINT `fk_movies_has_categories_movies1`
-    FOREIGN KEY (`movies_idmovie`)
-    REFERENCES `hw1_db_1`.`movies` (`idmovie`)
+    FOREIGN KEY (`movies_idmovie` )
+    REFERENCES `hw1_db_1`.`movies` (`idmovie` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_movies_has_categories_categories1`
-    FOREIGN KEY (`categories_idcategory`)
-    REFERENCES `hw1_db_1`.`categories` (`idcategory`)
+    FOREIGN KEY (`categories_idcategory` )
+    REFERENCES `hw1_db_1`.`categories` (`idcategory` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -310,19 +310,18 @@ SHOW WARNINGS;
 DROP TABLE IF EXISTS `hw1_db_1`.`admins` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `hw1_db_1`.`admins` (
-  `idadmin` INT NOT NULL,
-  PRIMARY KEY (`idadmin`),
-  INDEX `fk_admins_admins1_idx` (`idadmin` ASC),
+CREATE  TABLE IF NOT EXISTS `hw1_db_1`.`admins` (
+  `idadmin` INT NOT NULL ,
+  PRIMARY KEY (`idadmin`) ,
+  INDEX `fk_admins_admins1_idx` (`idadmin` ASC) ,
   CONSTRAINT `fk_admins_users`
-    FOREIGN KEY (`idadmin`)
-    REFERENCES `hw1_db_1`.`users` (`iduser`)
+    FOREIGN KEY (`idadmin` )
+    REFERENCES `hw1_db_1`.`users` (`iduser` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
-USE `hw1_db_1` ;
 
 -- -----------------------------------------------------
 -- Placeholder table for view `hw1_db_1`.`sales_view`
@@ -352,8 +351,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE FUNCTION `hw1_db_1`.`r1_check_unique_username` (username_given VARCHAR(45))
 RETURNS BOOL
 BEGIN
@@ -378,8 +375,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE FUNCTION `hw1_db_1`.`r1_register`
 				(username VARCHAR(45),
 				_password VARCHAR(45),
@@ -425,8 +420,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE FUNCTION `hw1_db_1`.`r4_add_movie`
 				(title VARCHAR(100),
 				year_of_release YEAR,
@@ -458,8 +451,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE PROCEDURE `hw1_db_1`.`r5` (mvtitle VARCHAR(100), arrivals INT)
 BEGIN
 DECLARE id INTEGER;
@@ -482,8 +473,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE PROCEDURE `hw1_db_1`.`r6EnhancedBrowsing` (IN sort_type INT, IN iactors VARCHAR(1000), IN director VARCHAR(100), IN title_words VARCHAR(100), IN irating ENUM('G','PG','PG_13','R','NC_17'))
 BEGIN
    SELECT *
@@ -527,8 +516,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE PROCEDURE `hw1_db_1`.`r1_update_password` ()
 BEGIN
 
@@ -547,8 +534,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE PROCEDURE `hw1_db_1`.`r2_browse_movies_by_director` (str_director VARCHAR(200))
 BEGIN
 	SELECT * FROM `hw1_db_1`.`movies` WHERE idmovie IN (
@@ -571,8 +556,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 #a b c   a|b|c
 CREATE PROCEDURE `hw1_db_1`.`r2_browse_movies_by_title` (IN str_title VARCHAR(200))
 BEGIN
@@ -593,8 +576,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE PROCEDURE `hw1_db_1`.`r2_browse_movies_by_category` (IN str_category VARCHAR(200))
 BEGIN
 	SELECT * FROM `hw1_db_1`.`movies` WHERE idmovie IN (SELECT DISTINCT movies_idmovie
@@ -616,8 +597,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE PROCEDURE `hw1_db_1`.`r9_insert_credit_card` (ccnum BIGINT, cctype VARCHAR(45),
 				istreet VARCHAR(45), icity VARCHAR(45), pc VARCHAR(10), userid INT)
 BEGIN
@@ -654,8 +633,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE PROCEDURE `hw1_db_1`.`r7BuyingSuggestions` (movieid INT, userid INT)
 BEGIN
 SELECT *
@@ -690,8 +667,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE PROCEDURE `hw1_db_1`.`r10_ most_popular_movies` (m INT)
 BEGIN
 SELECT *
@@ -717,8 +692,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE PROCEDURE `hw1_db_1`.`r10_most_popular_directors` (m INT)
 BEGIN
 SELECT name
@@ -743,8 +716,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE PROCEDURE `hw1_db_1`.`r10_most_popular_actors` (m INT)
 BEGIN
 SELECT name
@@ -769,8 +740,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE PROCEDURE `hw1_db_1`.`r11_best_customers` (m INT)
 BEGIN
 SELECT users_iduser
@@ -798,8 +767,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 # Floyd–Warshall algorithm FROM wiki
 #     http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm
 CREATE PROCEDURE `hw1_db_1`.`r8_7_degrees` (actor1 VARCHAR(100), actor2 VARCHAR(100))
@@ -904,8 +871,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE PROCEDURE `hw1_db_1`.`r9_insert_address` (istreet VARCHAR(45), icity VARCHAR(45),
 				pc VARCHAR(10), userid INT, OUT adressid INT)
 BEGIN
@@ -938,7 +903,7 @@ CREATE  OR REPLACE VIEW `hw1_db_1`.`sales_view` AS
 	SELECT movies_idmovie, COUNT(orders_idorder)
 	FROM orders_has_movies
 	GROUP BY movies_idmovie;
-
+;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
@@ -977,6 +942,7 @@ CREATE  OR REPLACE VIEW `hw1_db_1`.`actors` AS
   ORDER BY name;
 SHOW WARNINGS;
 
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
@@ -990,7 +956,6 @@ INSERT INTO `hw1_db_1`.`users` (`iduser`, `username`, `password`, `name`, `surna
 
 COMMIT;
 
-
 -- -----------------------------------------------------
 -- Data for table `hw1_db_1`.`movies`
 -- -----------------------------------------------------
@@ -1000,7 +965,6 @@ INSERT INTO `hw1_db_1`.`movies` (`idmovie`, `title`, `year_of_release`, `rating`
 INSERT INTO `hw1_db_1`.`movies` (`idmovie`, `title`, `year_of_release`, `rating`, `number_of_copies`, `price`, `available`) VALUES (2, 'movie2', 1901, 'G', 1234, 5, 1234);
 
 COMMIT;
-
 
 -- -----------------------------------------------------
 -- Data for table `hw1_db_1`.`crew`
@@ -1014,7 +978,6 @@ INSERT INTO `hw1_db_1`.`crew` (`idcrew`, `name`) VALUES (NULL, 'Brigitte Bardot'
 
 COMMIT;
 
-
 -- -----------------------------------------------------
 -- Data for table `hw1_db_1`.`roles`
 -- -----------------------------------------------------
@@ -1027,7 +990,6 @@ INSERT INTO `hw1_db_1`.`roles` (`idrole`, `role_name`) VALUES (NULL, 'Writer');
 INSERT INTO `hw1_db_1`.`roles` (`idrole`, `role_name`) VALUES (NULL, 'Actor');
 
 COMMIT;
-
 
 -- -----------------------------------------------------
 -- Data for table `hw1_db_1`.`categories`
@@ -1043,7 +1005,6 @@ INSERT INTO `hw1_db_1`.`categories` (`idcategory`, `name`) VALUES (NULL, 'Action
 
 COMMIT;
 
-
 -- -----------------------------------------------------
 -- Data for table `hw1_db_1`.`movies_has_crew`
 -- -----------------------------------------------------
@@ -1055,7 +1016,6 @@ INSERT INTO `hw1_db_1`.`movies_has_crew` (`movies_idmovie`, `crew_idcrew`, `role
 INSERT INTO `hw1_db_1`.`movies_has_crew` (`movies_idmovie`, `crew_idcrew`, `roles_idrole`) VALUES (2, 3, 5);
 
 COMMIT;
-
 
 -- -----------------------------------------------------
 -- Data for table `hw1_db_1`.`movies_has_categories`
@@ -1070,7 +1030,6 @@ INSERT INTO `hw1_db_1`.`movies_has_categories` (`movies_idmovie`, `categories_id
 
 COMMIT;
 
-
 -- -----------------------------------------------------
 -- Data for table `hw1_db_1`.`admins`
 -- -----------------------------------------------------
@@ -1079,4 +1038,3 @@ USE `hw1_db_1`;
 INSERT INTO `hw1_db_1`.`admins` (`idadmin`) VALUES (1);
 
 COMMIT;
-

@@ -1,4 +1,6 @@
 ~/*
 !~/db_scripts/
 ~/db_scripts/*.bak
+~/db_scripts/Inserts/
+~/db_scripts/PRE\ PANOS/
 build/
