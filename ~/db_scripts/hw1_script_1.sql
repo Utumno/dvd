@@ -427,7 +427,7 @@ DELIMITER $$
 USE `hw1_db_1`$$
 CREATE FUNCTION `hw1_db_1`.`r4_add_movie`
 				(title VARCHAR(100),
-				year_of_release YEAR,
+				year_of_release SMALLINT(4),
 				rating ENUM('G','PG','PG_13','R','NC_17'),
 				num_of_copies INT,
 				price DECIMAL(3,2),
@@ -456,16 +456,13 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
+ -- Increases copies + avialable - done in Java
 CREATE PROCEDURE `hw1_db_1`.`r5` (mvtitle VARCHAR(100), arrivals INT)
 BEGIN
-DECLARE id INTEGER;
-SELECT @id:= idmovie INTO id FROM movies WHERE title=mvtitle;
-UPDATE movies SET available = available + arrivals WHERE idmovie =id;
-UPDATE movies SET number_of_copies = number_of_copies + arrivals WHERE idmovie = id;
-END
-$$
+SET SQL_SAFE_UPDATES=0;
+UPDATE movies SET available = available + arrivals WHERE title =mvtitle;
+UPDATE movies SET number_of_copies = number_of_copies + arrivals WHERE title =mvtitle;
+END$$
 
 DELIMITER ;
 SHOW WARNINGS;
@@ -545,12 +542,10 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 CREATE PROCEDURE `hw1_db_1`.`r2_browse_movies_by_director` (str_director VARCHAR(200))
 BEGIN
 	SELECT * FROM `hw1_db_1`.`movies` WHERE idmovie IN (
-	SELECT movies_idmovie FROM `hw1_db_1`.`directors_and_movies_view` as dv
+	SELECT movies_idmovie FROM `hw1_db_1`.`directors` as dv
 		WHERE dv.name LIKE CONCAT('%', str_director, '%')
 	);
 END
