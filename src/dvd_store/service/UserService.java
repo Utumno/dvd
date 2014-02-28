@@ -1,5 +1,7 @@
 package dvd_store.service;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -59,5 +61,12 @@ public class UserService {
 		short i = 0;
 		query.setParameter(++i, username);
 		return (boolean) query.getSingleResult();
+	}
+
+	public List<Integer> bestUsers(int howMany) {
+		Query query = em.createNativeQuery("CALL r11_best_customers(?)");
+		short i = 0;
+		query.setParameter(++i, howMany);
+		return query.getResultList();
 	}
 }

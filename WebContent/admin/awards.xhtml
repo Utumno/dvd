@@ -1,0 +1,26 @@
+<ui:composition template="/WEB-INF/xhtml/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:define name="title">Awards</ui:define>
+	<ui:define name="content">
+		<h:form>
+			<h:panelGrid columns="2">
+				<h:outputLabel for="howMany">How many: </h:outputLabel>
+				<h:panelGroup id="howMany">
+					<h:inputText value="#{awardsController.howMany}"
+						required="true" requiredMessage="Please enter a limit" />
+				</h:panelGroup>
+			</h:panelGrid>
+			<h:commandButton value="Most popular"
+				action="#{awardsController.mostPopular()}" />
+		</h:form>
+		<h:dataTable value="#{awardsController.users}"
+			var="searchResult" rendered="#{not empty awardsController.users}">
+			<h:column>
+				#{searchResult}
+			</h:column>
+		</h:dataTable>
+	</ui:define>
+</ui:composition>

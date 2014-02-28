@@ -9,6 +9,8 @@
 				outcome="/admin/add_movie.xhtml" />
 			<h:link value="Stats " rendered="#{sessionScope.user.admin}"
 				outcome="/admin/statistics.xhtml" />
+			<h:link value="Awards " rendered="#{sessionScope.user.admin}"
+				outcome="/admin/awards.xhtml" />
 			<h:link value="Account" rendered="#{sessionScope.user != null}"
 				outcome="/account.xhtml" /> <!-- / needed! -->
 		</div>
