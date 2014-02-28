@@ -8,7 +8,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.servlet.ServletException;
 
-import dvd_store.entities.Crew;
 import dvd_store.entities.Movie;
 import dvd_store.service.MovieService;
 
@@ -24,8 +23,8 @@ public class StatisticsController implements Serializable {
 	@EJB
 	private MovieService ms;
 	private List<Movie> popMovies;
-	private List<Crew> popActors;
-	private List<Crew> popDirectors;
+	private List<String> popActors;
+	private List<String> popDirectors;
 
 	public void mostPopular() throws ServletException {
 		switch (type) {
@@ -58,20 +57,20 @@ public class StatisticsController implements Serializable {
 		this.popMovies = popMovies;
 	}
 
-	public List<Crew> getPopActors() {
+	public List<String> getPopActors() {
 		return popActors;
 	}
 
-	public void setPopActors(List<Crew> popActors) {
-		this.popActors = popActors;
+	public void setPopActors(List<String> list) {
+		this.popActors = list;
 	}
 
-	public List<Crew> getPopDirectors() {
+	public List<String> getPopDirectors() {
 		return popDirectors;
 	}
 
-	public void setPopDirectors(List<Crew> popDirectors) {
-		this.popDirectors = popDirectors;
+	public void setPopDirectors(List<String> list) {
+		this.popDirectors = list;
 	}
 
 	public int getHowMany() {

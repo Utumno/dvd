@@ -121,11 +121,19 @@ public class MovieService {
 		return nq.setParameter("m", howMany).getResultList();
 	}
 
-	public List<Crew> popActors(int howMany) {
-		throw new RuntimeException("NOT IMPLEMENTED");
+	public List<String> popActors(int howMany) {
+		StoredProcedureQuery nq = em.createStoredProcedureQuery(
+			"r10_most_popular_actors", String.class);
+		nq.registerStoredProcedureParameter("m", Integer.class,
+			ParameterMode.IN);
+		return nq.setParameter("m", howMany).getResultList();
 	}
 
-	public List<Crew> popDirectors(int howMany) {
-		throw new RuntimeException("NOT IMPLEMENTED");
+	public List<String> popDirectors(int howMany) {
+		StoredProcedureQuery nq = em.createStoredProcedureQuery(
+			"r10_most_popular_directors", String.class);
+		nq.registerStoredProcedureParameter("m", Integer.class,
+			ParameterMode.IN);
+		return nq.setParameter("m", howMany).getResultList();
 	}
 }

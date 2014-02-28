@@ -100,9 +100,9 @@ public class OrderService {
 				.getOutputParameterValue("adressid"));
 		}
 		em.persist(or);
-		// System.out.println("ORDER ID :" + or.getIdorder()); // 0
+		System.out.println("ORDER ID :" + or.getIdorder()); // 0
 		em.flush();
-		// System.out.println("ORDER ID AFTER FLUSH :" + or.getIdorder()); // 9
+		System.out.println("ORDER ID AFTER FLUSH :" + or.getIdorder()); // 9
 		{
 			List<OrdersHasMovy> ordersHasMovies = new ArrayList<>();
 			for (Entry<Movie, Integer> movies : m.entrySet()) {
