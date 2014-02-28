@@ -4,3 +4,7 @@
 ~/db_scripts/Inserts/
 ~/db_scripts/PRE\ PANOS/
 build/
+.odt#
+.odt
+*.odt
+*.odt#

@@ -122,18 +122,30 @@ public class MovieService {
 	}
 
 	public List<String> popActors(int howMany) {
-		StoredProcedureQuery nq = em.createStoredProcedureQuery(
-			"r10_most_popular_actors", String.class);
-		nq.registerStoredProcedureParameter("m", Integer.class,
-			ParameterMode.IN);
-		return nq.setParameter("m", howMany).getResultList();
+		Query query = em.createNativeQuery("CALL r10_most_popular_actors(?)");
+		short i = 0;
+		query.setParameter(++i, howMany);
+		return query.getResultList();
+		// StoredProcedureQuery nq = em.createStoredProcedureQuery(
+		// "r10_most_popular_actors", String.class);
+		// nq.registerStoredProcedureParameter("m", Integer.class,
+		// ParameterMode.IN);
+		// nq.setParameter("m", howMany);
+		// System.out
+		// .println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		// + howMany);
+		// final List resultList = nq.getResultList();
+		// System.out
+		// .println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		// + resultList);
+		// return resultList;
 	}
 
 	public List<String> popDirectors(int howMany) {
-		StoredProcedureQuery nq = em.createStoredProcedureQuery(
-			"r10_most_popular_directors", String.class);
-		nq.registerStoredProcedureParameter("m", Integer.class,
-			ParameterMode.IN);
-		return nq.setParameter("m", howMany).getResultList();
+		Query query = em
+			.createNativeQuery("CALL r10_most_popular_directors(?)");
+		short i = 0;
+		query.setParameter(++i, howMany);
+		return query.getResultList();
 	}
 }
