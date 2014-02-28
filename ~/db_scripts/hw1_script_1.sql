@@ -681,18 +681,16 @@ DELIMITER ;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- procedure r10_ most_popular_movies
+-- procedure r10_most_popular_movies
 -- -----------------------------------------------------
 
 USE `hw1_db_1`;
-DROP procedure IF EXISTS `hw1_db_1`.`r10_ most_popular_movies`;
+DROP procedure IF EXISTS `hw1_db_1`.`r10_most_popular_movies`;
 SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
-CREATE PROCEDURE `hw1_db_1`.`r10_ most_popular_movies` (m INT)
+CREATE PROCEDURE `hw1_db_1`.`r10_most_popular_movies` (m INT)
 BEGIN
 SELECT *
 FROM orders_has_movies, movies

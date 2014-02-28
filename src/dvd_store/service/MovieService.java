@@ -115,7 +115,7 @@ public class MovieService {
 	// =========================================================================
 	public List<Movie> popularMovies(int howMany) {
 		StoredProcedureQuery nq = em.createStoredProcedureQuery(
-			"r10_ most_popular_movies", Movie.class);
+			"r10_most_popular_movies", Movie.class);
 		nq.registerStoredProcedureParameter("m", Integer.class,
 			ParameterMode.IN);
 		return nq.setParameter("m", howMany).getResultList();
