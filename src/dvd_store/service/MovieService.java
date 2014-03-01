@@ -148,4 +148,21 @@ public class MovieService {
 		query.setParameter(++i, howMany);
 		return query.getResultList();
 	}
+
+	public List<Movie> getSuggetions(Movie movie, User u) {
+		StoredProcedureQuery nq = em.createStoredProcedureQuery(
+			"r7BuyingSuggestions", Movie.class);
+		nq.registerStoredProcedureParameter("userid", Integer.class,
+			ParameterMode.IN);
+		nq.registerStoredProcedureParameter("movieid", Integer.class,
+			ParameterMode.IN);
+		return nq.setParameter("userid", u.getIduser())
+			.setParameter("movieid", movie.getIdmovie()).getResultList();
+		// Query query = em
+		// .createNativeQuery("CALL r7BuyingSuggestions(?,?)");
+		// short i = 0;
+		// query.setParameter(++i, howMany);
+		// query.setParameter(++i, howMany);
+		// return query.getResultList();
+	}
 }

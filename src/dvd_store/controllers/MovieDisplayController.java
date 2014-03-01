@@ -1,6 +1,7 @@
 package dvd_store.controllers;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -9,6 +10,7 @@ import javax.faces.bean.ViewScoped;
 
 import dvd_store.entities.Category;
 import dvd_store.entities.Movie;
+import dvd_store.entities.User;
 import dvd_store.service.MovieService;
 
 import static dvd_store.faces.utils.Utils.msgError;
@@ -26,6 +28,7 @@ public class MovieDisplayController implements Serializable {
 	private int quantity = 1;
 	@ManagedProperty(value = "#{cartController}")
 	private CartController cartController;
+	private List<Movie> suggestions;
 
 	// @PostConstruct // init() called in a f:viewParam
 	public void init() {
@@ -77,6 +80,9 @@ public class MovieDisplayController implements Serializable {
 		return getAvailableForThisUser() > 0;
 	}
 
+	public List<Movie> getSuggestions(User u) {
+		return ms.getSuggetions(movie, u);
+	}
 	// =========================================================================
 	// Getters Setters
 	// =========================================================================
