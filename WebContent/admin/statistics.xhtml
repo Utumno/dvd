@@ -9,7 +9,8 @@
 			<h:panelGrid columns="2">
 				<h:outputLabel for="type">Most Popular: </h:outputLabel>
 				<h:selectOneListbox id="type" redisplay="true" size="3"
-					value="#{statisticsController.type}">
+					value="#{statisticsController.type}"
+						required="true" requiredMessage="Please enter a category">
 					<f:selectItems value="#{statisticsController.types}" var="entry"
 						itemValue="#{entry}" itemLabel="#{entry}" />
 				</h:selectOneListbox>
