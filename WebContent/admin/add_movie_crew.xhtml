@@ -4,7 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 	<ui:define name="title">
-		<h:outputText value="#{text['dvd_store.name']}" /> - Movie Crew</ui:define>
+		<h:outputText value="#{sessionScope.movie.title}" /> - Movie Crew</ui:define>
 	<ui:define name="content">
 		<!-- <h:outputText value="#{sessionScope.movie.moviesHasCrews}" /> -->
 		<ui:include src="/WEB-INF/xhtml/movie_crew.xhtml"/>

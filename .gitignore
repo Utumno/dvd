@@ -3,6 +3,7 @@
 ~/db_scripts/*.bak
 ~/db_scripts/Inserts/
 ~/db_scripts/PRE\ PANOS/
+~/db_scripts/ui_pics/
 build/
 .odt#
 .odt
