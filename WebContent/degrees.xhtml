@@ -1,0 +1,34 @@
+<ui:composition template="/WEB-INF/xhtml/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:define name="title">Awards</ui:define>
+	<ui:define name="content">
+		<h:form>
+			<h:panelGrid columns="2">
+				<h:outputLabel for="actor1">Actor 1: </h:outputLabel>
+				<h:panelGroup id="actor1">
+					<h:inputText value="#{degreesController.actor1}" required="true"
+						requiredMessage="Please enter an actor" />
+				</h:panelGroup>
+				<h:outputLabel for="actor2">Actor 2: </h:outputLabel>
+				<h:panelGroup id="actor2">
+					<h:inputText value="#{degreesController.actor2}" required="true"
+						requiredMessage="Please enter an actor" />
+				</h:panelGroup>
+			</h:panelGrid>
+			<h:commandButton value="7 degrees"
+				action="#{degreesController.degrees()}" />
+		</h:form>
+		<br />
+		<br />
+		<br />
+		<h:panelGrid columns="2"
+			rendered="#{not empty degreesController.degrees}">
+			<h:outputLabel for="degree">Degree: </h:outputLabel>
+			<h:outputText id="degree" value="#{degreesController.degrees}">
+			</h:outputText>
+		</h:panelGrid>
+	</ui:define>
+</ui:composition>
