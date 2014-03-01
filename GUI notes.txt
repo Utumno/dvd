@@ -1,0 +1,7 @@
+The GUI is developed in java enterprise edition 7 using JPA 2.1 for the persistence API.
+To set it up you need:
+1. Eclipse Jee Kepler edition
+2. Glassfish 4 enterprise server
+3. Create a connection pool in glassfish and a resource named jdbc/dvd_store_pool_1_resource (see http://utumno.github.io/blog/2014/02/02/glassfish-connection-pools/)
+4. Download the adapters for glassfish and install them - then create a glassfish runtime and link this project to it
+5. Done !
