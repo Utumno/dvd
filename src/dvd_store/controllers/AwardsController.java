@@ -17,10 +17,10 @@ public class AwardsController implements Serializable {
 	private int howMany;
 	@EJB
 	private UserService us;
-	private List<Integer> users;
+	private List<Integer> bestUIDs; // YAK - TODO
 
-	public void mostPopular() {
-		setUsers(us.bestUsers(howMany));
+	public void bestClients() {
+		this.bestUIDs = us.bestUsers(howMany);
 	}
 
 	// =========================================================================
@@ -35,10 +35,6 @@ public class AwardsController implements Serializable {
 	}
 
 	public List<Integer> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<Integer> list) {
-		this.users = list;
+		return bestUIDs;
 	}
 }

@@ -13,9 +13,9 @@
 						required="true" requiredMessage="Please enter a limit" />
 				</h:panelGroup>
 			</h:panelGrid>
-			<h:commandButton value="Most popular"
-				action="#{awardsController.mostPopular()}" />
-		</h:form>
+			<h:commandButton value="Best clients"
+				action="#{awardsController.bestClients()}" />
+		</h:form><br/><br/><br/>
 		<h:dataTable value="#{awardsController.users}"
 			var="searchResult" rendered="#{not empty awardsController.users}">
 			<h:column>

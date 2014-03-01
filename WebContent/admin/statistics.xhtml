@@ -21,7 +21,7 @@
 			</h:panelGrid>
 			<h:commandButton value="Most popular"
 				action="#{statisticsController.mostPopular()}" />
-		</h:form>
+		</h:form><br/><br/><br/>
 		<h:dataTable value="#{statisticsController.popMovies}"
 			var="searchResult" rendered="#{not empty statisticsController.popMovies}">
 			<h:column>
