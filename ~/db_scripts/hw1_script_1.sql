@@ -477,37 +477,36 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
-CREATE PROCEDURE `hw1_db_1`.`r6EnhancedBrowsing` (IN sort_type INT, IN iactors VARCHAR(1000), IN director VARCHAR(100), IN title_words VARCHAR(100), IN irating ENUM('G','PG','PG_13','R','NC_17'))
+CREATE PROCEDURE `hw1_db_1`.`r6EnhancedBrowsing` (IN sort_type INT, IN iactors VARCHAR(1000), IN director VARCHAR(100), IN title_words VARCHAR(1000), IN irating ENUM('G','PG','PG_13','R','NC_17', ''))
 BEGIN
-   SELECT *
-   FROM movies, directors 
-   WHERE 
+   SELECT idmovie, title, year_of_release, rating, number_of_copies, price, available
+   FROM movies, directors
+   WHERE
       idmovie = movies_idmovie
-      AND IF(irating ='',true, rating=irating) 
-      AND IF(director = '', true, 
+      AND IF(irating ='',true, rating=irating)
+      AND IF(director = '', true,
            idmovie IN (
-                 SELECT movies_idmovie  FROM directors 
+                 SELECT movies_idmovie  FROM directors
                  WHERE name=director
            )
-          ) 
-      AND IF(iactors = '', true, 
-             idmovie IN (
-                SELECT movies_idmovie  FROM actors 
-                WHERE FIND_IN_SET(name, iactors)         
-             ) 
           )
-      AND IF(title_words = '', true, 
+      AND IF(iactors = '', true,
+             idmovie IN (
+                SELECT movies_idmovie  FROM actors
+                WHERE FIND_IN_SET(name, iactors)
+             )
+          )
+      AND IF(title_words = '', true,
                idmovie IN (
                 SELECT idmovie FROM movies
-                WHERE title RLIKE title_words 
+                WHERE title RLIKE title_words
                )
-          )         
-   ORDER BY IF(sort_type = 0, year_of_release, 
+          )
+   ORDER BY IF(sort_type = 0, year_of_release,
                IF(sort_type = 1, title, name)
-              ); 
-END$$
+              );
+END
+$$
 
 DELIMITER ;
 SHOW WARNINGS;
@@ -649,7 +648,7 @@ DELIMITER $$
 USE `hw1_db_1`$$
 CREATE PROCEDURE `hw1_db_1`.`r7BuyingSuggestions` (movieid INT, userid INT)
 BEGIN
-SELECT *
+SELECT idmovie, title, year_of_release, rating, number_of_copies, price, available
 FROM orders_has_movies, orders, movies
 WHERE
   movies_idmovie = idmovie
@@ -666,7 +665,8 @@ WHERE
 GROUP BY (movies_idmovie)
 ORDER BY count(movies_idmovie) DESC #sum(quantity) DESC
 ;
-END$$
+END
+$$
 
 DELIMITER ;
 SHOW WARNINGS;
@@ -785,8 +785,6 @@ SHOW WARNINGS;
 
 DELIMITER $$
 USE `hw1_db_1`$$
-
-
 # Floyd–Warshall algorithm FROM wiki
 #     http://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm
 CREATE PROCEDURE `hw1_db_1`.`r8_7_degrees` (actor1 VARCHAR(100), actor2 VARCHAR(100))
@@ -794,13 +792,13 @@ BEGIN
 DECLARE aname VARCHAR(100);
 DECLARE n INT;
 DECLARE it INT;
- 
+
 SELECT COUNT(*) INTO n
-FROM 
+FROM
 (
 SELECT DISTINCT name FROM actors
 ) as a;
- 
+
  DROP TABLE IF EXISTS t;
 #matrix with all the combinations of actor names
  CREATE TABLE t (
@@ -808,38 +806,38 @@ SELECT DISTINCT name FROM actors
     rname VARCHAR(100),
     value INT DEFAULT 8  #INF IS 8 (due to 7 DEGREES)
  );
- 
+
 INSERT INTO t (cname, rname)
 SELECT DISTINCT a.name, b.name
 FROM actors as a, actors as b;
- 
+
 SET SQL_SAFE_UPDATES=0;
 #make 0 the diagonal
 UPDATE t
 SET value = 0
 WHERE
   cname = rname;
- 
+
 #make 1 the edges
-UPDATE t 
-SET value = 1 
+UPDATE t
+SET value = 1
 WHERE (cname, rname) IN
 (
-  SELECT DISTINCT a.name, b.name 
+  SELECT DISTINCT a.name, b.name
   FROM actors as a, actors as b
-  WHERE 
+  WHERE
       a.movies_idmovie = b.movies_idmovie
       AND a.name != b.name
 );
- 
+
 #FOR all actors k (aname)
 SET it = 0;
 _loop: LOOP
- 
+
  IF it >= n THEN
    LEAVE _loop;
  END IF;
- 
+
  SET it = it + 1;
  SELECT DISTINCT name INTO aname
           FROM actors
@@ -849,12 +847,12 @@ _loop: LOOP
          ;
 #FOR ALL combinations of actors i, j
 # if dist[i][j] > dist[i][k] + dist[k][j]
-#  dist[i][j] = dist[i][k] + dist[k][j] 
- UPDATE t as t1, 
+#  dist[i][j] = dist[i][k] + dist[k][j]
+ UPDATE t as t1,
   (
     SELECT * FROM t WHERE rname = aname
   ) as t2,
-  ( 
+  (
     SELECT * FROM t WHERE cname = aname
   ) as t3
  SET t1.value = t2.value + t3.value
@@ -863,12 +861,12 @@ _loop: LOOP
     AND t1.cname = t2.cname
     AND t1.rname = t3.rname
  ;
- 
+
 END LOOP _loop;
- 
-SELECT * 
+
+SELECT value
 FROM t
-WHERE 
+WHERE
  rname = actor1
  AND cname = actor2
 ;
@@ -938,8 +936,8 @@ SHOW WARNINGS;
 USE `hw1_db_1`;
 CREATE  OR REPLACE VIEW `hw1_db_1`.`directors` AS
   SELECT DISTINCT movies_idmovie, name
-  FROM   crew,roles,movies_has_crew 
-  WHERE 
+  FROM   crew,roles,movies_has_crew
+  WHERE
       crew_idcrew = idcrew
       AND roles_idrole = idrole
       AND role_name='Director'
@@ -956,8 +954,8 @@ SHOW WARNINGS;
 USE `hw1_db_1`;
 CREATE  OR REPLACE VIEW `hw1_db_1`.`actors` AS
   SELECT DISTINCT movies_idmovie, name
-  FROM crew,roles,movies_has_crew 
-  WHERE 
+  FROM crew,roles,movies_has_crew
+  WHERE
       crew_idcrew = idcrew
       AND roles_idrole = idrole
       AND role_name='Actor'
