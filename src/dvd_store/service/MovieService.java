@@ -11,8 +11,10 @@ import javax.persistence.StoredProcedureQuery;
 
 import dvd_store.entities.Crew;
 import dvd_store.entities.Movie;
+import dvd_store.entities.Movie.Rating;
 import dvd_store.entities.MoviesHasCrew;
 import dvd_store.entities.Role;
+import dvd_store.entities.User;
 
 @Stateless
 public class MovieService {
@@ -147,6 +149,48 @@ public class MovieService {
 		short i = 0;
 		query.setParameter(++i, howMany);
 		return query.getResultList();
+	}
+
+	public List<Movie> andvancedSearch(int sort_type, String iactors,
+			String director, String title_words, Rating irating) {
+		Query query = em.createNativeQuery(
+			"CALL r6EnhancedBrowsing(?,?,?,?,?)", Movie.class);
+		short i = 0;
+		query.setParameter(++i, sort_type);
+		query.setParameter(++i, (iactors == null) ? "" : iactors);
+		query.setParameter(++i, (director == null) ? "" : director);
+		query.setParameter(++i, (title_words == null) ? "" : title_words);
+		query.setParameter(++i, (irating == null) ? "" : irating);
+		final List resultList = query.getResultList();
+		System.out.println("****************" + resultList);
+		for (Object object : resultList) {
+			System.out.println(object);
+		}
+		// for (Object[] object : (List<Object[]>) resultList) {
+		// System.out.println(object);
+		// for (Object object2 : object) {
+		// System.out.println(object2);
+		// }
+		// }
+		return resultList;
+		// StoredProcedureQuery nq = em.createStoredProcedureQuery(
+		// "r6EnhancedBrowsing", Movie.class);
+		// nq.registerStoredProcedureParameter("sort_type", Integer.class,
+		// ParameterMode.IN);
+		// nq.registerStoredProcedureParameter("iactors", String.class,
+		// ParameterMode.IN);
+		// nq.registerStoredProcedureParameter("director", String.class,
+		// ParameterMode.IN);
+		// nq.registerStoredProcedureParameter("title_words", String.class,
+		// ParameterMode.IN);
+		// nq.registerStoredProcedureParameter("irating", Rating.class,
+		// ParameterMode.IN);
+		// nq.setParameter("sort_type", sort_type);
+		// nq.setParameter("iactors", (iactors == null) ? "" : iactors);
+		// nq.setParameter("director", (director == null) ? "" : director);
+		// nq.setParameter("title_words", (title_words == null) ? "" :
+		// title_words);
+		// nq.setParameter("irating", irating);
 	}
 
 	public List<Movie> getSuggetions(Movie movie, User u) {

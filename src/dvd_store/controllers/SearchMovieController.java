@@ -1,7 +1,9 @@
 package dvd_store.controllers;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -9,6 +11,7 @@ import javax.faces.bean.ViewScoped;
 import javax.servlet.ServletException;
 
 import dvd_store.entities.Movie;
+import dvd_store.entities.Movie.Rating;
 import dvd_store.service.MovieService;
 
 @ManagedBean
@@ -22,9 +25,28 @@ public class SearchMovieController implements Serializable {
 	@EJB
 	private MovieService ms;
 	private List<Movie> searchResults;
+	private List<Movie> advSearchResults;
+	private String advTitle;
+	private String advActors;
+	private String advDirectors;
+	private Rating advRating;
+	private String advSortType;
+	private final static String[] SORTINGS = new String[] { "Year",
+			"Movie title", "Name of Director" };
+	private final static Map<String, Integer> SORTINGS_SHOULD_BE_DAO = new HashMap<>();
+	static {
+		int i = 0;
+		for (String sort : SORTINGS) {
+			SORTINGS_SHOULD_BE_DAO.put(sort, i++);
+		}
+	}
 
 	public String[] getBrowseBy() {
 		return TYPES;
+	}
+
+	public String[] getSortBy() {
+		return SORTINGS;
 	}
 
 	public String search() throws ServletException {
@@ -42,6 +64,12 @@ public class SearchMovieController implements Serializable {
 			throw new ServletException("Invalid search type");
 		}
 		return null;
+	}
+
+	public void advancedSearch() {
+		this.advSearchResults = ms.andvancedSearch(
+			SORTINGS_SHOULD_BE_DAO.get(advSortType), advActors, advDirectors,
+			advTitle, null); // advRating
 	}
 
 	// =========================================================================
@@ -69,5 +97,57 @@ public class SearchMovieController implements Serializable {
 
 	public void setSearchResults(List<Movie> searchTitles) {
 		this.searchResults = searchTitles;
+	}
+
+	public String getAdvTitle() {
+		return advTitle;
+	}
+
+	public void setAdvTitle(String advTitle) {
+		this.advTitle = advTitle;
+	}
+
+	public String getAdvActors() {
+		return advActors;
+	}
+
+	public void setAdvActors(String advActors) {
+		this.advActors = advActors;
+	}
+
+	public String getAdvDirectors() {
+		return advDirectors;
+	}
+
+	public void setAdvDirectors(String advDirectors) {
+		this.advDirectors = advDirectors;
+	}
+
+	public Rating getAdvRating() {
+		return advRating;
+	}
+
+	public void setAdvRating(Rating advRating) {
+		this.advRating = advRating;
+	}
+
+	public String getAdvSortType() {
+		return advSortType;
+	}
+
+	public void setAdvSortType(String advSortType) {
+		this.advSortType = advSortType;
+	}
+
+	public static String[] getSortings() {
+		return SORTINGS;
+	}
+
+	public List<Movie> getAdvSearchResults() {
+		return advSearchResults;
+	}
+
+	public void setAdvSearchResults(List<Movie> advSearchResults) {
+		this.advSearchResults = advSearchResults;
 	}
 }

@@ -1,0 +1,52 @@
+<ui:composition template="/WEB-INF/xhtml/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:define name="title">Browse Movies
+	</ui:define>
+	<ui:define name="content">
+		<h:form>
+			<h:panelGrid columns="2">
+				<h:outputLabel for="title">Title: </h:outputLabel>
+				<h:inputText id="title" value="#{searchMovieController.advTitle}" />
+
+				<h:outputLabel for="advActors">Actors: </h:outputLabel>
+				<h:inputText id="advActors" value="#{searchMovieController.advActors}" />
+
+				<h:outputLabel for="advDirectors">Director: </h:outputLabel>
+				<h:inputText id="advDirectors" value="#{searchMovieController.advDirectors}" />
+
+				<h:outputLabel for="rating">Rating: </h:outputLabel>
+				<h:selectOneMenu id="rating" value="#{searchMovieController.advRating}">
+					<f:selectItems value="#{movieController.movie.ratings}"
+						var="rating" itemValue="#{rating}" itemLabel="#{rating.label}" />
+				</h:selectOneMenu>
+
+				<h:outputLabel for="advSortType">Sort by: </h:outputLabel>
+				<h:selectOneListbox id="advSortType" redisplay="true" size="3"
+					value="#{searchMovieController.advSortType}" required="true" requiredMessage="Please provide an ordering">
+					<f:selectItems value="#{searchMovieController.sortBy}"
+						var="entry" itemValue="#{entry}" itemLabel="#{entry}" />
+				</h:selectOneListbox>
+			</h:panelGrid>
+			<h:commandButton value="Browse"
+				action="#{searchMovieController.advancedSearch()}" />
+		</h:form>
+		<h:dataTable value="#{searchMovieController.advSearchResults}"
+			var="searchResult"
+			rendered="#{not empty searchMovieController.advSearchResults}">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Title" />
+				</f:facet>
+				<h:link value="View details of #{searchResult.title}"
+					outcome="/movie">
+					<f:param name="id" value="#{searchResult.idmovie}" />
+				</h:link>
+			</h:column>
+		</h:dataTable>
+		<h:outputText value="No matches found!"
+			rendered="#{searchMovieController.advSortType !=null and empty searchMovieController.advSearchResults}" />
+	</ui:define>
+</ui:composition>
